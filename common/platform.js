@@ -1,12 +1,14 @@
 //定义基本的urlconst baseUrl= 'http://www.lhdtest.com';/**使用条件编译获取平台信息*/
 let baseUrl= '';
+// 线上：iot-api.ubsense.cn
+// 测试：ai-api-test.sany.com.cn
 // 测试环境 development
 if(process.env.NODE_ENV == "development"){
-	baseUrl= 'https://ifarm.lovol.com/testapi/';
+	baseUrl= 'https://iot-api.ubsense.cn/';
 }
 // 生产环境 production
 else{
-	baseUrl= 'https://ifarm.lovol.com/api/';
+	baseUrl= 'https://iot-api.ubsense.cn/';
 }
 function ifDefPlatform() {
 	let platform = ""

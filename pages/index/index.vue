@@ -11,6 +11,7 @@
 			<button type="default">跳转地图页面</button>
 		</navigator>
 		<button type="default" @click="goto('/pages/index/map')">跳转地图页面</button>
+		<button type="default" @click="init()">调用接口</button>
 		<!-- #ifdef H5 -->
 		这句话只有在H5能看到<br>
 		<!-- #endif -->
@@ -63,11 +64,22 @@
 				})
 			},
 			init(){
-				let data = {}
-				http.postAxios('login', data).then(res => {
-					console.log('调用接口')
-					if (res) {
-						
+				let data = {
+					username: 'username',
+					password: 'password',
+					inputCode: '111111',
+					imageId: '222222'
+				}
+				http.post('login', data).then(res => {
+					console.log('调用接口',res)
+					if(res.code == 200) {
+						// 存放token
+						uni.setStorageSync('Authorization', res.data.access_token)
+					}else{
+						uni.showToast({
+							title: '账号或密码错误，请重新登录',
+							icon: 'none',
+						});
 					}
 				})
 			},

@@ -2,30 +2,26 @@ import api from './api.js'
 import {platform} from './platform.js';
 const baseUrl = platform.baseUrl
 export default {
-	postAxios: (url, data, clt) => {
+	post: (url, data, clt) => {
+		let Authorization = uni.getStorageSync('Authorization');
+		let tenant = uni.getStorageSync('tenant');
 		uni.showLoading({
 			title: '加载中...',
 		})
-		let obj = {
-			header: {
-				token: wx.getStorageSync('token') || '',
-				ua: {
-					platform: 'MINI_PROGRAMS'
-				}
-			},
-			body: data
-		}
 		return new Promise((resolve, reject) => {
 			uni.request({
 				url: baseUrl + api[url],
-				data: obj,
+				data: data,
 				method: 'POST',
+				header: {
+					Authorization: Authorization,
+					tenant: tenant,
+					clientld: 'industrial-vision',
+					secret: 'ec8890a8d81b6bc275eaa1d006dc7c8c',
+					deviceType: 2
+				},
 				success: res => {
-					let result = {
-						...res.data.header,
-						...res.data.body
-					}
-					resolve(result)
+					resolve(res.data)
 				},
 				fail: err => {
 					reject(err)
@@ -37,24 +33,17 @@ export default {
 			})
 		})
 	},
-	getAxios: (url, data, clt) => {
+	get: (url, data, clt) => {
 		uni.showLoading({
 			title: '加载中...',
 		})
-		let params = [];
-		Object.keys(data).forEach(key => {
-			params.push(key + '=' + data[key])
-		})
 		return new Promise((resolve, reject) => {
 			uni.request({
-				url: baseUrl + api[url] + '?' + params.join("&"),
-				data,
+				url: baseUrl + api[url],
+				data: data,
+				method: 'GET',
 				success: res => {
-					if (res.data.header.responseCode == 0) {
-						resolve(res.data.body)
-					} else {
-						reject(res.data)
-					}
+					resolve(res.data)
 				},
 				fail: err => {
 					reject(err)
