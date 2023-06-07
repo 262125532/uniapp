@@ -1,9 +1,5 @@
 <template>
 	<view class="content">
-		<p>这里是首页</p>
-		<p>使用的uniapp官方组件：https://uniapp.dcloud.net.cn/component/button.html</p>
-		<p>使用的uniapp官方组件示例：https://hellouniapp.dcloud.net.cn/pages/component/button/button</p>
-		
 		<p>不同环境判断域名：platform.baseUrl</p>
 		<p>不同环境判断平台：platform.ifDefPlatform()</p>
 		<p>判断测试环境和生产环境：process.env.NODE_ENV</p>

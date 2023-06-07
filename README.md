@@ -67,7 +67,38 @@
 	style里面添加："navigationStyle": "custom"
 	让顶部bar去掉
 	
+	navigationBarBackgroundColor	HexColor	#000000	导航栏背景颜色（同状态栏背景色）
+	navigationBarTextStyle	String	white	导航栏标题颜色及状态栏前景颜色，仅支持 black/white
+	navigationBarTitleText	String		导航栏标题文字内容
+	navigationBarShadow	Object		导航栏阴影
+	navigationStyle	String	default	导航栏样式，仅支持 default/custom。custom即取消默认的原生导航栏
+	backgroundColor	HexColor	#ffffff	窗口的背景色
+	backgroundTextStyle	String	dark	下拉 loading 的样式，仅支持 dark/light
+	enablePullDownRefresh	Boolean	false	是否开启下拉刷新
+	onReachBottomDistance	Number	50	页面上拉触底事件触发时距页面底部距离，单位只支持px
+	
 六、ui组件
 
 	1.ui地址：https://uniapp.dcloud.net.cn/component/button.html
 	2.ui示例：https://hellouniapp.dcloud.net.cn/pages/component/button/button
+	
+七、其他语法
+
+	//跳转新页面，并传递数据
+	uni.navigateTo({
+		url: 'new-page/new-vue-page-1?data=Hello'
+	})
+	//返回上一页
+	uni.navigateBack();
+	//在当前页面打开
+	uni.redirectTo({
+		url: 'new-page/new-vue-page-1'
+	});
+	//切换到模板选项卡
+	uni.switchTab({
+		url: '/pages/tabBar/template/template'
+	});
+	//关闭所有页面，打开首页
+	uni.reLaunch({
+		url: '/pages/tabBar/component/component'
+	});

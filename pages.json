@@ -48,10 +48,6 @@
 		}]
 	},
 	"globalStyle": {
-		// #ifndef MP-WEIXIN || MP-LARK
-		// #endif
-		// "navigationStyle": "custom", //在微信小程序或者飞书小程序里面 显示顶部bar
-		
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#F8F8F8",
