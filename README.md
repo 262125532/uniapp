@@ -49,7 +49,7 @@
 三、调用接口封装
 
 	js引入：import http from '../../common/request';
-	http.postAxios('login', data).then(res => {
+	http.post('login', data).then(res => {
 		console.log('调用接口')
 		if(res){
 			
