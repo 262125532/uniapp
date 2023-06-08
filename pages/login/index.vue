@@ -105,8 +105,32 @@
 				
 				// 加密过程
 				var encrypt = new JSEncrypt();
+				// let publicKye = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDwrmcGuDoVUUA431A9Tdk0Yj/So7AvpzSU25IuxPJnMgeyOfMVoBAQKiGwlxppw+2sx1kQ2i18SrN6G2QsTTaejOg93xdX0H5UiDRWRA84UXBWVNP3MkG/d7EyaYaYmpjl+kVsvDiD6Io+hWTVyVwOX/s0B95DBYYbMqrWw9f3bwIDAQAB'
 				let publicKye = 'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBANL378k3RiZHWx5AfJqdH9xRNBmD9wGD2iRe41HdTNF8RUhNnHit5NpMNtGL0NPTSSpPjjI1kJfVorRvaQerUgkCAwEAAQ==';
 				encrypt.setPublicKey(publicKye);	  // 公钥
+				// console.log(111,encrypt.encrypt("999999"))
+				
+				// let privateKey = `-----BEGIN PRIVATE KEY-----
+				// MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAPCuZwa4OhVRQDjf
+				// UD1N2TRiP9KjsC+nNJTbki7E8mcyB7I58xWgEBAqIbCXGmnD7azHWRDaLXxKs3ob
+				// ZCxNNp6M6D3fF1fQflSINFZEDzhRcFZU0/cyQb93sTJphpiamOX6RWy8OIPoij6F
+				// ZNXJXA5f+zQH3kMFhhsyqtbD1/dvAgMBAAECgYEAh+FuuRR5dl+Q6orpOjMhVbnC
+				// XqGbbsvvm7r7JPx7/lb4kV62JpdfekDPFGu6tcuv+8PwPNtwoqNqAJ5GR9yv4GtR
+				// RP1inIQSL167zDak9lVXXP9TJ6K+2AfKwOVWJ99OuZvvD8Mmbek4EV7pZDe56xZO
+				// gkDJNiZvsJ1uL7ZV/sECQQD62s0jSSuCSE1X1SFcbS3OBfCrlFjUOMs4/HgQ5guK
+				// oIjbGneyF5hw9D4/mMMXi/kbv4BavEYu39W7PMQXUmR7AkEA9Z4umRpSyKg/3MT6
+				// Nyorw3kauXckqgr7nbmYFUVoGvB/XaejYYp3rK6PJDwxdlKxWxUQEAWLXuJVidCe
+				// PR2InQJAYusy504sJQTD0vXNYPgAjvRSsiYeXRlEMeWEpw0/0dt5/ARU3NpnF2uI
+				// vGVN0RQ2GBYM1DrX5hYH3vyYSqYHzwJBAKk6HVz7WAJMegO/663KbnC1pgYW4roN
+				// 6yLW1sQBGCNHhFmgwN7Zqm7drl4G4wVlIDFjJ7gCOe5b/xd/FyeAi7kCQEC8kfDQ
+				// 8j+wkrhwlkMPquOotHqQEv386y9H7fflcOFuHg0Py93fGFmJA6/Fp5TMqsyxo55g
+				// ZmjE/Qp04FIEAxs=
+				// -----END PRIVATE KEY-----
+				// `;
+				// var decrypt = new JSEncrypt();
+				// decrypt.setPrivateKey(privateKey);
+				// let decryption = decrypt.decrypt(encrypt.encrypt("999999"));
+				// console.log(222,decryption)
 				
 				let data = {
 					username: that.username,
@@ -117,7 +141,7 @@
 					title: JSON.stringify(data),
 					icon: 'none',
 				});
-				console.log(encrypt.encrypt("123456"))
+				// console.log(encrypt.encrypt("123456"))
 				// uni.switchTab({
 				// 	url: '/pages/index/index'
 				// });
