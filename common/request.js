@@ -5,9 +5,6 @@ export default {
 	post: (url, data, clt) => {
 		let Authorization = uni.getStorageSync('Authorization');
 		let tenant = uni.getStorageSync('tenant');
-		uni.showLoading({
-			title: '加载中...',
-		})
 		// 登录接口不需要Authorization
 		if(url == 'login'){
 			Authorization = ''
@@ -31,16 +28,12 @@ export default {
 					reject(err)
 				},
 				complete: () => {
-					uni.hideLoading();
 					clt && clt()
 				}
 			})
 		})
 	},
 	get: (url, data, clt) => {
-		uni.showLoading({
-			title: '加载中...',
-		})
 		return new Promise((resolve, reject) => {
 			uni.request({
 				url: baseUrl + api[url],
@@ -53,7 +46,6 @@ export default {
 					reject(err)
 				},
 				complete: () => {
-					uni.hideLoading();
 					clt && clt()
 				}
 			})
