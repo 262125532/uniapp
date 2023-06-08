@@ -8,6 +8,10 @@ export default {
 		uni.showLoading({
 			title: '加载中...',
 		})
+		// 登录接口不需要Authorization
+		if(url == 'login'){
+			Authorization = ''
+		}
 		return new Promise((resolve, reject) => {
 			uni.request({
 				url: baseUrl + api[url],
@@ -16,8 +20,8 @@ export default {
 				header: {
 					Authorization: Authorization,
 					tenant: tenant,
-					clientld: 'industrial-vision',
-					secret: 'ec8890a8d81b6bc275eaa1d006dc7c8c',
+					clientld: 'xingtu2-app',
+					secret: 's24aef87dfd80094ed687435e4b324e39',
 					deviceType: 2
 				},
 				success: res => {

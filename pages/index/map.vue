@@ -24,7 +24,7 @@
 	}
 </script>
 
-<style>
+<style scoped lang="scss">
 	.content {
 		display: flex;
 		flex-direction: column;
