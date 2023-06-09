@@ -2,7 +2,7 @@ import api from './api.js'
 import {platform} from './platform.js';
 const baseUrl = platform.baseUrl
 export default {
-	post: (url, data, clt) => {
+	post: (url, data) => {
 		let Authorization = uni.getStorageSync('Authorization');
 		let tenant = uni.getStorageSync('tenant');
 		// 登录接口不需要Authorization
@@ -28,17 +28,26 @@ export default {
 					reject(err)
 				},
 				complete: () => {
-					clt && clt()
+					
 				}
 			})
 		})
 	},
-	get: (url, data, clt) => {
+	get: (url, data) => {
+		let Authorization = uni.getStorageSync('Authorization');
+		let tenant = uni.getStorageSync('tenant');
 		return new Promise((resolve, reject) => {
 			uni.request({
 				url: baseUrl + api[url],
 				data: data,
 				method: 'GET',
+				header: {
+					Authorization: Authorization,
+					tenant: tenant,
+					clientld: 'xingtu2-app',
+					secret: 's24aef87dfd80094ed687435e4b324e39',
+					deviceType: 2
+				},
 				success: res => {
 					resolve(res.data)
 				},
@@ -46,7 +55,7 @@ export default {
 					reject(err)
 				},
 				complete: () => {
-					clt && clt()
+					
 				}
 			})
 		})
