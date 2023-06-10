@@ -1456,3 +1456,6 @@ radio-group label, checkbox-group label{
 .left-win-active text{
 	color: #007AFF !important;
 }
+.uni-page-wrapper{
+	background-color: #F0F2F5;
+}

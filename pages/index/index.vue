@@ -52,6 +52,11 @@
 			console.log(1, platform.ifDefPlatform())
 			console.log(2, platform.baseUrl)
 			console.log(3, process.env.NODE_ENV)
+			http.post('getTree').then( res => {
+					console.log(333, res)
+				
+				
+			})
 		},
 		methods: {
 			goto(url) {

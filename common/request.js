@@ -9,6 +9,7 @@ export default {
 		if(url == 'login'){
 			Authorization = ''
 		}
+		console.log('baseUrl:', baseUrl)
 		return new Promise((resolve, reject) => {
 			uni.request({
 				url: baseUrl + api[url],
@@ -17,9 +18,9 @@ export default {
 				header: {
 					Authorization: Authorization,
 					tenant: tenant,
-					clientld: 'xingtu2-app',
+					clientId: 'xingtu2-app',
 					secret: 's24aef87dfd80094ed687435e4b324e39',
-					deviceType: 2
+					deviceType: 0,
 				},
 				success: res => {
 					resolve(res.data)

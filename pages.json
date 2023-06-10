@@ -8,6 +8,32 @@
 			}
 		},
 		{
+			"path": "pages/home/index",
+			"style": {
+				"navigationBarTitleText": "首页"
+			}
+		},
+		{
+			"path": "pages/cars/index",
+			"style": {
+				"navigationBarTitleText": "车辆"
+			}
+		},
+		{
+			"path": "pages/app/index",
+			"style": {
+				"navigationBarTitleText": "应用"
+			}
+		},
+		{
+			"path": "pages/my/index",
+			"style": {
+				"navigationBarTitleText": "我的",
+				"navigationBarBackgroundColor": "#3370FF",
+				"navigationBarTextStyle" : "white"
+			}
+		},
+		{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "首页"
@@ -34,21 +60,26 @@
 	],
 	"tabBar": {
 		"color": "#7A7E83",
-		"selectedColor": "#007AFF",
+		"selectedColor": "#3370FF",
 		"borderStyle": "black",
 		"backgroundColor": "#FFFFFF",
 		"list": [{
-			"pagePath": "pages/index/index",
+			"pagePath": "pages/home/index",
 			"iconPath": "static/tabbar/list.png",
 			"selectedIconPath": "static/tabbar/list_active.png",
 			"text": "首页"
 		}, {
-			"pagePath": "pages/index/ucharts",
+			"pagePath": "pages/cars/index",
 			"iconPath": "static/tabbar/grid.png",
 			"selectedIconPath": "static/tabbar/grid_active.png",
-			"text": "图表"
+			"text": "车辆"
 		}, {
-			"pagePath": "pages/myCenter/index",
+			"pagePath": "pages/app/index",
+			"iconPath": "static/tabbar/grid.png",
+			"selectedIconPath": "static/tabbar/grid_active.png",
+			"text": "应用"
+		}, {
+			"pagePath": "pages/my/index",
 			"iconPath": "static/tabbar/me.png",
 			"selectedIconPath": "static/tabbar/me_active.png",
 			"text": "我的"

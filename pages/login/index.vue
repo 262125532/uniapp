@@ -1,27 +1,52 @@
 <template>
 	<view class="content">
-		<p class="p">您好， 欢迎来到智慧管理APP！</p>
-		<form @submit="formSubmit" @reset="formReset">
-			<view class="uni-form-item input-box">
-				<!-- <view class="title">用户名</view> -->
-				<input class="uni-input" name="username" v-model="username" placeholder="用户名" />
-			</view>
-			<view class="uni-form-item input-box">
-			    <!-- <view class="title">密码</view> -->
-			    <view class="uni-input-wrapper">
-			        <input class="uni-input" placeholder="密码" v-model="password" :password="showPassword" />
-			        <text class="uni-icon" :class="[!showPassword ? 'uni-eye-active' : '']" @click="changePassword">&#xe568;</text>
-			    </view>
-			</view>
-			<view class="uni-form-item text">
-				<checkbox-group @change="checkboxChange">
-					<checkbox :value="checkbox" />登录即表明同意<text @click="show1">《用户服务协议》</text>和<text @click="show2">《用户隐私协议》</text>
-				</checkbox-group>
-			</view>
-			<view class="uni-btn-v">
-				<button type="primary" form-type="submit">登录</button>
-			</view>
-		</form>
+		<p class="title">你好 <br>欢迎来到智能作业监管APP！</p>
+		<view class="form">
+			<form @submit="formSubmit" @reset="formReset" >
+				<view v-if="loginByPhone">
+					<view class="uni-form-item input-box" >
+						<!-- <view class="title">用户名</view> -->
+						<input class="uni-input" name="username" v-model="phone" placeholder="手机号" />
+					</view>
+					<view class="uni-form-item input-box code-input">
+						<!-- <view class="title">用户名</view> -->
+						<input class="uni-input" name="username" v-model="username" placeholder="验证码" />
+					</view>
+					<view class="get-code-btn" @click="getCode">获取验证码</view>
+				</view>
+				
+				<view v-if="!loginByPhone">
+					<view class="uni-form-item input-box" >
+						<!-- <view class="title">用户名</view> -->
+						<input class="uni-input" name="username" v-model="username" placeholder="用户名" />
+					</view>
+					<view class="uni-form-item input-box">
+					    <!-- <view class="title">密码</view> -->
+					    <view class="uni-input-wrapper">
+					        <input class="uni-input" placeholder="密码" v-model="password" :password="showPassword" />
+					        <!-- <text class="uni-icon" :class="[!showPassword ? 'uni-eye-active' : '']" @click="changePassword">&#xe568;</text> -->
+					    </view>
+					</view>
+					
+					
+				</view>
+				
+				
+				
+				<view class="uni-form-item text">
+					<checkbox-group @change="checkboxChange">
+						<checkbox :value="checkbox" />登录即表明同意<text @click="show1">《用户服务协议》</text>和<text @click="show2">《用户隐私协议》</text>
+					</checkbox-group>
+				</view>
+				<view class="uni-btn-v">
+					<button type="primary" form-type="submit">登录</button>
+				</view>
+				<view class="type" v-if="loginByPhone" @click="changeLoginType">验证码登录</view>
+				<view class="type" v-if="!loginByPhone" @click="changeLoginType">密码登录</view>
+			</form>
+			
+		</view>
+		
 		
 	</view>
 </template>
@@ -35,7 +60,8 @@
 				username: '',
 				password: '',
 				showPassword: true,
-				checkbox: '0'
+				checkbox: '0',
+				loginByPhone: true,
 			}
 		},
 		onLoad() {
@@ -43,6 +69,13 @@
 			
 		},
 		methods: {
+			getCode(){
+				console.log(111)
+				
+			},
+			changeLoginType() {
+				this.loginByPhone = !this.loginByPhone;
+			},
 			show1(){
 				uni.showModal({
 				    title: "用户服务协议",
@@ -108,7 +141,6 @@
 				// let publicKye = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDwrmcGuDoVUUA431A9Tdk0Yj/So7AvpzSU25IuxPJnMgeyOfMVoBAQKiGwlxppw+2sx1kQ2i18SrN6G2QsTTaejOg93xdX0H5UiDRWRA84UXBWVNP3MkG/d7EyaYaYmpjl+kVsvDiD6Io+hWTVyVwOX/s0B95DBYYbMqrWw9f3bwIDAQAB'
 				let publicKye = 'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBANL378k3RiZHWx5AfJqdH9xRNBmD9wGD2iRe41HdTNF8RUhNnHit5NpMNtGL0NPTSSpPjjI1kJfVorRvaQerUgkCAwEAAQ==';
 				encrypt.setPublicKey(publicKye);	  // 公钥
-				// console.log(111,encrypt.encrypt("999999"))
 				
 				// let privateKey = `-----BEGIN PRIVATE KEY-----
 				// MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAPCuZwa4OhVRQDjf
@@ -127,10 +159,13 @@
 				// ZmjE/Qp04FIEAxs=
 				// -----END PRIVATE KEY-----
 				// `;
-				// var decrypt = new JSEncrypt();
-				// decrypt.setPrivateKey(privateKey);
-				// let decryption = decrypt.decrypt(encrypt.encrypt("999999"));
-				// console.log(222,decryption)
+				let privateKey = `-----BEGIN PRIVATE KEY-----
+				MIIBUwIBADANBgkqhkiG9w0BAQEFAASCAT0wggE5AgEAAkEA0vfvyTdGJkdbHkB8mp0f3FE0GYP3AYPaJF7jUd1M0XxFSE2ceK3k2kw20YvQ09NJKk+OMjWQl9WitG9pB6tSCQIDAQABAkA2SimBrWC2/wvauBuYqjCFwLvYiRYqZKThUS3MZlebXJiLB+Ue/gUifAAKIg1avttUZsHBHrop4qfJCwAI0+YRAiEA+W3NK/RaXtnRqmoUUkb59zsZUBLpvZgQPfj1MhyHDz0CIQDYhsAhPJ3mgS64NbUZmGWuuNKp5coY2GIj/zYDMJp6vQIgUueLFXv/eZ1ekgz2Oi67MNCk5jeTF2BurZqNLR3MSmUCIFT3Q6uHMtsB9Eha4u7hS31tj1UWE+D+ADzp59MGnoftAiBeHT7gDMuqeJHPL4b+kC+gzV4FGTfhR9q3tTbklZkD2A==
+				 -----END PRIVATE KEY-----
+				`
+				var decrypt = new JSEncrypt();
+				decrypt.setPrivateKey(privateKey);
+				let decryption = decrypt.decrypt(encrypt.encrypt("Sany@test3"));
 				
 				let data = {
 					username: that.username,
@@ -149,10 +184,13 @@
 				http.post('login', data).then(res => {
 					console.log('调用接口',res)
 					if(res.code == 200) {
-						// 存放token
-						uni.setStorageSync('Authorization', res.data.access_token)
+						// 存放token tenant
+						uni.setStorageSync('Authorization', 'Bearer ' + res.data.access_token)
+						uni.setStorageSync('tenant', res.data.tenant)
+						uni.setStorageSync('username', res.data.username)
+						uni.setStorageSync('phone', res.data.phone)
 						uni.switchTab({
-							url: '/pages/index/index'
+							url: '/pages/home/index'
 						});
 					}else{
 						uni.showToast({
@@ -185,7 +223,12 @@
 		/* background: url("../../static/img/login_bg.png"); */
 		background-size: 100% auto;
 	}
-	.p{
+	.form{
+		margin: 0 32rpx;
+		
+	}
+	.title{
+		text-align: center;
 		font-size: 48rpx;padding: 20rpx;
 	}
 	.uni-form-item{
@@ -208,6 +251,25 @@
 	.uni-input-wrapper {
 		position: relative;
 	}
+	.code{
+		
+		
+	}
+	.code-input{
+		width: 60%;
+		float: left;
+		margin: 0;
+		
+	}
+	.get-code-btn{
+		width: 30%;
+		height: 80rpx;
+		line-height: 80rpx;
+		float: right;
+		color: #3370FF;
+		margin: 10rpx 0;
+		font-size: 32rpx;
+	}
 	.uni-icon {
 	    font-family: uniicons;
 	    font-size: 48rpx;
@@ -226,7 +288,6 @@
 	}
 	.text{
 		font-size: 24rpx;
-		margin: 0 20rpx;
 		text{
 			color: #007AFF;
 		}
@@ -242,6 +303,14 @@
 	::v-deep .uni-checkbox-input-checked{
 		color: #fff !important;
 		background-color: rgb(0, 122, 255) !important;
+	}
+	.uni-btn-v{
+		margin: 0 32rpx;
+		
+	}
+	.type{
+		text-align: center;
+		
 	}
 	
 

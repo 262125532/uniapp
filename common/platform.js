@@ -5,10 +5,11 @@ let baseUrl= '';
 // 测试环境 development
 if(process.env.NODE_ENV == "development"){
 	baseUrl= 'https://iot-api.ubsense.cn/';
+	// baseUrl= 'https://ai-api-test.sany.com.cn';
 }
 // 生产环境 production
 else{
-	baseUrl= 'https://iot-api.ubsense.cn/';
+	baseUrl= 'https://iot-api.ubsense.cn';
 }
 function ifDefPlatform() {
 	let platform = ""
