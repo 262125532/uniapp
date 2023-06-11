@@ -92,10 +92,10 @@
 			width: 120rpx;
 			height: 120rpx;
 			float: left;
-			border-radius: 16rpx;
 			img{
 				width: 100%;
 				height: 100%;
+				border-radius: 16rpx;
 			}
 		}
 		
