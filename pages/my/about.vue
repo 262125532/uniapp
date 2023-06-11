@@ -1,6 +1,6 @@
 <template>
 	<view class="content">
-		<img class="logo" src="../../static/img/logo.png" alt="">
+		<image class="logo" src="../../static/img/logo.png" alt="">
 		<view class="text">智能作业监管</view>
 	</view>
 </template>

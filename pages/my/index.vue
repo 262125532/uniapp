@@ -2,7 +2,7 @@
 	 <view class="content">
 		 <view class="seft-info">
 			 <view class="img">
-				 <img src="../../static/img/头像.png" alt="">
+				 <image src="../../static/img/头像.png" alt="">
 			 </view>
 			 <view class="info">
 					<view class="name">{{userName}}</view>
@@ -34,7 +34,7 @@
 		 	
 		 </view>
 		 
-		 <view class="logout" @click="go('/pages/login/index')">
+		 <view class="logout" @click="goto('/pages/login/index')">
 			退出登录
 		 </view>
 	</view>
@@ -56,6 +56,7 @@
 		},
 		methods: {
 			init() {
+				
 				this.userName = uni.getStorageSync('username');
 				let _phone = uni.getStorageSync('phone');
 				this.phone =  _phone.substr(0,3) + "****" + _phone.substr(7,11);
@@ -93,10 +94,8 @@
 			height: 120rpx;
 			float: left;
 			border-radius: 16rpx;
-			img{
-				width: 100%;
-				height: 100%;
-			}
+			font-size: 0;
+			
 		}
 		
 		.info{
