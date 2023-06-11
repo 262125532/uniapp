@@ -2,7 +2,7 @@
 	 <view class="content">
 		 <view class="seft-info">
 			 <view class="img">
-				 
+				 <img src="../../static/img/头像.png" alt="">
 			 </view>
 			 <view class="info">
 					<view class="name">{{userName}}</view>
@@ -23,18 +23,18 @@
 					<view class="title">蜂鸣器重置</view>
 					<view class="link">关闭蜂鸣器报警 &gt</view>
 				</view>
-				<view class="item">
+				<view class="item" @click="goto('/pages/my/changePwd')">
 					<view class="title">设置密码</view>
 					<view class="link">&gt</view>
 				</view>
-				<view class="item">
+				<view class="item" @click="goto('/pages/my/about')">
 					<view class="title">关于</view>
 					<view class="link">&gt</view>
 				</view>
 		 	
 		 </view>
 		 
-		 <view class="logout" @click="logout">
+		 <view class="logout" @click="go('/pages/login/index')">
 			退出登录
 		 </view>
 	</view>
@@ -59,6 +59,11 @@
 				this.userName = uni.getStorageSync('username');
 				let _phone = uni.getStorageSync('phone');
 				this.phone =  _phone.substr(0,3) + "****" + _phone.substr(7,11);
+			},
+			goto(url) {
+				uni.navigateTo({
+					url:url
+				})
 			},
 			logout() {
 				uni.navigateTo({
@@ -86,9 +91,12 @@
 		.img{
 			width: 120rpx;
 			height: 120rpx;
-			background-color: #ffffff;
 			float: left;
 			border-radius: 16rpx;
+			img{
+				width: 100%;
+				height: 100%;
+			}
 		}
 		
 		.info{

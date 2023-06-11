@@ -34,20 +34,20 @@ export default {
 			})
 		})
 	},
-	get: (url, data) => {
+	get: (url, data, joinPath) => {
 		let Authorization = uni.getStorageSync('Authorization');
 		let tenant = uni.getStorageSync('tenant');
 		return new Promise((resolve, reject) => {
 			uni.request({
-				url: baseUrl + api[url],
+				url: baseUrl + api[url] + joinPath,
 				data: data,
 				method: 'GET',
 				header: {
 					Authorization: Authorization,
 					tenant: tenant,
-					clientld: 'xingtu2-app',
+					clientId: 'xingtu2-app',
 					secret: 's24aef87dfd80094ed687435e4b324e39',
-					deviceType: 2
+					deviceType: 0
 				},
 				success: res => {
 					resolve(res.data)

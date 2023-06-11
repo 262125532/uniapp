@@ -210,11 +210,11 @@ radio-group label, checkbox-group label{
 }
 .uni-badge-primary {
 	color: #fff;
-	background-color: #007aff
+	background-color: #3370FF
 }
 .uni-badge-blue.uni-badge-inverted,
 .uni-badge-primary.uni-badge-inverted {
-	color: #007aff;
+	color: #3370FF;
 	background-color: transparent
 }
 .uni-badge-green,
@@ -1067,7 +1067,7 @@ radio-group label, checkbox-group label{
 }
 
 .uni-icon.uni-active {
-	color: #007aff;
+	color: #3370FF;
 }
 
 .uni-icon-contact:before {

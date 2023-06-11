@@ -1,0 +1,279 @@
+<template>
+	<view class="content">
+		<view class="title">
+			<view class="cancle-btn" @click="handleBack">
+				取消
+			</view>
+			<view class="submit-btn">
+				完成
+			</view>
+			修改密码
+		</view>
+		<view class="tip">
+			密码长度8-20位，且必须包含数字、大写
+		</view>
+		<view class="form">
+			<form @submit="formSubmit" @reset="formReset" >
+				<view class="uni-form-item input-box" >
+					<!-- <view class="title">手机号</view> -->
+					<input class="uni-input" name="username" v-model="phone" placeholder="手机号" />
+				</view>
+				<view class="code">
+					<view class="uni-form-item input-box code-input">
+						<!-- <view class="title">验证码</view> -->
+						<input class="uni-input" name="username" v-model="code" placeholder="验证码" />
+					</view>
+					
+					<view v-if="!timer" class="get-code-btn" @click="getCode">
+						获取验证码
+					</view>
+					<view v-if="timer" class="get-code-btn">
+						{{ seconds }}s
+					</view>
+				</view>
+				<view class="uni-form-item input-box" >
+					<!-- <view class="title">密码</view> -->
+					<input class="uni-input" name="password" v-model="password" placeholder="密码" />
+				</view>
+			</form>
+			
+		</view>
+		
+		
+	</view>
+</template>
+
+<script>
+	import http from '../../common/request';
+	import JSEncrypt from '../../common/jsencrypt.min.js'
+	export default {
+		data() {
+			return {
+				code: '',
+				phone: '',
+				password: '',
+				timer: null,
+				seconds: 60,
+			}
+		},
+		onLoad() {
+			
+		},
+		watch: {
+			seconds(newVal) {
+				let that = this;
+				console.log(newVal)
+				if(newVal == 0) {
+					clearInterval(that.timer)
+					that.seconds = 60;
+					that.timer= null;
+				}
+			}
+		},
+		methods: {
+			handleBack() {
+				uni.navigateBack();
+			},
+			getCode(){
+				let that = this
+				if( !that.phone ){
+					uni.showToast({
+						title: '请输入手机号',
+						icon: 'none',
+					});
+					return false
+				}else{
+					http.get("getCode", "", that.phone).then(res => {
+						console.log(22, res)
+						if(res.code == 200) {
+							that.timer = setInterval(() => {
+								that.seconds = that.seconds - 1
+							}, 1000)
+						}else {
+							uni.showToast({
+								title: res.msg,
+								icon: 'none',
+							});
+						}
+					})
+				}
+			},
+			formSubmit: function(e) {
+				let that = this;
+				if(!that.phone){
+					uni.showToast({
+						title: '请输入手机号',
+						icon: 'none',
+					});
+					return false
+				}
+				if( !that.code){
+					uni.showToast({
+						title: '请输入验证码',
+						icon: 'none',
+					});
+					return false
+				}
+			
+				let data = {
+					phone: that.phone,
+					code: that.code,
+				}
+				
+				
+				http.post('resetByCode', data).then(res => {
+					console.log('调用接口',res)
+					if(res.code == 200) {
+						uni.redirectTo({
+							url: '/pages/login/index'
+						});
+					}else{
+						uni.showToast({
+							title: res.msg,
+							icon: 'none',
+						});
+					}
+				})
+			},
+			formReset: function(e) {
+				this.username = ''
+				this.password = ''
+			},
+			changePassword: function() {
+			    this.showPassword = !this.showPassword;
+			},
+			checkboxChange(e){
+				if(e.detail.value && e.detail.value[0]){
+					this.checkbox = '1'
+				}else{
+					this.checkbox = '0'
+				}
+			}
+		}
+	}
+</script>
+
+<style scoped lang="scss">
+	.content {
+		/* background: url("../../static/img/login_bg.png"); */
+		background-size: 100% auto;
+	}
+	.form{
+		margin: 0 32rpx;
+		
+	}
+	.input-box{
+		border-top: none !important;
+		border-left: none !important;
+		border-right:none !important;
+	}
+	.title{
+		height: 88rpx;
+		line-height: 88rpx;
+		text-align: center;
+		font-size: 36rpx;
+		margin-top: 40rpx;
+		position: relative;
+		.cancle-btn{
+			position: absolute;
+			left: 24rpx;
+			top: 0rpx;
+			font-size: 32rpx;
+		}
+		.submit-btn{
+			height: 48rpx;
+			padding: 0 16rpx;
+			text-align: center;
+			line-height: 48rpx;
+			position: absolute;
+			right: 24rpx;
+			top: 20rpx;
+			background-color: #F0F2F5;
+			font-size: 32rpx;
+			color: rgba(0,0,0,0.6);
+		}
+		
+	}
+	.tip{
+		padding: 30rpx 24rpx;
+		background-color: rgba(51,112,255,0.16);
+		color: #3370FF;
+		font-size: 22rpx;
+		
+	}
+	.uni-form-item{
+		/* margin: 0 10rpx; */
+	}
+	.input-box{
+		display: block;
+		align-items: center;
+		height: 80rpx;
+		border: 1px solid #eee;
+		margin: 10rpx 0;
+	}
+	.uni-input{
+		// height: 100%;
+		// background: #f00;
+		// margin: 5rpx 20rpx;
+		// padding: 25rpx 30rpx;
+		
+	}
+	.uni-input-wrapper {
+		position: relative;
+	}
+	.code{
+		height: 100rpx;
+		
+		
+	}
+	.code-input{
+		width: 60%;
+		float: left;
+		margin: 0;
+		
+	}
+	.get-code-btn{
+		width: 30%;
+		height: 80rpx;
+		line-height: 80rpx;
+		float: right;
+		color: #3370FF;
+		margin: 10rpx 0;
+		font-size: 32rpx;
+	}
+	.uni-icon {
+	    font-family: uniicons;
+	    font-size: 48rpx;
+	    font-weight: normal;
+	    font-style: normal;
+	    width: 48rpx;
+	    height: 48rpx;
+	    line-height: 48rpx;
+	    color: #999999;
+		position: absolute;
+		right: 30rpx;
+		top: 20rpx;
+	}
+	.text{
+		font-size: 24rpx;
+		text{
+			color: #007AFF;
+		}
+	}
+	
+	/* #ifdef MP-WEIXIN */
+	.uni-btn-v{
+		margin: 0 32rpx;
+		.uni-button{
+			background: #3370FF!important;
+		}
+	}
+	/* #endif */
+	.uni-btn-v{
+		margin: 0 32rpx;
+		.uni-button{
+			background: #3370FF!important;
+		}
+		
+	}
+</style>
