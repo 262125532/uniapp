@@ -1,17 +1,22 @@
 <template>
 	<view class="content">
-		<p class="title">你好 <br>欢迎来到智能作业监管APP！</p>
+		<view class="header">
+			<image class="logo" src ='../../static/img/logo-white.png'></image>
+			<p class="title">你好 <br>欢迎来到智能作业监管APP！</p>
+			<image class="product" src ='../../static/img/天玑铁甲卫士.png'></image>
+		</view>
+		
 		<view class="form">
 			<form @submit="formSubmit" @reset="formReset" >
 				
 				<view v-if="loginByPhone">
 					<view class="uni-form-item input-box" >
 						<!-- <view class="title">用户名</view> -->
-						<input class="uni-input" name="username" v-model="phone" placeholder="手机号" />
+						<input class="uni-input" name="username" v-model="telNumber" placeholder="手机号" />
 					</view>
 					<view class="uni-form-item input-box code-input">
 						<!-- <view class="title">用户名</view> -->
-						<input class="uni-input" name="username" v-model="code" placeholder="验证码" />
+						<input class="uni-input" name="username" v-model="phoneCode" placeholder="验证码" />
 					</view>
 					
 					<view class="uni-flex uni-row">
@@ -65,13 +70,7 @@
 					</checkbox-group>
 				</view>
 			</form>
-			
-			
-			
-			
 		</view>
-		
-		
 	</view>
 </template>
 
@@ -83,8 +82,8 @@
 			return {
 				username: '',
 				password: '',
-				code: '',
-				phone: '',
+				phoneCode: '',
+				telNumber: '',
 				showPassword: true,
 				checkbox: '0',
 				loginByPhone: true,
@@ -114,16 +113,20 @@
 			},
 			getCode(){
 				let that = this
-				if( !that.phone ){
+				if( !that.telNumber ){
 					uni.showToast({
 						title: '请输入手机号',
 						icon: 'none',
 					});
 					return false
 				}else{
-					http.get("phoneCode", "", that.phone).then(res => {
+					http.get("phoneCode", "", that.telNumber).then(res => {
 						console.log(22, res)
 						if(res.code == 200) {
+							uni.showToast({
+								title: '验证码已发送',
+								icon: 'none',
+							});
 							that.timer = setInterval(() => {
 								that.seconds = that.seconds - 1
 							}, 1000)
@@ -170,104 +173,127 @@
 			formSubmit: function(e) {
 				// console.log('调用接口',this.username,this.password,e )
 				let that = this;
-				// console.log('form发生了submit事件，携带数据为：' + JSON.stringify(e.detail.value))
-				// var formdata = e.detail.value
-				// uni.showModal({
-				// 	content: '表单数据内容：' + JSON.stringify(formdata),
-				// 	showCancel: false
-				// });
-				if(!that.loginByPhone && !that.username ){
-					uni.showToast({
-						title: '请输入用户名',
-						icon: 'none',
-					});
-					return false
-				}
-				
-				if(that.loginByPhone && !that.phone){
-					uni.showToast({
-						title: '请输入手机号',
-						icon: 'none',
-					});
-					return false
-				}
-				if(that.loginByPhone && !that.code){
-					uni.showToast({
-						title: '请输入验证码',
-						icon: 'none',
-					});
-					return false
-				}
-				if(that.checkbox == '0'){
-					uni.showToast({
-						title: '请勾选用户协议',
-						icon: 'none',
-					});
-					return false
-				}
-				
-				
-				// 加密过程
-				var encrypt = new JSEncrypt();
-				// let publicKye = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDwrmcGuDoVUUA431A9Tdk0Yj/So7AvpzSU25IuxPJnMgeyOfMVoBAQKiGwlxppw+2sx1kQ2i18SrN6G2QsTTaejOg93xdX0H5UiDRWRA84UXBWVNP3MkG/d7EyaYaYmpjl+kVsvDiD6Io+hWTVyVwOX/s0B95DBYYbMqrWw9f3bwIDAQAB'
-				let publicKye = 'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBANL378k3RiZHWx5AfJqdH9xRNBmD9wGD2iRe41HdTNF8RUhNnHit5NpMNtGL0NPTSSpPjjI1kJfVorRvaQerUgkCAwEAAQ==';
-				encrypt.setPublicKey(publicKye);	  // 公钥
-				
-				// let privateKey = `-----BEGIN PRIVATE KEY-----
-				// MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAPCuZwa4OhVRQDjf
-				// UD1N2TRiP9KjsC+nNJTbki7E8mcyB7I58xWgEBAqIbCXGmnD7azHWRDaLXxKs3ob
-				// ZCxNNp6M6D3fF1fQflSINFZEDzhRcFZU0/cyQb93sTJphpiamOX6RWy8OIPoij6F
-				// ZNXJXA5f+zQH3kMFhhsyqtbD1/dvAgMBAAECgYEAh+FuuRR5dl+Q6orpOjMhVbnC
-				// XqGbbsvvm7r7JPx7/lb4kV62JpdfekDPFGu6tcuv+8PwPNtwoqNqAJ5GR9yv4GtR
-				// RP1inIQSL167zDak9lVXXP9TJ6K+2AfKwOVWJ99OuZvvD8Mmbek4EV7pZDe56xZO
-				// gkDJNiZvsJ1uL7ZV/sECQQD62s0jSSuCSE1X1SFcbS3OBfCrlFjUOMs4/HgQ5guK
-				// oIjbGneyF5hw9D4/mMMXi/kbv4BavEYu39W7PMQXUmR7AkEA9Z4umRpSyKg/3MT6
-				// Nyorw3kauXckqgr7nbmYFUVoGvB/XaejYYp3rK6PJDwxdlKxWxUQEAWLXuJVidCe
-				// PR2InQJAYusy504sJQTD0vXNYPgAjvRSsiYeXRlEMeWEpw0/0dt5/ARU3NpnF2uI
-				// vGVN0RQ2GBYM1DrX5hYH3vyYSqYHzwJBAKk6HVz7WAJMegO/663KbnC1pgYW4roN
-				// 6yLW1sQBGCNHhFmgwN7Zqm7drl4G4wVlIDFjJ7gCOe5b/xd/FyeAi7kCQEC8kfDQ
-				// 8j+wkrhwlkMPquOotHqQEv386y9H7fflcOFuHg0Py93fGFmJA6/Fp5TMqsyxo55g
-				// ZmjE/Qp04FIEAxs=
-				// -----END PRIVATE KEY-----
-				// `;
-				// let privateKey = `-----BEGIN PRIVATE KEY-----
-				// MIIBUwIBADANBgkqhkiG9w0BAQEFAASCAT0wggE5AgEAAkEA0vfvyTdGJkdbHkB8mp0f3FE0GYP3AYPaJF7jUd1M0XxFSE2ceK3k2kw20YvQ09NJKk+OMjWQl9WitG9pB6tSCQIDAQABAkA2SimBrWC2/wvauBuYqjCFwLvYiRYqZKThUS3MZlebXJiLB+Ue/gUifAAKIg1avttUZsHBHrop4qfJCwAI0+YRAiEA+W3NK/RaXtnRqmoUUkb59zsZUBLpvZgQPfj1MhyHDz0CIQDYhsAhPJ3mgS64NbUZmGWuuNKp5coY2GIj/zYDMJp6vQIgUueLFXv/eZ1ekgz2Oi67MNCk5jeTF2BurZqNLR3MSmUCIFT3Q6uHMtsB9Eha4u7hS31tj1UWE+D+ADzp59MGnoftAiBeHT7gDMuqeJHPL4b+kC+gzV4FGTfhR9q3tTbklZkD2A==
-				//  -----END PRIVATE KEY-----
-				// `
-				// var decrypt = new JSEncrypt();
-				// decrypt.setPrivateKey(privateKey);
-				// let decryption = decrypt.decrypt(encrypt.encrypt("Sany@test3"));
-				
-				let data = {
-					username: that.username,
-					password: encrypt.encrypt(that.password),
-					checkCaptcha: false
-				}
-				// console.log(encrypt.encrypt("123456"))
-				// uni.switchTab({
-				// 	url: '/pages/index/index'
-				// });
-				// return false
-				
-				
-				!that.loginByPhone  && http.post('login', data).then(res => {
-					console.log('调用接口',res)
-					if(res.code == 200) {
-						// 存放token tenant
-						uni.setStorageSync('Authorization', 'Bearer ' + res.data.access_token)
-						uni.setStorageSync('tenant', res.data.tenant)
-						uni.setStorageSync('username', res.data.username)
-						uni.setStorageSync('phone', res.data.phone)
-						uni.switchTab({
-							url: '/pages/home/index'
-						});
-					}else{
+				if(that.loginByPhone) {
+					if( !that.telNumber ){
 						uni.showToast({
-							title: res.msg,
+							title: '请输入手机号',
 							icon: 'none',
 						});
+						return false
 					}
-				})
+					if( !that.phoneCode ){
+						uni.showToast({
+							title: '请输入验证码',
+							icon: 'none',
+						});
+						return false
+					}
+					
+					if(that.checkbox == '0'){
+						uni.showToast({
+							title: '请勾选用户协议',
+							icon: 'none',
+						});
+						return false
+					}
+					
+					let data = {
+						telNumber: that.telNumber,
+						phoneCode: that.phoneCode,
+					}
+					
+					http.post('loginByCode', data).then(res => {
+						console.log('调用接口',res)
+						if(res.code == 200) {
+							// 存放token tenant
+							uni.setStorageSync('Authorization', 'Bearer ' + res.data.access_token)
+							uni.setStorageSync('tenant', res.data.tenant)
+							uni.setStorageSync('username', res.data.username)
+							uni.setStorageSync('telNumber', res.data.telNumber)
+							uni.switchTab({
+								url: '/pages/home/index'
+							});
+						}else{
+							uni.showToast({
+								title: res.msg,
+								icon: 'none',
+							});
+						}
+					})
+					
+					
+				}else{
+					if(!that.username ){
+						uni.showToast({
+							title: '请输入用户名',
+							icon: 'none',
+						});
+						return false
+					}
+					if(!that.password ){
+						uni.showToast({
+							title: '请输入密码',
+							icon: 'none',
+						});
+						return false
+					}
+					
+					if(that.checkbox == '0'){
+						uni.showToast({
+							title: '请勾选用户协议',
+							icon: 'none',
+						});
+						return false
+					}
+					
+					
+					// 加密过程
+					var encrypt = new JSEncrypt();
+					let publicKye = 'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBANL378k3RiZHWx5AfJqdH9xRNBmD9wGD2iRe41HdTNF8RUhNnHit5NpMNtGL0NPTSSpPjjI1kJfVorRvaQerUgkCAwEAAQ==';
+					encrypt.setPublicKey(publicKye);	  
+					// 公钥
+					
+					// let privateKey = `-----BEGIN PRIVATE KEY-----
+					// MIIBUwIBADANBgkqhkiG9w0BAQEFAASCAT0wggE5AgEAAkEA0vfvyTdGJkdbHkB8mp0f3FE0GYP3AYPaJF7jUd1M0XxFSE2ceK3k2kw20YvQ09NJKk+OMjWQl9WitG9pB6tSCQIDAQABAkA2SimBrWC2/wvauBuYqjCFwLvYiRYqZKThUS3MZlebXJiLB+Ue/gUifAAKIg1avttUZsHBHrop4qfJCwAI0+YRAiEA+W3NK/RaXtnRqmoUUkb59zsZUBLpvZgQPfj1MhyHDz0CIQDYhsAhPJ3mgS64NbUZmGWuuNKp5coY2GIj/zYDMJp6vQIgUueLFXv/eZ1ekgz2Oi67MNCk5jeTF2BurZqNLR3MSmUCIFT3Q6uHMtsB9Eha4u7hS31tj1UWE+D+ADzp59MGnoftAiBeHT7gDMuqeJHPL4b+kC+gzV4FGTfhR9q3tTbklZkD2A==
+					//  -----END PRIVATE KEY-----
+					// `
+					// var decrypt = new JSEncrypt();
+					// decrypt.setPrivateKey(privateKey);
+					// let decryption = decrypt.decrypt(encrypt.encrypt("Sany@test3"));
+					
+					let data = {
+						username: that.username,
+						password: encrypt.encrypt(that.password),
+						checkCaptcha: false
+					}
+					// console.log(encrypt.encrypt("123456"))
+					// uni.switchTab({
+					// 	url: '/pages/index/index'
+					// });
+					// return false
+					
+					http.post('login', data).then(res => {
+						console.log('调用接口',res)
+						if(res.code == 200) {
+							// 存放token tenant
+							uni.setStorageSync('Authorization', 'Bearer ' + res.data.access_token)
+							uni.setStorageSync('tenant', res.data.tenant)
+							uni.setStorageSync('username', res.data.username)
+							uni.setStorageSync('telNumber', res.data.telNumber)
+							uni.switchTab({
+								url: '/pages/home/index'
+							});
+						}else{
+							uni.showToast({
+								title: res.msg,
+								icon: 'none',
+							});
+						}
+					})
+					
+					
+				}
+				
 			},
 			formReset: function(e) {
 				this.username = ''
@@ -289,11 +315,28 @@
 
 <style scoped lang="scss">
 	.content {
-		/* background: url("../../static/img/login_bg.png"); */
-		background-size: 100% auto;
+		// height: 100vh;
+		// background: linear-gradient(180deg, #F0F8FF 100%, #FFFFFF 100%);
+	}
+	.header{
+		background: url("../../static/img/login-bg.png") no-repeat;
+		padding-top: 40rpx;
+	}
+	.logo{
+		width: 250rpx;
+		height: 64rpx;
+		margin: 80rpx auto 32rpx auto;
+		display: block;
+	}
+	.product{
+		width: 240rpx;
+		height: 136rpx;
+		margin: 24rpx auto 32rpx auto;
+		display: block;
+		
 	}
 	.form{
-		margin: 0 32rpx;
+		margin: 100rpx 32rpx 0 32rpx;
 		
 	}
 	.submit-btn{
@@ -309,7 +352,8 @@
 	}
 	.title{
 		text-align: center;
-		font-size: 48rpx;padding: 20rpx;
+		font-size: 28rpx;
+		color: #fff;
 	}
 	.uni-form-item{
 		/* margin: 0 10rpx; */

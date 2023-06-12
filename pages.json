@@ -30,7 +30,8 @@
 			"style": {
 				"navigationBarTitleText": "我的",
 				"navigationBarBackgroundColor": "#3370FF",
-				"navigationBarTextStyle" : "white"
+				"navigationBarTextStyle" : "white",
+				"navigationStyle": "custom"
 			}
 		},
 		{
@@ -80,23 +81,23 @@
 		"backgroundColor": "#FFFFFF",
 		"list": [{
 			"pagePath": "pages/home/index",
-			"iconPath": "static/tabbar/list.png",
-			"selectedIconPath": "static/tabbar/list_active.png",
+			"iconPath": "static/tabbar/home.png",
+			"selectedIconPath": "static/tabbar/home_active.png",
 			"text": "首页"
 		}, {
 			"pagePath": "pages/cars/index",
-			"iconPath": "static/tabbar/grid.png",
-			"selectedIconPath": "static/tabbar/grid_active.png",
+			"iconPath": "static/tabbar/car.png",
+			"selectedIconPath": "static/tabbar/car_active.png",
 			"text": "车辆"
 		}, {
 			"pagePath": "pages/app/index",
-			"iconPath": "static/tabbar/grid.png",
-			"selectedIconPath": "static/tabbar/grid_active.png",
+			"iconPath": "static/tabbar/app.png",
+			"selectedIconPath": "static/tabbar/app_active.png",
 			"text": "应用"
 		}, {
 			"pagePath": "pages/my/index",
-			"iconPath": "static/tabbar/me.png",
-			"selectedIconPath": "static/tabbar/me_active.png",
+			"iconPath": "static/tabbar/my.png",
+			"selectedIconPath": "static/tabbar/my_active.png",
 			"text": "我的"
 		}]
 	},

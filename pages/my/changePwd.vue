@@ -4,7 +4,7 @@
 			<view class="cancle-btn" @click="handleBack">
 				取消
 			</view>
-			<view class="submit-btn">
+			<view :class="isOK?'submit-btn submit-btn-ok':'submit-btn'" @click="formSubmit">
 				完成
 			</view>
 			修改密码
@@ -13,15 +13,15 @@
 			密码长度8-20位，且必须包含数字、大写
 		</view>
 		<view class="form">
-			<form @submit="formSubmit" @reset="formReset" >
+			<form>
 				<view class="uni-form-item input-box" >
 					<!-- <view class="title">手机号</view> -->
-					<input class="uni-input" name="username" v-model="phone" placeholder="手机号" />
+					<input class="uni-input" name="username" v-model="telNumber" placeholder="手机号" />
 				</view>
 				<view class="code">
 					<view class="uni-form-item input-box code-input">
 						<!-- <view class="title">验证码</view> -->
-						<input class="uni-input" name="username" v-model="code" placeholder="验证码" />
+						<input class="uni-input" name="username" v-model="phoneCode" placeholder="验证码" />
 					</view>
 					
 					<view v-if="!timer" class="get-code-btn" @click="getCode">
@@ -49,8 +49,8 @@
 	export default {
 		data() {
 			return {
-				code: '',
-				phone: '',
+				phoneCode: '',
+				telNumber: '',
 				password: '',
 				timer: null,
 				seconds: 60,
@@ -58,6 +58,11 @@
 		},
 		onLoad() {
 			
+		},
+		computed: {
+			isOK() {
+				return this.phoneCode && this.telNumber && this.password
+			}
 		},
 		watch: {
 			seconds(newVal) {
@@ -76,19 +81,26 @@
 			},
 			getCode(){
 				let that = this
-				if( !that.phone ){
+				if( !that.telNumber ){
 					uni.showToast({
 						title: '请输入手机号',
 						icon: 'none',
 					});
 					return false
 				}else{
-					http.get("getCode", "", that.phone).then(res => {
+					
+					http.get("phoneCode", "", that.telNumber).then(res => {
 						console.log(22, res)
 						if(res.code == 200) {
+							uni.showToast({
+								title: '验证码已发送',
+								icon: 'none',
+							});
+							
 							that.timer = setInterval(() => {
 								that.seconds = that.seconds - 1
 							}, 1000)
+							
 						}else {
 							uni.showToast({
 								title: res.msg,
@@ -100,33 +112,50 @@
 			},
 			formSubmit: function(e) {
 				let that = this;
-				if(!that.phone){
+				// if(!that.isOK){
+				// 	return false
+				// }
+				
+				if(!that.telNumber){
 					uni.showToast({
 						title: '请输入手机号',
 						icon: 'none',
 					});
 					return false
 				}
-				if( !that.code){
+				if( !that.phoneCode){
 					uni.showToast({
 						title: '请输入验证码',
 						icon: 'none',
 					});
 					return false
 				}
-			
-				let data = {
-					phone: that.phone,
-					code: that.code,
+				
+				if( !that.password){
+					uni.showToast({
+						title: '请输入密码',
+						icon: 'none',
+					});
+					return false
 				}
 				
+				var encrypt = new JSEncrypt();
+				let publicKye = 'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBANL378k3RiZHWx5AfJqdH9xRNBmD9wGD2iRe41HdTNF8RUhNnHit5NpMNtGL0NPTSSpPjjI1kJfVorRvaQerUgkCAwEAAQ==';
+				encrypt.setPublicKey(publicKye);
+			
+				let data = {
+					telNumber: that.telNumber,
+					phoneCode: that.phoneCode,
+					password: encrypt.encrypt(that.password)
+				}
 				
-				http.post('resetByCode', data).then(res => {
-					console.log('调用接口',res)
+				http.put('resetByCode', data).then(res => {
 					if(res.code == 200) {
-						uni.redirectTo({
-							url: '/pages/login/index'
+						uni.showToast({
+							title: res.msg || '操作成功',
+							icon: 'none',
 						});
+						uni.navigateBack();
 					}else{
 						uni.showToast({
 							title: res.msg,
@@ -191,6 +220,13 @@
 			background-color: #F0F2F5;
 			font-size: 32rpx;
 			color: rgba(0,0,0,0.6);
+			border-radius: 8rpx;
+		}
+		
+		.submit-btn-ok{
+			background-color: #3370FF;
+			color: #fff;
+			
 		}
 		
 	}
