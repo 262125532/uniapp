@@ -11,7 +11,7 @@
 <style scoped lang="scss">
 	.content{
 		width: 100vw;
-		height: calc(100vh - 40rpx);
+		height: calc(100vh - 90rpx);
 		background: #F0F2F5;
 		position: relative;
 		

@@ -184,8 +184,7 @@
 
 <style scoped lang="scss">
 	.content {
-		/* background: url("../../static/img/login_bg.png"); */
-		background-size: 100% auto;
+		padding-top: 40rpx;
 	}
 	.form{
 		margin: 0 32rpx;

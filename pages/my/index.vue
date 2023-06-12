@@ -89,7 +89,7 @@
 
 <style scoped lang="scss">
 	.content{
-		height: 100vh;
+		height: calc(100vh - 100rpx);
 		background:  #F0F2F5 url("../../static/img/my-bg.png") no-repeat;
 		background-size: 100% auto;
 	}

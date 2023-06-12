@@ -321,6 +321,7 @@
 	.header{
 		background: url("../../static/img/login-bg.png") no-repeat;
 		padding-top: 40rpx;
+		background-size: 100% auto;
 	}
 	.logo{
 		width: 250rpx;
