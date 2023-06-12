@@ -11,25 +11,22 @@
 <style scoped lang="scss">
 	.content{
 		width: 100vw;
-		height: calc(100vh - 90rpx);
-		background: #F0F2F5;
 		position: relative;
-		
 	}
 	.logo{
 		width: 260rpx;
 		height: 260rpx;
 		position: absolute;
-		top: 50%;
-		left: 50%;
+		top: 30vh;
+		left: 50vw;
 		margin-top: -130rpx;
 		margin-left: -130rpx
 		
 	}
 	.text{
-		width: 100%;
+		width: 100vw;
 		position: absolute;
-		top: 50%;
+		top: 30vh;
 		margin-top: 200rpx;
 		text-align: center;
 		font-size: 38rpx;

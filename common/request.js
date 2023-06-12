@@ -3,10 +3,11 @@ import {platform} from './platform.js';
 const baseUrl = platform.baseUrl
 export default {
 	post: (url, data) => {
+		//Authorization: Bearer [登录接口返回值]（eg, Bearer 42f20f81-e2fb-4c31-b6a9-323c81b272d4）
 		let Authorization = uni.getStorageSync('Authorization');
 		let tenant = uni.getStorageSync('tenant');
 		// 登录接口不需要Authorization
-		if(url == 'login' || url == 'loginByCode' || 'resetByCode'){
+		if(url == 'login' || url == 'loginByCode' || url == 'resetByCode'){
 			Authorization = ''
 			tenant = ''
 		}

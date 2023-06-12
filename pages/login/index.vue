@@ -275,7 +275,7 @@
 					http.post('login', data).then(res => {
 						console.log('调用接口',res)
 						if(res.code == 200) {
-							// 存放token tenant
+							// 存放token tenant //Authorization: Bearer [登录接口返回值]（eg, Bearer 42f20f81-e2fb-4c31-b6a9-323c81b272d4）
 							uni.setStorageSync('Authorization', 'Bearer ' + res.data.access_token)
 							uni.setStorageSync('tenant', res.data.tenant)
 							uni.setStorageSync('username', res.data.username)
@@ -319,7 +319,8 @@
 		// background: linear-gradient(180deg, #F0F8FF 100%, #FFFFFF 100%);
 	}
 	.header{
-		background: url("../../static/img/login-bg.png") no-repeat;
+		background-image: url("../../static/img/login-bg.png");
+		background-repeat: no-repeat;
 		padding-top: 40rpx;
 		background-size: 100% auto;
 	}

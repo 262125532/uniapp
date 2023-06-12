@@ -19,7 +19,7 @@
 						<image class="icon" src="../../static/img/right.png" alt="">
 					</view>
 				</view>
-				<view class="item">
+				<view class="item" @click="goto('/pages/my/unActiveCar')">
 					<image class="left-icon" src='../../static/img/未激活车辆-icon.png'></image>
 					<view class="title">未激活车辆</view>
 					<view class="link">车辆绑定终端 <image class="icon" src="../../static/img/right.png" alt=""></view>

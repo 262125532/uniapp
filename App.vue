@@ -16,4 +16,7 @@
 	/*每个页面公共css */
 	@import './common/uni.css';
 	@import '@/static/customicons.css';
+	.uni-body{
+		background-color: #F0F2F5;
+	}
 </style>
