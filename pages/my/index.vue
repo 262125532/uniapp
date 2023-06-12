@@ -112,7 +112,11 @@
 			border-radius: 16rpx;
 			font-size: 0;
 			overflow-y: hidden;
-			
+			img{
+				width: 100%;
+				height: 100%;
+				border-radius: 16rpx;
+			}
 		}
 		
 		.info{
