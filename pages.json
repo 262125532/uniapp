@@ -35,11 +35,24 @@
 			}
 		},
 		{
-			"path": "pages/my/about",
+			"path": "pages/my/alarmPush",
 			"style": {
-				"navigationBarTitleText": "关于",
-				"navigationBarBackgroundColor": "#3370FF",
-				"navigationBarTextStyle" : "white"
+				"navigationBarTitleText": "报警推送管理",
+				"navigationBarTextStyle" : "black"
+			}
+		},
+		{
+			"path": "pages/my/unActiveCar",
+			"style": {
+				"navigationBarTitleText": "未激活车辆",
+				"navigationBarTextStyle" : "black"
+			}
+		},
+		{
+			"path": "pages/my/buzzerReset",
+			"style": {
+				"navigationBarTitleText": "蜂鸣器重置",
+				"navigationBarTextStyle" : "black"
 			}
 		},
 		{
@@ -50,10 +63,11 @@
 			}
 		},
 		{
-			"path": "pages/my/unActiveCar",
+			"path": "pages/my/about",
 			"style": {
-				"navigationBarTitleText": "未激活车辆",
-				"navigationBarTextStyle" : "black"
+				"navigationBarTitleText": "关于",
+				"navigationBarBackgroundColor": "#3370FF",
+				"navigationBarTextStyle" : "white"
 			}
 		},
 		{

@@ -315,14 +315,8 @@
 </script>
 
 <style scoped lang="scss">
-	.uni-body{
-		background: #f00;
-		// background: linear-gradient(180deg, # 0%, #FFFFFF 100%);
-		// background: linear-gradient(180deg, #F0F8FF 100%, #FFFFFF 100%);
-	}
 	.content {
-		// background-image: linear-gradient(to right, red , yellow);
-		// height: 100vh;
+		height: 100vh;
 		background-image: linear-gradient(180deg, #F0F8FF 0%, #FFFFFF 100%);
 	}
 	.header{
@@ -393,8 +387,10 @@
 		align-items: center;
 		height: 80rpx;
 		border: 1px solid #eee;
+		background: transparent;
 	}
 	.uni-input{
+		background: transparent;
 		// height: 100%;
 		// background: #f00;
 		// margin: 5rpx 20rpx;

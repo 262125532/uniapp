@@ -14,7 +14,7 @@
 			 </view>
 		 </view>
 		 <view class="list">
-				<view class="item">
+				<view class="item" @click="goto('/pages/my/alarmPush')">
 					<image class="left-icon" src='../../static/img/报警推送管理-icon.png'></image>
 					<view class="title">报警推送管理</view>
 					<view class="link">
@@ -27,7 +27,7 @@
 					<view class="title">未激活车辆</view>
 					<view class="link">车辆绑定终端 <image class="icon" src="../../static/img/right.png" alt=""></view>
 				</view>
-				<view class="item">
+				<view class="item" @click="goto('/pages/my/buzzerReset')">
 					<image class="left-icon" src='../../static/img/蜂鸣器重置-icon.png'></image>
 					<view class="title">蜂鸣器重置</view>
 					<view class="link">关闭蜂鸣器报警 <image class="icon" src="../../static/img/right.png" alt=""></view>
@@ -92,8 +92,6 @@
 
 <style scoped lang="scss">
 	.content{
-		height: calc(100vh - 100rpx);
-		background-size: 100% auto;
 	}
 	.page-title{
 		text-align: center;

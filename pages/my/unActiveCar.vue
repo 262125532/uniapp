@@ -51,8 +51,22 @@
 			this.getCarList()
 		},
 		methods: {
+			
 			getCarList() {
-				http.post("unActiveCarList", {pageNum: 1, pageSize: 20}).then( res => {
+				let deviceInfo = {
+					areaId: 1,
+					deviceCode: 0,
+					deviceNameCode: '',
+					followerSerialCode: '',
+					fuelBind: 0,
+					isBind: 0,
+					onlineStatus: 0,
+					pageNum: 1,
+					pageSize: 1000000,
+					vehicleType: ''
+				}
+					
+				http.post("unActiveCarList", {pageNum: 1, pageSize: 20, deviceInfo}).then( res => {
 					console.log(222, res)
 					
 				})
@@ -90,7 +104,8 @@
 				padding: 0 20rpx;
 				.dot{
 					position: absolute;
-					top: -72rpx
+					top: -78rpx;
+					font-size: 48rpx;
 				}
 			}
 			

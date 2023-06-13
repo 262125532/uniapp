@@ -184,7 +184,9 @@
 
 <style scoped lang="scss">
 	.content {
+		height: calc(100vh - 40rpx);
 		padding-top: 40rpx;
+		background: #fff;
 	}
 	.form{
 		margin: 0 32rpx;
