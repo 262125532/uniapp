@@ -210,7 +210,7 @@
 							uni.setStorageSync('Authorization', 'Bearer ' + res.data.access_token)
 							uni.setStorageSync('tenant', res.data.tenant)
 							uni.setStorageSync('username', res.data.username)
-							uni.setStorageSync('telNumber', res.data.telNumber)
+							uni.setStorageSync('phone', res.data.phone)
 							uni.switchTab({
 								url: '/pages/home/index'
 							});

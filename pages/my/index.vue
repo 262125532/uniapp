@@ -1,9 +1,12 @@
 <template>
 	 <view class="content">
-		<view class="page-title">
-			我的
-		</view>
+		
 		 <view class="seft-info">
+			 <image class="bg" src="../../static/img/my-bg.png" alt="">
+			 <view class="page-title">
+			 	我的
+			 </view>
+			 
 			 <image class="img" src="../../static/img/头像.png" alt="">
 			 <view class="info">
 					<view class="name">{{userName}}</view>
@@ -90,7 +93,6 @@
 <style scoped lang="scss">
 	.content{
 		height: calc(100vh - 100rpx);
-		background:  #F0F2F5 url("../../static/img/my-bg.png") no-repeat;
 		background-size: 100% auto;
 	}
 	.page-title{
@@ -99,11 +101,20 @@
 		font-size: 36rpx;
 		font-weight: bold;
 		padding-top: 40rpx;
+		position: relative;
 	}
 	
 	.seft-info{
-		height: 200rpx;
-		padding: 50rpx 24rpx;
+		height: 320rpx;
+		position: relative;
+		.bg{
+			width: 100%;
+			height: 320rpx;
+			position: absolute;
+			left: 0;
+			top: 0;
+			z-index: 0;
+		}
 		
 		.img{
 			width: 120rpx;
@@ -112,6 +123,11 @@
 			border-radius: 16rpx;
 			font-size: 0;
 			overflow-y: hidden;
+			position: relative;
+			margin-left: 24rpx;
+			display: block;
+			margin-top: 60rpx;
+		
 			img{
 				width: 100%;
 				height: 100%;
@@ -123,7 +139,8 @@
 			float: left;
 			margin-left: 30rpx;
 			color: #fff;
-			padding-top: 15rpx;
+			padding-top: 76rpx;
+			position: relative;
 			.name{
 				
 				font-size: 36rpx;
