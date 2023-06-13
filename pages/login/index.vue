@@ -1,6 +1,7 @@
 <template>
 	<view class="content">
 		<view class="header">
+			<image class="bg" src ='../../static/img/login-bg.png'></image>
 			<image class="logo" src ='../../static/img/logo-white.png'></image>
 			<p class="title">你好 <br>欢迎来到智能作业监管APP！</p>
 			<image class="product" src ='../../static/img/天玑铁甲卫士.png'></image>
@@ -314,27 +315,47 @@
 </script>
 
 <style scoped lang="scss">
-	.content {
-		// height: 100vh;
+	.uni-body{
+		background: #f00;
+		// background: linear-gradient(180deg, # 0%, #FFFFFF 100%);
 		// background: linear-gradient(180deg, #F0F8FF 100%, #FFFFFF 100%);
 	}
+	.content {
+		// background-image: linear-gradient(to right, red , yellow);
+		// height: 100vh;
+		background-image: linear-gradient(180deg, #F0F8FF 0%, #FFFFFF 100%);
+	}
 	.header{
-		background-image: url("../../static/img/login-bg.png");
+		height: 360rpx;
+		position: relative;
+		// background-image: url("../../static/img/login-bg.png");
 		background-repeat: no-repeat;
 		padding-top: 40rpx;
 		background-size: 100% auto;
 	}
+	.bg{
+		position: absolute;
+		height: 360rpx;
+		width: 100%;
+		left: 0;
+		top:0;
+		z-index: 0;
+	}
 	.logo{
 		width: 250rpx;
 		height: 64rpx;
-		margin: 80rpx auto 32rpx auto;
 		display: block;
+		position: absolute;
+		top: 80rpx;
+		left: 250rpx
 	}
 	.product{
 		width: 240rpx;
 		height: 136rpx;
-		margin: 24rpx auto 32rpx auto;
 		display: block;
+		position: absolute;
+		top: 300rpx;
+		left: 255rpx
 		
 	}
 	.form{
@@ -353,9 +374,13 @@
 		margin-top: 48rpx;
 	}
 	.title{
+		width: 100%;
 		text-align: center;
 		font-size: 28rpx;
 		color: #fff;
+		z-index: 10;
+		position: absolute;
+		top: 180rpx;
 	}
 	.uni-form-item{
 		/* margin: 0 10rpx; */
