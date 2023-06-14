@@ -80,7 +80,7 @@
 	.list{
 		height: calc(100vh - 200rpx);
 		padding: 0 24rpx 24rpx 24rpx;
-		// border-radius: 16rpx;
+		border-radius: 16rpx;
 		overflow: hidden;
 		box-sizing: border-box;
 		.item{

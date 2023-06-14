@@ -57,6 +57,10 @@
 			let that = this;
 			
 			this.getData()
+			uni.showLoading({
+				title: '加载中'
+			});
+
 			
 			
 		},
@@ -89,7 +93,8 @@
 					"sysName":"xt",
 				}
 				http.post("buzzerList", params).then(res => {
-					that.list = res.data
+					uni.hideLoading();
+					that.list = res.data;
 				})
 				
 			}
