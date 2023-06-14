@@ -16,12 +16,12 @@
 			<form>
 				<view class="uni-form-item input-box" >
 					<!-- <view class="title">手机号</view> -->
-					<input class="uni-input" name="username" v-model="telNumber" placeholder="手机号" />
+					<input class="uni-input" name="telNumber" type="number" v-model="telNumber" placeholder="手机号" />
 				</view>
 				<view class="code">
 					<view class="uni-form-item input-box code-input">
 						<!-- <view class="title">验证码</view> -->
-						<input class="uni-input" name="username" v-model="phoneCode" placeholder="验证码" />
+						<input class="uni-input" name="phoneCode" type="number" v-model="phoneCode" placeholder="验证码" />
 					</view>
 					
 					<view v-if="!timer" class="get-code-btn" @click="getCode">
@@ -67,7 +67,6 @@
 		watch: {
 			seconds(newVal) {
 				let that = this;
-				console.log(newVal)
 				if(newVal == 0) {
 					clearInterval(that.timer)
 					that.seconds = 60;
@@ -90,7 +89,6 @@
 				}else{
 					
 					http.get("phoneCode", "", that.telNumber).then(res => {
-						console.log(22, res)
 						if(res.code == 200) {
 							uni.showToast({
 								title: '验证码已发送',

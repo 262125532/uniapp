@@ -78,9 +78,9 @@
 		margin-bottom: 24rpx;
 	}
 	.list{
-		height: calc(100vh - 100rpx);
+		height: calc(100vh - 200rpx);
 		padding: 0 24rpx 24rpx 24rpx;
-		border-radius: 16rpx;
+		// border-radius: 16rpx;
 		overflow: hidden;
 		box-sizing: border-box;
 		.item{
@@ -113,8 +113,12 @@
 					vertical-align: -4rpx;
 				}
 			}
-			
-			
+		}
+		.item:first-child{
+			border-radius: 16rpx 16rpx 0 0;
+		}
+		.item:last-child{
+			border-radius: 0 0 16rpx 16rpx;
 		}
 	}
 </style>

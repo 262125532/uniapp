@@ -74,7 +74,7 @@
 				this.searchValue = e.detail.value
 			},
 			handleReset(val) {
-				http.post("resetBuzzer", {terminalId: val.id}).then(res => {
+				http.post("resetBuzzer", {terminalId: val.terminalTypeNo}).then(res => {
 					uni.showToast({
 						title: res.msg,
 						icon: 'none',
@@ -149,7 +149,7 @@
 	.list{
 		margin: 0 24rpx 24rpx 24rpx;
 		border-radius: 16rpx;
-		background-color: #fff;
+		// background-color: #fff;
 		overflow: hidden;
 		.item{
 			height: 144rpx;
@@ -158,6 +158,7 @@
 			border-bottom: 1px solid #F0F2F5;
 			position: relative;
 			font-weight: 400;
+			background-color: #fff;
 			
 			.title{
 				position: relative;
@@ -205,7 +206,12 @@
 		}
 		.item:last-child{
 			border: none;
+			border-radius: 0 0 16rpx 16rpx;
+		}
+		.item:first-child{
+			border-radius: 16rpx 16rpx 0 0;
 		}
 		
 	}
+	
 </style>
