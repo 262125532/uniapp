@@ -1,32 +1,45 @@
 <template>
 	<view class="content">
-		<view class="uni-input-wrapper">
-		    <input class="uni-input" placeholder="请输入终端编号" :value="inputClearValue" @input="clearInput" />
-		    <text class="uni-icon" v-if="showClearIcon" @click="clearIcon">&#xe434;</text>
+		<view class="input-box">
+		    <input class="uni-input" placeholder="请输入终端编号" :value="searchValue" @input="clearInput" />
+		    <text class="uni-icon" v-if="!!searchValue" @click="clearSearch">&#xe434;</text>
 		</view>
 		<view class="tip">
 			点击重置蜂鸣器按钮，可关闭本次终端报警蜂
 		</view>
 		
-		<view class="list">
-			<view class="item" v-for="item in list">
-				<view class="title">
-					终端编号
-					<view class="status">
-						在线
+		<scroll-view 
+			class="list-box"
+			scroll-y="true" 
+			refresher-enabled="true" 
+			:refresher-threshold="100" 
+			refresher-background="lightgreen" 
+			@scrolltolower="onPulling"
+			>
+			
+			<view class="list">
+				<view class="item" v-for="item in list">
+					<view class="title">
+						终端编号
+						<view :class="item.onlineStatus =='在线'?'status green':'status gray'">
+							{{item.onlineStatus}}
+						</view>
 					</view>
-				</view>
-				<view class="num">
-					{{item.terminalTypeNo}}
-				</view>
-				
-				<view class="reset-btn">
-					重置蜂鸣器
+					<view class="num">
+						{{item.terminalTypeNo}}
+					</view>
+					
+					<view class="reset-btn" @click="handleReset(item)">
+						重置蜂鸣器
+					</view>
+					
 				</view>
 				
 			</view>
-			
-		</view>
+					
+		</scroll-view>
+		
+		
 		
 	</view>
 </template>
@@ -37,37 +50,49 @@
 	export default {
 		data() {
 			return {
-				inputClearValue: "",
+				searchValue: "",
 				showClearIcon: true,
 				list: []
 			}
 		},
 		onLoad() {
 			let that = this;
-			let params = {
-				"areaId":1,
-				"deviceSerialCode":"",
-				"sysName":"xt"
-			}
 			
-			http.post("buzzerList", params).then(res => {
-				console.log(222, res)
-				res.data.forEach(val => {
-					if(val.onlineStatus == '在线') {
-						that.list.push(val)
-					}
-					
-					
-				})
-				
-			})
+			this.getData()
+			
 			
 		},
 		methods: {
-			clearIcon() {
+			clearSearch() {
+				this.searchValue = ""
 				
 			},
-			clearInput() {
+			clearInput(e) {
+				console.log(e)
+				this.searchValue = e.detail.value
+			},
+			handleReset(val) {
+				console.log(222, val)
+				// http.post("resetBuzzer", {})
+				
+			},
+			
+			onPulling() {
+				console.log(1231231, "加载更多")
+				this.getData()
+			},
+			getData() {
+				let that = this;
+				let params = {
+					"areaId":1,
+					"deviceSerialCode":"",
+					"sysName":"xt",
+					pageSize: 10
+				}
+				http.post("buzzerList", params).then(res => {
+					console.log(222, res)
+					that.list.push(...res.data)
+				})
 				
 			}
 			
@@ -82,8 +107,7 @@
 		background-color: #F0F2F5;
 	}
 	
-	.uni-input-wrapper {
-		height: 112rpx;
+	.input-box {
 		position: relative;
 	    padding: 24rpx;
 	    background-color: #FFFFFF;
@@ -108,8 +132,8 @@
 	    height: 24px;
 	    line-height: 24px;
 	    color: #999999;
-		right: 100rpx;
-		top: 50rpx;
+		right: 40rpx;
+		top: 32rpx;
 	}
 	
 	.tip{
@@ -117,12 +141,18 @@
 		background-color: rgba(51,112,255,0.16);
 		color: #3370FF;
 		font-size: 22rpx;
+		margin-bottom: 24rpx;
+	}
+	
+	.list-box{
+		height: calc(100vh - 260rpx);
 	}
 	
 	.list{
-		margin: 24rpx;
+		margin: 0 24rpx 24rpx 24rpx;
 		border-radius: 16rpx;
 		background-color: #fff;
+		overflow: hidden;
 		.item{
 			height: 144rpx;
 			line-height: 110rpx;
@@ -132,24 +162,26 @@
 			font-weight: 400;
 			
 			.title{
-				font-size: 28rpx;
 				position: relative;
+				font-size: 28rpx;
 				.status{
 					height: 40rpx;
 					line-height: 40rpx;
+					font-size: 24rpx;
 					position: absolute;
 					left: 160rpx;
 					top: 36rpx;
 					padding: 0 12rpx;
-					background-color: rgba(82, 196, 26, 0.16);
-					color: #52C41A;
 					border-radius: 8rpx;
 					font-weight: normal;
 				}
 				.gray{
 					background-color: rgba(0, 0, 0, 0.16);
-					color: #000;
-					
+					color: #666;
+				}
+				.green{
+					background-color: rgba(82, 196, 26, 0.16);
+					color: #52C41A;
 				}
 			}
 			.num{

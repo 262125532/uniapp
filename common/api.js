@@ -7,6 +7,7 @@ export default {
 	loginByCode: "/iot-common-auth-tenant/api/nebula/auth/token/v1/loginByCode",
 	unActiveCarList: "/iot-common-device-tenant/api/nebula/device/aiot/devices/vehicle/v2?pageNum=1&pageSize=10000",
 	carDetail: '/iot-xingtu20-service-tenant/car/operation/',
-	buzzerList: '/iot-common-device-tenant/api/nebula/device/aiot/devices/terminal/v1/list'
+	buzzerList: '/iot-common-device-tenant/api/nebula/device/aiot/devices/terminal/v1/list',
+	resetBuzzer: '/iot-common-device-tenant/api/nebula/device/aiot/cmd/update/smartJob/v2'
 	
 }
