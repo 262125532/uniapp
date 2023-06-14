@@ -2,7 +2,7 @@ import api from './api.js'
 import {platform} from './platform.js';
 const baseUrl = platform.baseUrl
 export default {
-	post: (url, data) => {
+	post: (url, data, joinPath = "") => {
 		//Authorization: Bearer [登录接口返回值]（eg, Bearer 42f20f81-e2fb-4c31-b6a9-323c81b272d4）
 		let Authorization = uni.getStorageSync('Authorization');
 		let tenant = uni.getStorageSync('tenant');
@@ -14,7 +14,7 @@ export default {
 		console.log('baseUrl:', baseUrl)
 		return new Promise((resolve, reject) => {
 			uni.request({
-				url: baseUrl + api[url],
+				url: baseUrl + api[url] + joinPath,
 				data: data,
 				method: 'POST',
 				header: {
@@ -68,7 +68,7 @@ export default {
 			})
 		})
 	},
-	get: (url, data, joinPath) => {
+	get: (url, data, joinPath = "") => {
 		let Authorization = uni.getStorageSync('Authorization');
 		let tenant = uni.getStorageSync('tenant');
 		return new Promise((resolve, reject) => {

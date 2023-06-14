@@ -5,12 +5,12 @@
 		</view>
 		
 		<view class="list">
-			<view class="item" v-for="item in list">
-				{{item.name}}
+			<view class="item" v-for="item in list" @click="goto('/pages/my/editCar?id=' + item.id)">
+				{{item.plateNo}}
 				<view class="dot-box">
 					<text class="dot">.</text>
 				</view>
-				{{item.code}}
+				{{item.deviceCode}}
 				<view class="link">
 					未绑定
 					<image class="icon" src="../../static/img/right.png" alt="">
@@ -26,33 +26,20 @@
 	export default {
 		data() {
 			return {
-				list: [
-					{
-						name: "京adfaf",
-						code: 111123213
-					},
-					{
-						name: "京adfaf",
-						code: 111123213
-					},
-					{
-						name: "京adfaf",
-						code: 111123213
-					},
-					{
-						name: "京adfaf",
-						code: 111123213
-					},
-					
-				]
+				list: []
 			}
 		},
 		onLoad() {
 			this.getCarList()
 		},
 		methods: {
-			
+			goto(url) {
+				uni.navigateTo({
+					url:url
+				})
+			},
 			getCarList() {
+				let that = this;
 				let deviceInfo = {
 					areaId: 1,
 					deviceCode: 0,
@@ -68,6 +55,9 @@
 					
 				http.post("unActiveCarList", {pageNum: 1, pageSize: 20, deviceInfo}).then( res => {
 					console.log(222, res)
+					if(res.code == 200) {
+						that.list = res.data.content
+					}
 					
 				})
 			}
@@ -80,7 +70,7 @@
 <style scoped lang="scss">
 	.content{
 		background: #F0F2F5;
-		min-height: calc(100vh - 90rpx);
+		min-height: calc(100vh - 0rpx);
 	}
 	.tip{
 		padding: 30rpx 24rpx;
@@ -104,7 +94,7 @@
 				padding: 0 20rpx;
 				.dot{
 					position: absolute;
-					top: -78rpx;
+					top: -86rpx;
 					font-size: 48rpx;
 				}
 			}

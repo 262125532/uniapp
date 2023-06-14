@@ -92,6 +92,8 @@
 
 <style scoped lang="scss">
 	.content{
+		height: calc(100vh - 0rpx);
+		background-color: #F0F2F5;
 	}
 	.page-title{
 		text-align: center;
@@ -152,20 +154,21 @@
 		background: #fff;
 		border-radius: 16rpx;
 		margin: 24rpx;
-		padding: 0 32rpx 0 96rpx;
+		padding: 0 0rpx 0 96rpx;
 		
 		.item{
 			height: 100rpx;
 			line-height: 100rpx;
 			border-bottom: 1rpx solid #E4E5E8;
 			position: relative;
+			padding-right: 32rpx;
 			
 			.left-icon{
 				position: absolute;
-				left: -64rpx;
-				width: 36rpx;
-				height: 40rpx;
-				top: 32rpx;
+				left: -76rpx;
+				width: 48rpx;
+				height: 48rpx;
+				top: 24rpx;
 			}
 			.title{
 				float: left;

@@ -17,6 +17,9 @@
 	@import './common/uni.css';
 	@import '@/static/customicons.css';
 	.uni-body{
-		background-color: #F0F2F5;
+		background-color: #F0F2F5 !important;
+	}
+	.uni-page-body{
+		min-height: 100%;
 	}
 </style>

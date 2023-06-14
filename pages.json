@@ -49,6 +49,13 @@
 			}
 		},
 		{
+			"path": "pages/my/editCar",
+			"style": {
+				"navigationBarTitleText": "编辑车辆",
+				"navigationBarTextStyle" : "black"
+			}
+		},
+		{
 			"path": "pages/my/buzzerReset",
 			"style": {
 				"navigationBarTitleText": "蜂鸣器重置",
