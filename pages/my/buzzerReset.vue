@@ -1,7 +1,7 @@
 <template>
 	<view class="content">
 		<view class="input-box">
-		    <input class="uni-input" placeholder="请输入终端编号" :value="searchValue" @input="clearInput" />
+		    <input class="uni-input" @confirm="onSearch" placeholder="请输入终端编号" confirm-type="search" :value="searchValue" @input="clearInput" />
 		    <text class="uni-icon" v-if="!!searchValue" @click="clearSearch">&#xe434;</text>
 		</view>
 		<view class="tip">
@@ -14,9 +14,7 @@
 			refresher-enabled="true" 
 			:refresher-threshold="100" 
 			refresher-background="lightgreen" 
-			@scrolltolower="onPulling"
 			>
-			
 			<view class="list">
 				<view class="item" v-for="item in list">
 					<view class="title">
@@ -63,6 +61,10 @@
 			
 		},
 		methods: {
+			onSearch() {
+					this.list = [];
+					this.getData()
+			},
 			clearSearch() {
 				this.searchValue = ""
 				
@@ -72,26 +74,22 @@
 				this.searchValue = e.detail.value
 			},
 			handleReset(val) {
-				console.log(222, val)
-				// http.post("resetBuzzer", {})
-				
-			},
-			
-			onPulling() {
-				console.log(1231231, "加载更多")
-				this.getData()
+				http.post("resetBuzzer", {terminalId: val.id}).then(res => {
+					uni.showToast({
+						title: res.msg,
+						icon: 'none',
+					});
+				})
 			},
 			getData() {
 				let that = this;
 				let params = {
 					"areaId":1,
-					"deviceSerialCode":"",
+					"terminalType": 'smartJobType',
 					"sysName":"xt",
-					pageSize: 10
 				}
 				http.post("buzzerList", params).then(res => {
-					console.log(222, res)
-					that.list.push(...res.data)
+					that.list = res.data
 				})
 				
 			}
@@ -125,7 +123,7 @@
 	.uni-icon {
 		position: absolute;
 	    font-family: uniicons;
-	    font-size: 24px;
+	    font-size: 18px;
 	    font-weight: normal;
 	    font-style: normal;
 	    width: 24px;

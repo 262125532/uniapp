@@ -4,19 +4,26 @@
 			以下车辆还未激活，如已绑定终端，请等待终
 		</view>
 		
-		<view class="list">
-			<view class="item" v-for="item in list" @click="goto('/pages/my/editCar?id=' + item.id)">
+		<scroll-view 
+			scroll-y="true" 
+			class="list"
+			refresher-enabled="true" 
+			:refresher-threshold="100" 
+			refresher-background="lightgreen" 
+			@scrolltolower="onPulling"
+			>
+			<view class="item" v-for="item in list" @click="goto(item)">
 				{{item.plateNo}}
 				<view class="dot-box">
 					<text class="dot">.</text>
 				</view>
 				{{item.deviceCode}}
 				<view class="link">
-					未绑定
+					未激活
 					<image class="icon" src="../../static/img/right.png" alt="">
 				</view>
 			</view>
-		</view>
+		</scroll-view>
 	</view>
 </template>
 
@@ -26,39 +33,30 @@
 	export default {
 		data() {
 			return {
-				list: []
+				list: [],
+				pageNum: 1,
 			}
 		},
 		onLoad() {
 			this.getCarList()
 		},
 		methods: {
-			goto(url) {
+			goto(data) {
+				uni.setStorageSync('carInfo', data)
 				uni.navigateTo({
-					url:url
+					url: '/pages/my/editCar'
 				})
+			},
+			onPulling() {
+				this.pageNum = this.pageNum +1;
+				this.getCarList()
 			},
 			getCarList() {
 				let that = this;
-				let deviceInfo = {
-					areaId: 1,
-					deviceCode: 0,
-					deviceNameCode: '',
-					followerSerialCode: '',
-					fuelBind: 0,
-					isBind: 0,
-					onlineStatus: 0,
-					pageNum: 1,
-					pageSize: 1000000,
-					vehicleType: ''
-				}
-					
-				http.post("unActiveCarList", {pageNum: 1, pageSize: 20, deviceInfo}).then( res => {
-					console.log(222, res)
+				http.post("unActiveCarList", {onlineStatus: 2,deviceTypeName: "aiboxTerminal"}, `?pageNum=${that.pageNum}&pageSize=20`).then( res => {
 					if(res.code == 200) {
-						that.list = res.data.content
+						that.list.push(...res.data.content)
 					}
-					
 				})
 			}
 			
@@ -70,23 +68,27 @@
 <style scoped lang="scss">
 	.content{
 		background: #F0F2F5;
-		min-height: calc(100vh - 0rpx);
+		// min-height: calc(100vh - 0rpx);
 	}
 	.tip{
 		padding: 30rpx 24rpx;
 		background-color: rgba(51,112,255,0.16);
 		color: #3370FF;
 		font-size: 22rpx;
+		margin-bottom: 24rpx;
 	}
 	.list{
-		margin: 24rpx;
+		height: calc(100vh - 100rpx);
+		padding: 0 24rpx 24rpx 24rpx;
 		border-radius: 16rpx;
-		background-color: #fff;
+		overflow: hidden;
+		box-sizing: border-box;
 		.item{
 			height: 112rpx;
 			line-height: 112rpx;
 			padding: 0 30rpx 0 24rpx;
 			border-bottom: 1px solid #F0F2F5;
+			background-color: #fff;
 			
 			.dot-box{
 				display: inline-block;

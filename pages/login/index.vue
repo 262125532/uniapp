@@ -13,11 +13,11 @@
 				<view v-if="loginByPhone">
 					<view class="uni-form-item input-box" >
 						<!-- <view class="title">用户名</view> -->
-						<input class="uni-input" name="username" v-model="telNumber" placeholder="手机号" />
+						<input class="uni-input" name="username" type="number" v-model="telNumber" placeholder="手机号" />
 					</view>
 					<view class="uni-form-item input-box code-input">
 						<!-- <view class="title">用户名</view> -->
-						<input class="uni-input" name="username" v-model="phoneCode" placeholder="验证码" />
+						<input class="uni-input" name="username" type="number" v-model="phoneCode" placeholder="验证码" />
 					</view>
 					
 					<view class="uni-flex uni-row">
@@ -122,7 +122,6 @@
 					return false
 				}else{
 					http.get("phoneCode", "", that.telNumber).then(res => {
-						console.log(22, res)
 						if(res.code == 200) {
 							uni.showToast({
 								title: '验证码已发送',
