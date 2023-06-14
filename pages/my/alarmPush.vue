@@ -8,19 +8,11 @@
 		</view>
 		
 		<view class="list">
-			<view class="item">
-				路线偏移报警
-				<switch @change="(e) => onChange(e.detail.value, 'name')" class="switch" name="switch" :checked="checked" />
-			</view>
-			<view class="item">
-				路线偏移报警
-				<switch @change="(e) => onChange(e.detail.value, 'name')" class="switch" name="switch" :checked="checked" />
-			</view>
-			<view class="item">
-				路线偏移报警
-				<switch @change="(e) => onChange(e.detail.value, 'name')" class="switch" name="switch" :checked="checked" />
-			</view>
 			
+			<view class="item" v-for="(item, index) in appliction" :key="index">
+				{{item.name}}
+				<switch @change="(e) => onChange(e.detail.value,'appliction', index)" class="switch" name="switch" :checked="item.isAlive" />
+			</view>
 		</view>
 		
 		
@@ -29,29 +21,9 @@
 			终端报警
 		</view>
 		<view class="list">
-			<view class="item">
-				终端电量不足
-				<switch @change="(e) => onChange(e.detail.value, 'name')" class="switch" name="switch" :checked="checked" />
-			</view>
-			<view class="item">
-				终端拆除报警
-				<switch @change="(e) => onChange(e.detail.value, 'name')" class="switch" name="switch" :checked="checked" />
-			</view>
-			<view class="item">
-				终端拆除异常
-				<switch @change="(e) => onChange(e.detail.value, 'name')" class="switch" name="switch" :checked="checked" />
-			</view>
-			<view class="item">
-				终端离线
-				<switch @change="(e) => onChange(e.detail.value, 'name')" class="switch" name="switch" :checked="checked" />
-			</view>
-			<view class="item">
-				异常产出报警
-				<switch @change="(e) => onChange(e.detail.value, 'name')" class="switch" name="switch" :checked="checked" />
-			</view>
-			<view class="item">
-				安装异常报警
-				<switch @change="(e) => onChange(e.detail.value, 'name')" class="switch" name="switch" :checked="checked" />
+			<view class="item" v-for="(item, index) in terminal" :key="index">
+				{{item.name}}
+				<switch @change="(e) => onChange(e.detail.value, 'terminal', 'name')" class="switch" name="switch" :checked="item.isAlive" />
 			</view>
 			
 		</view>
@@ -67,18 +39,30 @@
 		data() {
 			return {
 				checked: false,
+				appliction: [],
+				terminal: []
+				
 			}
 		},
 		onLoad() {
-			
+			let that = this;
+			http.get("appfind").then(res => {
+				that.appliction = res.data.appliction;
+				that.terminal = res.data.terminal;
+			})
 		},
 		methods: {
-			onChange(value, name) {
-				console.log(333, value)
-				console.log(333, name)
-				
-			}
-			
+			onChange(value, type, index) {
+				this[type][index].isAlive = value;
+				http.post("appsave", {appliction: this.appliction, terminal: this.terminal}).then(res => {
+					if(res.code == 200) {
+						uni.showToast({
+							title: "操作成功",
+							icon: 'none',
+						});
+					}
+				})
+			},
 		}
 	}
 </script>
