@@ -24,7 +24,7 @@
 						</view>
 					</view>
 					<view class="num">
-						{{item.terminalTypeNo}}
+						{{item.deviceSerialCode}}
 					</view>
 					
 					<view class="reset-btn" @click="handleReset(item)">
@@ -78,23 +78,37 @@
 				this.searchValue = e.detail.value
 			},
 			handleReset(val) {
-				http.post("resetBuzzer", {terminalId: val.terminalTypeNo}).then(res => {
-					uni.showToast({
-						title: res.msg,
-						icon: 'none',
-					});
+				http.post("resetBuzzer", {terminalId: val.deviceSerialCode}).then(res => {
+					if(res.code == 200) {
+						uni.showToast({
+							title: res.data,
+							icon: 'none',
+						});
+					}else{
+						uni.showToast({
+							title: res.msg,
+							icon: 'none',
+						});
+					}
 				})
 			},
 			getData() {
 				let that = this;
 				let params = {
 					"areaId":1,
+					"deviceSerialCode": '',
 					"terminalType": 'smartJobType',
 					"sysName":"xt",
 				}
 				http.post("buzzerList", params).then(res => {
 					uni.hideLoading();
-					that.list = res.data;
+					that.list = []
+					res.data.forEach( val => {
+						if(val.var1 == "smartJobType") {
+							that.list.push(val)
+						}
+						
+					})
 				})
 				
 			}
@@ -209,13 +223,14 @@
 			}
 			
 		}
+		.item:first-child{
+			border-radius: 16rpx 16rpx 0 0;
+		}
 		.item:last-child{
 			border: none;
 			border-radius: 0 0 16rpx 16rpx;
 		}
-		.item:first-child{
-			border-radius: 16rpx 16rpx 0 0;
-		}
+		
 		
 	}
 	

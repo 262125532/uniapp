@@ -1,8 +1,8 @@
 <template>
 	<view class="content">
 		<view class="item">
-			车辆照片{{carInfo.picUrl}}
-			<image :src="carInfo.picUrl"></image>
+			车辆照片
+			<image :src="image" class="img"></image>
 		</view>
 		<view class="item">
 			车辆型号{{carInfo.vehicleType}}
@@ -20,8 +20,6 @@
 			终端编号{{carInfo.vehicleType}}
 		</view>
 		
-		
-		
 	</view>
 </template>
 
@@ -31,18 +29,24 @@
 	export default {
 		data() {
 			return {
-				carInfo: {}
+				carInfo: {},
+				image: '',
 			}
 		},
 		onLoad(option) {
-			console.log(222, uni.getStorageSync('carInfo').picUrl)
-			this.carInfo = uni.getStorageSync('carInfo');
-			
+			let that = this;
+			that.carInfo = uni.getStorageSync('carInfo');
 			option.id && http.post("carDetail", "", option.id)
-			
+			http.get("getCarImage").then( res => {
+				res.data.forEach( val => {
+					let find = val.vehicleTypes.find(v => v.code == uni.getStorageSync('carInfo').var1 );
+					if(find) {
+						that.image = find.image;
+					}
+				})
+			})
 		},
 		methods: {
-			
 			
 		}
 	}
@@ -65,5 +69,10 @@
 		padding: 0 32rpx;
 		
 		
+	}
+	.img{
+		width: 100rpx;
+		height: 100rpx;
+		float: right;
 	}
 </style>

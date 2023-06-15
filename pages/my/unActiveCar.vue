@@ -115,10 +115,12 @@
 			}
 		}
 		.item:first-child{
-			border-radius: 16rpx 16rpx 0 0;
+			border-top-left-radius: 16rpx;
+			border-top-right-radius: 16rpx;
 		}
 		.item:last-child{
-			border-radius: 0 0 16rpx 16rpx;
+			border-bottom-right-radius: 16rpx;
+			border-bottom-left-radius: 16rpx
 		}
 	}
 </style>
