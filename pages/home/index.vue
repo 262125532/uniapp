@@ -1,6 +1,9 @@
 <template>
 		<view class="home">
 			首页
+			<navigator url="/pages/index/index">
+				<button type="default">跳转头部案例</button>
+			</navigator>
 		</view>
 </template>
 

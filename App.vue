@@ -22,4 +22,8 @@
 	.uni-page-body{
 		min-height: 100%;
 	}
+	/* uni.showModal 内容文字颜色 */
+	::v-deep .uni-modal .uni-modal__bd{
+		color: #333 !important;
+	}
 </style>

@@ -3,8 +3,7 @@
 		{
 			"path": "pages/login/index",
 			"style": {
-				"navigationBarTitleText": "登录",
-				"navigationStyle": "custom"
+				"navigationBarTitleText": "登录"
 			}
 		},
 		{
@@ -30,8 +29,7 @@
 			"style": {
 				"navigationBarTitleText": "我的",
 				"navigationBarBackgroundColor": "#3370FF",
-				"navigationBarTextStyle" : "white",
-				"navigationStyle": "custom"
+				"navigationBarTextStyle" : "white"
 			}
 		},
 		{
@@ -65,8 +63,7 @@
 		{
 			"path": "pages/my/changePwd",
 			"style": {
-				"navigationBarTitleText": "修改密码",
-				"navigationStyle": "custom"
+				"navigationBarTitleText": "修改密码"
 			}
 		},
 		{
@@ -130,9 +127,7 @@
 		}]
 	},
 	"globalStyle": {
-		// #ifndef MP-WEIXIN
-		// "navigationStyle": "custom",
-		// #endif
+		"navigationStyle": "custom",
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#F8F8F8",
