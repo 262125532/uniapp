@@ -9,6 +9,10 @@
 			<button type="default">跳转地图页面</button>
 		</navigator>
 		<button type="default" @click="goto('/pages/index/map')">跳转地图页面</button>
+		
+		<navigator url="/pages/index/ucharts">
+			<button type="default">跳转图表页面</button>
+		</navigator>
 		<button type="default" @click="init()">调用接口</button>
 		<!-- #ifdef H5 -->
 		这句话只有在H5能看到<br>
@@ -25,7 +29,13 @@
 		<!-- #ifndef MP-LARK -->
 		这句话只有在飞书小程序能看”不”到，其他平台可以看到<br>
 		<!-- #endif -->
-		
+		<p>1</p><p>1</p><p>1</p><p>1</p>
+		<p>1</p><p>1</p><p>1</p><p>1</p>
+		<p>1</p><p>1</p><p>1</p><p>1</p>
+		<p>1</p><p>1</p><p>1</p><p>1</p>
+		<p>1</p><p>1</p><p>1</p><p>1</p>
+		<p>1</p><p>1</p><p>1</p><p>1</p>
+		<p>1</p><p>1</p><p>1</p><p>1</p>
 	</view>
 </template>
 
@@ -41,7 +51,7 @@
 					back: true, //回退箭头，不传默认true
 					backcolor: '#333', //回退箭头颜色，不传默认#333
 					previousText: '您确定要关闭吗？', //回退提示，不传默认直接回退
-					title: "标题", //本页标题，必传
+					title: "首页1", //本页标题，必传
 					titlecolor: '#333', //本页标题颜色，不传默认#333
 				},
 			}
