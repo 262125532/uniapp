@@ -1,5 +1,6 @@
 <template>
-	<view class="qiun-columns">
+	<view class="qiun-columns content">
+		<navBar :navBar="navBar" />
 		<view class="qiun-padding" style="font-size: 32rpx;">
 			<text>{{tips}}</text>
 		</view>
@@ -183,6 +184,7 @@
 </template>
 
 <script>
+	import navBar from "../../components/navBar";
 	import uCharts from '../../components/u-charts/u-charts.js';
 	var _self;
 	var canvasObj = {};
@@ -202,9 +204,18 @@
 				pixelRatio: 1,
 				serverData: '',
 				itemCount: 30, //x轴单屏数据密度
-				sliderMax: 50
+				sliderMax: 50,
+				navBar: {
+					bgcolor: '#F8F8F8', //导航背景颜色，不传默认#F8F8F8
+					back: true, //回退箭头，不传默认true
+					backcolor: '#333', //回退箭头颜色，不传默认#333
+					previousText: '', //回退提示，不传默认直接回退
+					title: "图表1", //本页标题，必传
+					titlecolor: '#333', //本页标题颜色，不传默认#333
+				},
 			}
 		},
+		components: { navBar },
 		onLoad() {
 			_self = this;
 			//#ifdef MP-ALIPAY
@@ -1540,5 +1551,7 @@
 		text-align: center;
 		border: 1px solid #dc7004;
 		color: #FFFFFF;
+	}
+	.content {
 	}
 </style>
