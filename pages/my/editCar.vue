@@ -37,7 +37,7 @@
 			let that = this;
 			that.carInfo = uni.getStorageSync('carInfo');
 			option.id && http.post("carDetail", "", option.id)
-			http.get("getCarImage").then( res => {
+			http.get("getCarType").then( res => {
 				res.data.forEach( val => {
 					let find = val.vehicleTypes.find(v => v.code == uni.getStorageSync('carInfo').var1 );
 					if(find) {

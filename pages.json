@@ -54,6 +54,13 @@
 			}
 		},
 		{
+			"path": "pages/my/carType",
+			"style": {
+				"navigationBarTitleText": "车辆类型",
+				"navigationBarTextStyle" : "black"
+			}
+		},
+		{
 			"path": "pages/my/buzzerReset",
 			"style": {
 				"navigationBarTitleText": "蜂鸣器重置",

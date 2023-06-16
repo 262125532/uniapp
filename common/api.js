@@ -12,7 +12,7 @@ export default {
 	appfind: '/iot-xingtu20-service-tenant/alarm/sendMessage/config/appfind',
 	appsave : '/iot-xingtu20-service-tenant/alarm/sendMessage/config/appsave',
 	carDetail: "/iot-common-auth-tenant/api/nebula/auth/menu/v1/check/",
-	getCarImage: '/iot-common-device-tenant/api/nebula/device/machine/v1'
+	getCarType: '/iot-common-device-tenant/api/nebula/device/machine/v1'
 	
 	
 }
