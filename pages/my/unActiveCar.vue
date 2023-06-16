@@ -8,10 +8,12 @@
 		<scroll-view 
 			scroll-y="true" 
 			class="list"
-			refresher-enabled="true" 
+			:refresher-triggered="triggered"
+			:refresher-enabled="true" 
 			:refresher-threshold="100" 
 			refresher-background="lightgreen" 
 			@scrolltolower="onPulling"
+			@refresherrefresh="refresherrefresh"
 			>
 			<view class="item" v-for="item in list" @click="goto(item)">
 				{{item.plateNo}}
@@ -25,6 +27,7 @@
 				</view>
 			</view>
 		</scroll-view>
+		
 	</view>
 </template>
 
@@ -37,6 +40,7 @@
 			return {
 				list: [],
 				pageNum: 1,
+				triggered: true,
 				navBar: {
 					bgcolor: '#FFFFFF', //导航背景颜色，不传默认#F8F8F8
 					back: true, //回退箭头，不传默认true
@@ -49,7 +53,7 @@
 		},
 		components: { navBar },
 		onLoad() {
-			this.getCarList()
+			this.getCarList();
 		},
 		methods: {
 			goto(data) {
@@ -65,10 +69,21 @@
 			getCarList() {
 				let that = this;
 				http.post("unActiveCarList", {onlineStatus: 2,deviceTypeName: "aiboxTerminal"}, `?pageNum=${that.pageNum}&pageSize=20`).then( res => {
+					that._freshing = false;
+					that.triggered = false;
 					if(res.code == 200) {
 						that.list.push(...res.data.content)
 					}
 				})
+			},
+			refresherrefresh() {
+				console.log(111)
+				if (this._freshing) return;
+				let that = this;
+				that.pageNum = 1
+				that.list = [];
+				this._freshing = true;
+				that.getCarList();
 			}
 			
 		}

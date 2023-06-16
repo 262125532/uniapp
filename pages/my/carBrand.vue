@@ -35,40 +35,40 @@
 					back: true, //回退箭头，不传默认true
 					backcolor: '#333', //回退箭头颜色，不传默认#333
 					previousText: '', //回退提示，不传默认直接回退
-					title: "车辆类型", //本页标题，必传
+					title: "品牌型号", //本页标题，必传
 					titlecolor: '#333', //本页标题颜色，不传默认#333
 				},
-				curCode: ''
+				bandType: ''
 			}
 		},
 		components: { navBar },
 		onLoad(option) {
 			let that = this;
-			that.curCode = option.code
+			that.bandType = option.bandType || '315D'
 			
-			http.get("getCarType").then( res => {
+			http.get("carBrand", {vehicleCode: option.var1 | '100001'}).then( res => {
 				that.list = res.data;
 				that.subList = res.data[0].vehicleTypes
 				res.data.forEach( (val, index) => {
-					let find = val.vehicleTypes.find( v => v.code  == that.curCode);
+					let find = val.models.find( v => v.name  == that.bandType);
 					if(find) {
 						that.curIndex = index;
-						that.subList = val.vehicleTypes;
+						that.subList = val.models;
 					}
 				})
 			})
 		},
 		methods: {
 			parentClick(item, index) {
-				console.log(item, 111, index)
 				this.curIndex = index;
-				this.subList = item.vehicleTypes
+				this.subList = item.models
 			},
 			handleSelect(val) {
-				uni.$emit('updateCarType', val)
+				uni.$emit('updateCarBrand', val)
 				uni.navigateBack({
 					delta: 1
 				})
+				
 				
 				
 			}

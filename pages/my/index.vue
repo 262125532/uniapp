@@ -201,7 +201,6 @@
 		background: #FFFFFF;
 		border-radius: 16rpx;
 		font-size: 36rpx;
-		font-weight: bold;
 		text-align: center;
 		
 	}

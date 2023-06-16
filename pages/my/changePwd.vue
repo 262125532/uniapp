@@ -263,7 +263,6 @@
 		top: 20rpx;
 	}
 	.submit-btn{
-		padding: 0 16rpx;
 		text-align: center;
 		position: absolute;
 		right: 50rpx;

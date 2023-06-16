@@ -61,6 +61,20 @@
 			}
 		},
 		{
+			"path": "pages/my/carBrand",
+			"style": {
+				"navigationBarTitleText": "品牌型号",
+				"navigationBarTextStyle" : "black"
+			}
+		},
+		{
+			"path": "pages/my/org",
+			"style": {
+				"navigationBarTitleText": "选择企业",
+				"navigationBarTextStyle" : "black"
+			}
+		},
+		{
 			"path": "pages/my/buzzerReset",
 			"style": {
 				"navigationBarTitleText": "蜂鸣器重置",
@@ -103,6 +117,12 @@
 			"path": "pages/myCenter/index",
 			"style": {
 				"navigationBarTitleText": "我的"
+			}
+		},
+		{
+			"path": "pages/my/demo",
+			"style": {
+				"navigationBarTitleText": "demo"
 			}
 		}
 	],

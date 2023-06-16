@@ -29,6 +29,8 @@
 			
 		</view>
 		
+		<empty v-if="!loading && list.length == 0" />
+		
 		
 		
 	</view>
@@ -38,6 +40,7 @@
 <script>
 	import http from '../../common/request';
 	import navBar from "../../components/navBar";
+	import empty from "../../components/empty";
 	export default {
 		data() {
 			return {
@@ -52,19 +55,13 @@
 					title: "蜂鸣器重置", //本页标题，必传
 					titlecolor: '#333', //本页标题颜色，不传默认#333
 				},
+				loading: true
 			}
 		},
-		components: { navBar },
+		components: { navBar, empty },
 		onLoad() {
 			let that = this;
-			
 			this.getData()
-			uni.showLoading({
-				title: '加载中'
-			});
-
-			
-			
 		},
 		methods: {
 			onSearch() {
@@ -76,7 +73,6 @@
 				
 			},
 			clearInput(e) {
-				console.log(e)
 				this.searchValue = e.detail.value
 			},
 			handleReset(val) {
@@ -98,12 +94,17 @@
 				let that = this;
 				let params = {
 					"areaId":1,
-					"deviceSerialCode": '',
+					"deviceSerialCode": that.searchValue,
 					"terminalType": 'smartJobType',
 					"sysName":"xt",
 				}
+				that.loading = true;
+				uni.showLoading({
+					title: '加载中'
+				});
 				http.post("buzzerList", params).then(res => {
 					uni.hideLoading();
+					that.loading = false;
 					that.list = []
 					res.data.forEach( val => {
 						if(val.var1 == "smartJobType") {
