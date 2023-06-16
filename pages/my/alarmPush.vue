@@ -1,5 +1,6 @@
 <template>
 	<view class="content">
+		<navBar :navBar="navBar" />
 		<view class="tip">
 			请选择消息推送的报警类型，选择后报警将以
 		</view>
@@ -35,15 +36,25 @@
 
 <script>
 	import http from '../../common/request';
+	import navBar from "../../components/navBar";
 	export default {
 		data() {
 			return {
 				checked: false,
 				appliction: [],
-				terminal: []
+				terminal: [],
+				navBar: {
+					bgcolor: '#FFFFFF', //导航背景颜色，不传默认#F8F8F8
+					back: true, //回退箭头，不传默认true
+					backcolor: '#333', //回退箭头颜色，不传默认#333
+					previousText: '', //回退提示，不传默认直接回退
+					title: "报警推送管理", //本页标题，必传
+					titlecolor: '#333', //本页标题颜色，不传默认#333
+				},
 				
 			}
 		},
+		components: { navBar },
 		onLoad() {
 			let that = this;
 			http.get("appfind").then(res => {
@@ -71,6 +82,7 @@
 <style scoped lang="scss">
 	.content{
 		background: #F0F2F5;
+		font-size: 32rpx;
 		// min-height: calc(100vh - 0rpx);
 	}
 	.tip{

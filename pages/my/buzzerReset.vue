@@ -1,5 +1,6 @@
 <template>
 	<view class="content">
+		<navBar :navBar="navBar" />
 		<view class="input-box">
 		    <input class="uni-input" @confirm="onSearch" placeholder="请输入终端编号" confirm-type="search" :value="searchValue" @input="clearInput" />
 		    <text class="uni-icon" v-if="!!searchValue" @click="clearSearch">&#xe434;</text>
@@ -8,34 +9,25 @@
 			点击重置蜂鸣器按钮，可关闭本次终端报警蜂
 		</view>
 		
-		<scroll-view 
-			class="list-box"
-			scroll-y="true" 
-			refresher-enabled="true" 
-			:refresher-threshold="100" 
-			refresher-background="lightgreen" 
-			>
-			<view class="list">
-				<view class="item" v-for="item in list">
-					<view class="title">
-						终端编号
-						<view :class="item.onlineStatus =='在线'?'status green':'status gray'">
-							{{item.onlineStatus}}
-						</view>
+		<view class="list">
+			<view class="item" v-for="item in list">
+				<view class="title">
+					终端编号
+					<view :class="item.onlineStatus =='在线'?'status green':'status gray'">
+						{{item.onlineStatus}}
 					</view>
-					<view class="num">
-						{{item.deviceSerialCode}}
-					</view>
-					
-					<view class="reset-btn" @click="handleReset(item)">
-						重置蜂鸣器
-					</view>
-					
+				</view>
+				<view class="num">
+					{{item.deviceSerialCode}}
+				</view>
+				
+				<view class="reset-btn" @click="handleReset(item)">
+					重置蜂鸣器
 				</view>
 				
 			</view>
-					
-		</scroll-view>
+			
+		</view>
 		
 		
 		
@@ -45,14 +37,24 @@
 
 <script>
 	import http from '../../common/request';
+	import navBar from "../../components/navBar";
 	export default {
 		data() {
 			return {
 				searchValue: "",
 				showClearIcon: true,
-				list: []
+				list: [],
+				navBar: {
+					bgcolor: '#FFFFFF', //导航背景颜色，不传默认#F8F8F8
+					back: true, //回退箭头，不传默认true
+					backcolor: '#333', //回退箭头颜色，不传默认#333
+					previousText: '', //回退提示，不传默认直接回退
+					title: "蜂鸣器重置", //本页标题，必传
+					titlecolor: '#333', //本页标题颜色，不传默认#333
+				},
 			}
 		},
+		components: { navBar },
 		onLoad() {
 			let that = this;
 			
@@ -120,7 +122,7 @@
 
 <style scoped lang="scss">
 	.content{
-		height: calc(100vh - 0rpx);
+		// height: calc(100vh - 0rpx);
 		background-color: #F0F2F5;
 	}
 	
@@ -159,10 +161,6 @@
 		color: #3370FF;
 		font-size: 22rpx;
 		margin-bottom: 24rpx;
-	}
-	
-	.list-box{
-		height: calc(100vh - 260rpx);
 	}
 	
 	.list{

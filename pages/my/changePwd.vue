@@ -1,14 +1,6 @@
 <template>
 	<view class="content">
-		<view class="title">
-			<view class="cancle-btn" @click="handleBack">
-				取消
-			</view>
-			<view :class="isOK?'submit-btn submit-btn-ok':'submit-btn'" @click="formSubmit">
-				完成
-			</view>
-			修改密码
-		</view>
+		<navBar :navBar="navBar" />
 		<view class="tip">
 			密码长度8-20位，且必须包含数字、大写
 		</view>
@@ -38,6 +30,9 @@
 			</form>
 			
 		</view>
+		<view :class="isOK?'submit-btn submit-btn-ok':'submit-btn'" @click="formSubmit">
+			完成
+		</view>
 		
 		
 	</view>
@@ -46,6 +41,7 @@
 <script>
 	import http from '../../common/request';
 	import JSEncrypt from '../../common/jsencrypt.min.js'
+	import navBar from "../../components/navBar";
 	export default {
 		data() {
 			return {
@@ -54,8 +50,17 @@
 				password: '',
 				timer: null,
 				seconds: 60,
+				navBar: {
+					bgcolor: '#FFFFFF', //导航背景颜色，不传默认#F8F8F8
+					back: true, //回退箭头，不传默认true
+					backcolor: '#333', //回退箭头颜色，不传默认#333
+					previousText: '', //回退提示，不传默认直接回退
+					title: "修改密码", //本页标题，必传
+					titlecolor: '#333', //本页标题颜色，不传默认#333
+				},
 			}
 		},
+		components: { navBar },
 		onLoad() {
 			
 		},
@@ -185,6 +190,7 @@
 		height: calc(100vh - 40rpx);
 		padding-top: 40rpx;
 		background: #fff;
+		position: relative;
 	}
 	.form{
 		margin: 0 32rpx;
@@ -195,40 +201,7 @@
 		border-left: none !important;
 		border-right:none !important;
 	}
-	.title{
-		height: 88rpx;
-		line-height: 88rpx;
-		text-align: center;
-		font-size: 36rpx;
-		margin-top: 40rpx;
-		position: relative;
-		.cancle-btn{
-			position: absolute;
-			left: 24rpx;
-			top: 0rpx;
-			font-size: 32rpx;
-		}
-		.submit-btn{
-			height: 48rpx;
-			padding: 0 16rpx;
-			text-align: center;
-			line-height: 48rpx;
-			position: absolute;
-			right: 24rpx;
-			top: 20rpx;
-			background-color: #F0F2F5;
-			font-size: 32rpx;
-			color: rgba(0,0,0,0.6);
-			border-radius: 8rpx;
-		}
-		
-		.submit-btn-ok{
-			background-color: #3370FF;
-			color: #fff;
-			
-		}
-		
-	}
+
 	.tip{
 		padding: 30rpx 24rpx;
 		background-color: rgba(51,112,255,0.16);
@@ -288,6 +261,29 @@
 		position: absolute;
 		right: 30rpx;
 		top: 20rpx;
+	}
+	.submit-btn{
+		padding: 0 16rpx;
+		text-align: center;
+		position: absolute;
+		right: 50rpx;
+		left: 50rpx;
+		top: 800rpx;
+		font-size: 32rpx;
+		height: 96rpx;
+		line-height: 96rpx;
+		background-color: #3370FF;
+		border-radius: 16rpx;
+		text-align: center;
+		font-size: 32rpx;
+		font-weight: bold;
+		color: #fff;
+	}
+	
+	.submit-btn-ok{
+		background-color: #3370FF;
+		color: #fff;
+		
 	}
 	.text{
 		font-size: 24rpx;

@@ -99,7 +99,6 @@
 		text-align: center;
 		color: #fff;
 		font-size: 36rpx;
-		font-weight: bold;
 		padding-top: 40rpx;
 		position: relative;
 	}
@@ -141,10 +140,8 @@
 			color: #fff;
 			padding-top: 76rpx;
 			position: relative;
+			font-size: 32rpx;
 			.name{
-				
-				font-size: 36rpx;
-				font-weight: bold;
 				margin-bottom: 7rpx;
 			}
 		}
@@ -173,7 +170,6 @@
 			.title{
 				float: left;
 				font-size: 32rpx;
-				font-weight: bold;
 			}
 			.link{
 				float: right;

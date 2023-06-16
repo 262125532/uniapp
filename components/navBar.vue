@@ -134,7 +134,7 @@ export default {
         width: 750rpx;
         height: 90rpx;
         line-height: 94rpx;
-        font-size: 32rpx;
+        font-size: 36rpx;
         color: #fff;
         text-align: left;
 		text-indent: 6rpx;
