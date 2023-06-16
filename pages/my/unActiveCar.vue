@@ -14,6 +14,7 @@
 			refresher-background="lightgreen" 
 			@scrolltolower="onPulling"
 			@refresherrefresh="refresherrefresh"
+			@refresherrestore="refresherrestore"
 			>
 			<view class="item" v-for="item in list" @click="goto(item)">
 				{{item.plateNo}}
@@ -40,7 +41,7 @@
 			return {
 				list: [],
 				pageNum: 1,
-				triggered: true,
+				triggered: false,
 				navBar: {
 					bgcolor: '#FFFFFF', //导航背景颜色，不传默认#F8F8F8
 					back: true, //回退箭头，不传默认true
@@ -54,6 +55,10 @@
 		components: { navBar },
 		onLoad() {
 			this.getCarList();
+			this._freshing = false;
+			setTimeout(() => {
+				this.triggered = true;
+			}, 1000)
 		},
 		methods: {
 			goto(data) {
@@ -78,13 +83,16 @@
 			},
 			refresherrefresh() {
 				console.log(111)
-				if (this._freshing) return;
 				let that = this;
+				if (this._freshing) return;
+				this._freshing = true;
 				that.pageNum = 1
 				that.list = [];
-				this._freshing = true;
 				that.getCarList();
-			}
+			},
+			refresherrestore() {
+				this.triggered = 'restore'; // 需要重置
+			},
 			
 		}
 	}
