@@ -36,10 +36,14 @@
 		<p>1</p><p>1</p><p>1</p><p>1</p>
 		<p>1</p><p>1</p><p>1</p><p>1</p>
 		<p>1</p><p>1</p><p>1</p><p>1</p>
+		<tki-tree ref="tkitree" :selectParent="selectParent" :multiple="multiple"
+		:range="list" :foldAll="flod" rangeKey="name" @confirm="treeConfirm"
+		 @cancel="treeCancel"></tki-tree>
 	</view>
 </template>
 
 <script>
+	import tkiTree from '@/components/tki-tree/tki-tree.vue';
 	import navBar from "../../components/navBar";
 	import http from '../../common/request';
 	import {platform} from '../../common/platform.js';
@@ -54,9 +58,53 @@
 					title: "首页1", //本页标题，必传
 					titlecolor: '#333', //本页标题颜色，不传默认#333
 				},
+				list: [{
+					id: 1,
+					name: '北京市',
+					children: [{
+						id: 11,
+						name: '市辖区',
+						children: [{
+							id: 111,
+							name: '西城区',
+							children: [{
+								id: 1111,
+								name: '南河沿大街',
+								children: [{
+									id: 11111,
+									name: '紫金宫饭店',
+									checked: true
+								}, ]
+							}, ]
+						},
+						{
+							id: 112,
+							name: '东城区',
+						},
+						{
+							id: 113,
+							name: '朝阳区',
+						},
+						{
+							id: 114,
+							name: '丰台区',
+						}]
+					}]
+				},{
+					id: 2,
+					name: '南京市',
+					children: [{
+						id: 11,
+						name: '市辖区',
+						
+					}]
+				}],
+				multiple: false,
+				selectParent: false,
+				flod: false,
 			}
 		},
-		components: { navBar },
+		components: { navBar, tkiTree },
 		onLoad() {
 			// #ifdef H5
 			console.log('这句话只有在H5能看到')
@@ -78,8 +126,15 @@
 				
 				
 			})
+			
+			setTimeout(() => {
+				this.$refs.tkitree._show();
+			}, 300)
 		},
 		methods: {
+			treeConfirm(e) {
+				console.log(e)
+			},
 			goto(url) {
 				uni.navigateTo({
 					url:url

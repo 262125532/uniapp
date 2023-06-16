@@ -81,6 +81,8 @@
 
 	1.ui地址：https://uniapp.dcloud.net.cn/component/button.html
 	2.ui示例：https://hellouniapp.dcloud.net.cn/pages/component/button/button
+	3.树形选择器增强版，支持多选、单选、父级选择，Picker形式：
+		https://ext.dcloud.net.cn/plugin?id=702
 	
 七、其他语法
 
