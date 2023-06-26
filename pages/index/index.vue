@@ -14,6 +14,8 @@
 			<button type="default">跳转图表页面</button>
 		</navigator>
 		<button type="default" @click="init()">调用接口</button>
+		
+		<button type="default" @click="handleChange">tree toggle</button>
 		<!-- #ifdef H5 -->
 		这句话只有在H5能看到<br>
 		<!-- #endif -->
@@ -37,7 +39,7 @@
 		<p>1</p><p>1</p><p>1</p><p>1</p>
 		<p>1</p><p>1</p><p>1</p><p>1</p>
 		<tki-tree ref="tkitree" :selectParent="selectParent" :multiple="multiple"
-		:range="list" :foldAll="flod" rangeKey="name" @confirm="treeConfirm"
+		:range="list" :foldAll="foldAll" rangeKey="name" @confirm="treeConfirm"
 		 @cancel="treeCancel"></tki-tree>
 	</view>
 </template>
@@ -58,6 +60,7 @@
 					title: "首页1", //本页标题，必传
 					titlecolor: '#333', //本页标题颜色，不传默认#333
 				},
+				treeVisible: false,
 				list: [{
 					id: 1,
 					name: '北京市',
@@ -101,7 +104,7 @@
 				}],
 				multiple: false,
 				selectParent: false,
-				flod: false,
+				foldAll: true,
 			}
 		},
 		components: { navBar, tkiTree },
@@ -132,6 +135,9 @@
 			}, 300)
 		},
 		methods: {
+			handleChange() {
+					this.treeVisible = !this.treeVisible
+			},
 			treeConfirm(e) {
 				console.log(e)
 			},

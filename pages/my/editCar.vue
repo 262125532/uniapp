@@ -26,7 +26,7 @@
 				<input :class="focus1?'uni-input uni-input-focus':'uni-input'" name="plateNo" @focus="toggleFocus1" @blur="toggleFocus1" v-model="carInfo.plateNo" placeholder="请输入品牌型号" />
 			</view>
 		</view>
-		<view class="item" @click="goto(`/pages/my/org`)">
+		<view class="item" @click="showTree">
 			所属企业
 			<view class="value">
 				{{carInfo.areaName}}
@@ -45,6 +45,15 @@
 		<view class="submit-btn" @click="handleSave">
 			确定
 		</view>
+		<tki-tree 
+			ref="tkitree" 
+			:selectParent="selectParent" 
+			:multiple="multiple"
+			:range="orgTree" 
+			:foldAll="flod" 
+			rangeKey="name" 
+			@confirm="treeConfirm"
+			@cancel="treeCancel"></tki-tree>
 		
 	</view>
 </template>
@@ -53,6 +62,7 @@
 <script>
 	import http from '../../common/request';
 	import navBar from "../../components/navBar";
+	import tkiTree from '@/components/tki-tree/tki-tree.vue';
 	export default {
 		data() {
 			return {
@@ -68,12 +78,16 @@
 				},
 				carTypeList: [],
 				focus1: false,
-				focus2: false
+				focus2: false,
+				orgTree: [],
+				multiple: false,
+				selectParent: false,
+				flod: false,
 			}
 		},
-		components: { navBar },
+		components: { navBar, tkiTree },
 		onLoad(option) {
-			console.log(333, option)
+			console.log(333, uni.getStorageSync('carInfo'))
 			let that = this;
 			let _carInfo = uni.getStorageSync('carInfo');
 			that.carInfo = uni.getStorageSync('carInfo');
@@ -85,23 +99,51 @@
 				that.carTypeList = res.data;
 				that.getImgUrl(uni.getStorageSync('carInfo').var1 )
 			})
+			
+			//获取组织列表
+			http.get("org").then( res => {
+				that.orgTree = res.data[0].children;
+				that.setTreeChecked(that.orgTree, that.carInfo.areaId )
+				
+			})
 		},
 		onShow() {
 			let that = this;	
 			uni.$on('updateCarType',function(data){
-				console.log(444, data)
 				that.carInfo.vehicleType = data.name;
 				that.carInfo.var1 = data.code;
 				that.getImgUrl(data.code)
 			})
 			
 			uni.$on('updateCarBrand',function(data){
-				console.log(444, data)
 				that.carInfo.bandType = data.name;
 				that.carInfo.var2 = data.code
 			})
 		},
 		methods: {
+			setTreeChecked(tree, checkedId) {
+				let that = this;
+				tree.forEach(val => {
+					if(val.id == checkedId) {
+						val.checked = true;
+						that.carInfo.areaName = val.name;
+					}
+					
+					if(val.children && val.children.length) {
+						that.setTreeChecked(val.children, checkedId)
+					}
+				})
+				
+				
+			},
+			showTree() {
+				this.$refs.tkitree._show();
+			},
+			treeConfirm(e) {
+				console.log(e)
+				this.carInfo.areaId = e[0].id;
+				this.carInfo.areaName = e[0].name;
+			},
 			toggleFocus1() {
 				this.focus1 = !this.focus1 
 			},
@@ -124,6 +166,7 @@
 					url:url
 				})
 			},
+			
 			handleScanCode() {
 				uni.scanCode({
 					success: function (res) {

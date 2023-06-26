@@ -45,7 +45,7 @@
   line-height: 1;
 }
 .tki-tree-bar-confirm {
-  color: #07bb07;
+  color: #3370FF;
 }
 .tki-tree-view {
   position: absolute;
@@ -119,7 +119,7 @@
   border-bottom-width: 1rpx;
   border-right-width: 1rpx;
   border-style: solid;
-  border-color: #07bb07;
+  border-color: #3370FF;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -132,7 +132,7 @@
   border-top-right-radius: 20%;
   border-bottom-right-radius: 20%;
   border-bottom-left-radius: 20%;
-  background-color: #07bb07;
+  background-color: #3370FF;
 }
 .tki-tree-check .radio {
   border-top-left-radius: 50%;

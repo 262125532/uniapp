@@ -15,7 +15,7 @@ export default {
 	getCarType: '/iot-common-device-tenant/api/nebula/device/machine/v1',
 	carBrand: '/iot-common-device-tenant/api/nebula/device/brand/v1',
 	org: '/iot-common-device-tenant/api/nebula/device/area/v1',
-	updateCar: '/iot-common-device-tenant/api/nebula/device/aiot/updateXtSensorDevice/v1'
+	updateCar: '/iot-common-device-tenant/api/nebula/device/aiot/updateXtSensorDevice/v2'
 	
 	
 }
