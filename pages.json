@@ -13,6 +13,12 @@
 			}
 		},
 		{
+			"path": "pages/home/bar",
+			"style": {
+				"navigationBarTitleText": "柱状图堆叠"
+			}
+		},
+		{
 			"path": "pages/cars/index",
 			"style": {
 				"navigationBarTitleText": "车辆"

@@ -132,4 +132,3 @@
 	.qiun-charts{width: 750upx; height:500upx;background-color: #FFFFFF;}
 	.charts{width: 750upx; height:500upx;background-color: #FFFFFF;}
 </style>
-Footer

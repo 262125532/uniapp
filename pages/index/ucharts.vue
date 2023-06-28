@@ -677,7 +677,9 @@
 				this.showLineB("canvasLineB", LineB);
 				this.showArea("canvasArea", Area);
 				this.showPie("canvasPie", Pie);
+				
 				this.showRing("canvasRing", Ring);
+				
 				this.showFunnel("canvasFunnel", Funnel);
 				this.showRadar("canvasRadar", Radar);
 				this.showArcbar("canvasArcbar1", Arcbar1);

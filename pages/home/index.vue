@@ -154,7 +154,7 @@
 								总运行时长
 							</view>
 							<view class="num" style="color: #52C41A;">
-								99999
+								9999.9
 								<text class="bit">小时</text>
 							</view>
 							
@@ -201,8 +201,8 @@
 						</view>
 					</view>
 					<view style="-webkit-flex: 1;flex: 1;">
-						<view class="card1">
-							<view class="sub-t" style="background-color: rgba(250,100,0,0.08);">
+						<view class="card1"  style="background-color: rgba(250,100,0,0.08);">
+							<view class="sub-t">
 								平均怠速时长
 							</view>
 							<view class="num" style="color: #FF6000;">
@@ -228,7 +228,7 @@
 						TOP5
 					</view>
 				</view>
-				<view class="qiun-charts">
+				<view class="week-hour-chart" v-if="hourActive">
 					<!--#ifdef MP-ALIPAY -->
 					<canvas canvas-id="canvasMix" id="canvasMix" class="charts" :width="cWidth1*pixelRatio" :height="cHeight1*pixelRatio"
 					 :style="{'width':cWidth1+'px','height':cHeight1+'px'}" disable-scroll=true @touchstart="touchMix" @touchmove="moveMix"
@@ -239,7 +239,7 @@
 					 @touchend="touchEndMix"></canvas>
 					<!--#endif-->
 				</view>
-				
+				<weekHourTop5 v-if="!hourActive" />
 			</view>
 			
 			<view class="title">
@@ -252,9 +252,9 @@
 				
 				<view class="alarm">
 					<view class="icon">
-						
+						<image class="img" src="../../static/img/报警总数.png" alt="">
 					</view>
-					<view class="num">
+					<view class="num-box">
 						<view class="t">
 							报警总数
 						</view>
@@ -267,13 +267,103 @@
 					<view class="tip">
 						表示进入违规驶入使出、超速、偏离路线的报警数量
 					</view>
-					
+				</view>
+			</view>
+			<view class="car-box week-alarm">
+				<view class="card-title">
+					本周围栏报警
 				</view>
 				
+				<view class="tab">
+					<view :class="weekActive==1 ? 'item active':'item'" @click="changeWeekActive(1)">
+						报警趋势
+					</view>
+					<view :class="weekActive==2 ? 'item active':'item'" @click="changeWeekActive(2)">
+						报警分布
+					</view>
+					<view :class="weekActive==3 ? 'item active':'item'" @click="changeWeekActive(3)">
+						TOP5
+					</view>
+				</view>
 				
-				
+				<view class="week-alarm-chart" style="background-color: #E5FDC3;" v-if="weekActive==1">
+					<!--#ifdef MP-ALIPAY -->
+					<canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" style="background-color: #E5FDC3;" :width="cWidth1*pixelRatio"
+					 :height="cHeight1*pixelRatio" :style="{'width':cWidth1+'px','height':cHeight1+'px'}" @touchstart="touchIt($event,'canvasColumn')"></canvas>
+					<!--#endif-->
+					<!--#ifndef MP-ALIPAY -->
+					<canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" style="background-color: #E5FDC3;" @touchstart="touchIt($event,'canvasColumn')"></canvas>
+					<!--#endif-->
+				</view>
 			</view>
 			
+			<view :class="showAll1?'car-box week-alarm':'car-box week-alarm week-alarm-inline'" >
+				<view class="card-title" @click="changeShowAll1()">
+					终端电量不足
+					<image class="icon" src="../../static/img/right.png" alt="">
+				</view>
+				
+				<view class="uni-flex uni-row list" style="-webkit-flex-wrap: wrap;flex-wrap: wrap;">
+					<view class="text item">N5456R123456678</view>
+					<view class="text item">N5456R123456678</view>
+					<view class="text item">N5456R123456678</view>
+					<view class="text item">N5456R123456678</view>
+					<view class="text item">N5456R123456678</view>
+					<view class="text item">N5456R123456678</view>
+					<view class="text item">京aaa</view>
+				</view>
+			</view>
+			
+			<view :class="showAll2?'car-box week-alarm':'car-box week-alarm week-alarm-inline'" >
+				<view class="card-title" @click="changeShowAll2()">
+					安装异常报警
+					<image class="icon" src="../../static/img/right.png" alt="">
+				</view>
+				
+				<view class="uni-flex uni-row list" style="-webkit-flex-wrap: wrap;flex-wrap: wrap;">
+					<view class="text item">N5456R123456678</view>
+					<view class="text item">N5456R123456678</view>
+					<view class="text item">N5456R123456678</view>
+					<view class="text item">N5456R123456678</view>
+					<view class="text item">N5456R123456678</view>
+					<view class="text item">N5456R123456678</view>
+					<view class="text item">京aaa</view>
+				</view>
+			</view>
+			
+			<view :class="showAll3?'car-box week-alarm':'car-box week-alarm week-alarm-inline'" >
+				<view class="card-title" @click="changeShowAll3()">
+					终端拆壳异常
+					<image class="icon" src="../../static/img/right.png" alt="">
+				</view>
+				
+				<view class="uni-flex uni-row list" style="-webkit-flex-wrap: wrap;flex-wrap: wrap;">
+					<view class="text item">N5456R123456678</view>
+					<view class="text item">N5456R123456678</view>
+					<view class="text item">N5456R123456678</view>
+					<view class="text item">N5456R123456678</view>
+					<view class="text item">N5456R123456678</view>
+					<view class="text item">N5456R123456678</view>
+					<view class="text item">京aaa</view>
+				</view>
+			</view>
+			
+			<view :class="showAll4?'car-box week-alarm':'car-box week-alarm week-alarm-inline'" >
+				<view class="card-title" @click="changeShowAll4()">
+					终端拆除报警
+					<image class="icon" src="../../static/img/right.png" alt="">
+				</view>
+				
+				<view class="uni-flex uni-row list" style="-webkit-flex-wrap: wrap;flex-wrap: wrap;">
+					<view class="text item">N5456R123456678</view>
+					<view class="text item">N5456R123456678</view>
+					<view class="text item">N5456R123456678</view>
+					<view class="text item">N5456R123456678</view>
+					<view class="text item">N5456R123456678</view>
+					<view class="text item">N5456R123456678</view>
+					<view class="text item">京aaa</view>
+				</view>
+			</view>
 		</view>
 </template>
 
@@ -282,6 +372,7 @@
 	import http from '../../common/request';
 	import tkiTree from '@/components/tki-tree/tki-tree.vue';
 	import uCharts from '../../components/u-charts/u-charts.js';
+	import weekHourTop5 from './weekHourTop5.vue'
 	var _self;
 	var canvasObj = {};
 	export default {
@@ -299,6 +390,12 @@
 				selectParent: true,
 				flod: false,
 				hourActive: true,
+				weekActive: 1,
+				showAll: [true, false, false, false,],
+				showAll1: false,
+				showAll2: false,
+				showAll3: false,
+				showAll4: false,
 				"Mix": {
 					"categories":["6.1", "6.2", "6.3", "6.4", "6.5", "6.6", '6.7'],
 					"series": [{
@@ -363,6 +460,14 @@
 						color: '#666666'
 					}]
 				},
+				Column: {
+					"categories": ["6.1", "6.2", "6.3", "6.4", "6.5", "6.6"],
+					"series": [{
+						"name": "成交量1",
+						color: '#FFA4AC',
+						"data": [15, 20, 45, 37, 43, 34]
+					}]
+				},
 
 			}
 		},
@@ -381,16 +486,17 @@
 			//#endif
 			this.cWidth = uni.upx2px(300);
 			this.cHeight = uni.upx2px(300);
-			this.cWidth1 = uni.upx2px(750);
+			this.cWidth1 = uni.upx2px(650);
 			this.cHeight1 = uni.upx2px(300);
 			
 			this.init()
 			this.showRing("canvasRing", this.Ring);
 			this.showMix("canvasMix", this.Mix);
+			this.showColumn("canvasColumn", this.Column);
 			
 			
 		},
-		components: {  tkiTree },
+		components: {  tkiTree, weekHourTop5 },
 		methods: {
 			init() {
 				let that = this;
@@ -402,8 +508,24 @@
 				})
 				
 			},
+			changeShowAll1() {
+				this.showAll1 = !this.showAll1;
+			},
+			changeShowAll2() {
+				this.showAll2 = !this.showAll2;
+			},
+			changeShowAll3() {
+				this.showAll3 = !this.showAll3;
+			},
+			changeShowAll4() {
+				this.showAll4 = !this.showAll4;
+			},
 			changeHourActive() {
 				this.hourActive = !this.hourActive
+			},
+			changeWeekActive(index) {
+				this.weekActive = index
+				
 			},
 			showTree() {
 				this.$refs.tkitree._show();
@@ -499,7 +621,7 @@
 					categories: chartData.categories,
 					series: chartData.series,
 					animation: false,
-					enableScroll: true, //开启图表拖拽功能
+					// enableScroll: true, //开启图表拖拽功能
 					xAxis: {
 						disableGrid: false,
 						type: 'grid',
@@ -552,6 +674,44 @@
 					},
 				});
 			},
+			showColumn(canvasId, chartData) {
+				canvasObj[canvasId] = new uCharts({
+					$this: _self,
+					canvasId: canvasId,
+					type: 'column',
+					padding: [15, 15, 0, 15],
+					legend: {
+						show: false,
+						padding: 5,
+						lineHeight: 11,
+						margin: 0,
+					},
+					fontSize: 11,
+					background: '#FFFFFF',
+					pixelRatio: _self.pixelRatio,
+					animation: false,
+					categories: chartData.categories,
+					series: chartData.series,
+					xAxis: {
+						disableGrid: true,
+					},
+					yAxis: {
+						// format: (val) => {
+						// 	return val.toFixed(0) + '元'
+						// }
+					},
+					dataLabel: false,
+					width: _self.cWidth * _self.pixelRatio,
+					height: _self.cHeight * _self.pixelRatio,
+					extra: {
+						column: {
+							// type: 'group',
+							width: _self.cWidth * _self.pixelRatio * 0.45 / chartData.categories.length
+						}
+					}
+				});
+			},
+			
 			
 			
 		}
@@ -560,6 +720,7 @@
 
 <style scoped lang="scss">
 	.home{
+		background-color: #F0F2F5;
 			
 		.cars{
 			height: 440rpx;
@@ -661,12 +822,41 @@
 		.card-title{
 			font-size: 32rpx;
 			margin-bottom: 16rpx;
+			.icon{
+				width: 24rpx;
+				height: 24rpx;
+				transform: rotate(-90deg);
+				margin-left: 16rpx;
+				transition: all .3s;
+				
+			}
 		}
 		.car-box{
 			background-color: #fff;
 			border-radius: 16rpx;
 			padding: 36rpx 16rpx;
 			margin: 24rpx 24rpx;
+		}
+		.tab{
+			position: absolute;
+			top: 30rpx;
+			right: 24rpx;
+			
+			.item{
+				height: 48rpx;
+				line-height: 48rpx;
+				border-radius: 24rpx;
+				padding: 0 16rpx;
+				font-size: 24rpx;
+				color: #666;
+				background-color: #F4F7FA;
+				float: left;
+				margin-left: 10rpx;
+			}
+			.active{
+				color: #fff;
+				background-color: #3370FF;
+			}
 		}
 		.today-hour{
 			
@@ -680,7 +870,7 @@
 				margin: 8rpx;
 			}
 			.card1{
-				height: 136rpx;
+				height: 126rpx;
 				padding: 24rpx;
 				border-radius: 16rpx;
 				box-sizing: border-box;
@@ -693,6 +883,7 @@
 				height: 80rpx;
 				float: left;
 				margin-right: 16rpx;
+				margin-top: 8rpx;
 				.img{
 					
 					width: 100%;
@@ -700,8 +891,9 @@
 				}
 			}
 			.num{
-				font-size: 40rpx;
-				margin-top: 6rpx;
+				font-size: 36rpx;
+				margin-top: 0rpx;
+				word-break: keep-all;
 			}
 			.bit{
 				font-size: 24rpx;
@@ -714,36 +906,84 @@
 		
 		.week-hour{
 			position: relative;
-			.tab{
-				position: absolute;
-				top: 24rpx;
-				right: 24rpx;
-				
-				.item{
-					height: 56rpx;
-					line-height: 56rpx;
-					border-radius: 28rpx;
-					padding: 0 32rpx;
-					font-size: 28rpx;
-					color: #666;
-					background-color: #F4F7FA;
-					float: left;
-				}
-				.active{
-					color: #fff;
-					background-color: #3370FF;
-				}
+			
+			
+			.week-hour-chart{
+				width: 650rpx;
 			}
 			
 			
 		}
 		.today-alarm{
 			.alarm{
+				height: 120rpx;
 				background-color: rgba(255,0,0,0.08);
 				border-radius: 8rpx;
+				padding: 20rpx 0rpx 24rpx 36rpx;
+				box-sizing: border-box;
+				
+				.icon{
+					float: left;
+					.img{
+						width: 80rpx;
+						height: 80rpx;
+					}
+				}
+				.num-box{
+					float: left;
+					margin: 0 20rpx;
+					.num{
+						color: #F03030;
+						margin-top: 12rpx;
+					}
+				}
+				.tip{
+					width: 360rpx;
+					float: left;
+					font-size: 24rpx;
+					margin-top: 10rpx;
+				}
+			}
+		}
+		.week-alarm{
+			position: relative;
+			transition: all .3s;
+			
+			.week-alarm-chart{
+				width: 650rpx;
 			}
 			
 		}
+		.week-alarm-inline{
+			height: 136rpx;
+			overflow: hidden;
+			.card-title{
+				.icon{
+					transform: rotate(90deg);
+				}
+			}
+		}
+		.list{
+			.item{
+				width: 212rpx;
+				height: 96rpx;
+				background-color: #F4F7FA;
+				border-radius: 8rpx;
+				display: inline-block;
+				padding: 12rpx 24rpx;
+				box-sizing: border-box;
+				margin: 0 16rpx 16rpx 0;
+				overflow: hidden;
+				font-size: 28rpx;
+				word-break: break-all;
+				line-height: 40rpx;
+				
+			}
+			.item:nth-child(3n) {
+				margin: 0 0rpx 16rpx 0;
+			}
+		}
+		
 	}
 	
 	
