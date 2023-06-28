@@ -49,6 +49,7 @@
 	import navBar from "../../components/navBar";
 	import http from '../../common/request';
 	import {platform} from '../../common/platform.js';
+	import uCharts from '../../components/u-charts/u-charts.min.js';
 	export default {
 		data() {
 			return {
