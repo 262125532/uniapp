@@ -25,6 +25,12 @@
 			}
 		},
 		{
+			"path": "pages/app/workingHour/index",
+			"style": {
+				"navigationBarTitleText": "工时管理"
+			}
+		},
+		{
 			"path": "pages/my/index",
 			"style": {
 				"navigationBarTitleText": "我的",

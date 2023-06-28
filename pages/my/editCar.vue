@@ -144,6 +144,9 @@
 				this.carInfo.areaId = e[0].id;
 				this.carInfo.areaName = e[0].name;
 			},
+			treeCancel() {
+				
+			},
 			toggleFocus1() {
 				this.focus1 = !this.focus1 
 			},

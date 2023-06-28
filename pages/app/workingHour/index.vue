@@ -1,6 +1,22 @@
 <template>
 	<view class="content">
 		<navBar :navBar="navBar" />
+		<view class="search-box">
+			<view class="input">
+				
+			</view>
+			<view class="time">
+				
+			</view>	
+			
+			<view class="car-type">
+				开工车辆
+			</view>
+			<view class="car-type">
+				未开工车辆
+			</view>
+			
+		</view>
 		<scroll-view 
 			style="height: 300px;" 
 			scroll-y="true" 
@@ -19,8 +35,8 @@
 
 
 <script>
-	import http from '../../common/request';
-	import navBar from "../../components/navBar";
+	import http from '../../../common/request';
+	import navBar from "../../../components/navBar";
 	export default {
 		data() {
 			return {
@@ -72,5 +88,14 @@
 	.content{
 		background: #F0F2F5;
 		min-height: calc(100vh - 0rpx);
+	}
+	.search-box{
+		background-color: #fff;
+		padding: 24rpx 24rpx 32rpx 24rpx;
+		
+		.car-type {
+			
+			
+		}
 	}
 </style>

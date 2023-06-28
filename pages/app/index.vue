@@ -6,7 +6,7 @@
 			<view class="title">
 				查询分析
 			</view>
-			<view class="item" @click="goto('/pages/my/alarmPush')">
+			<view class="item" @click="goto('/pages/app/workingHour/index')">
 				<view class="icon">
 					<image class="img" src='../../static/img/工时管理-icon.png'></image>
 				</view>
