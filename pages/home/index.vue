@@ -151,18 +151,8 @@
 						TOP5
 					</view>
 				</view>
-				<view class="week-hour-chart" v-if="hourActive">
-					<!--#ifdef MP-ALIPAY -->
-					<canvas canvas-id="canvasMix" id="canvasMix" class="charts" :width="cWidth1*pixelRatio" :height="cHeight1*pixelRatio"
-					 :style="{'width':cWidth1+'px','height':cHeight1+'px'}" disable-scroll=true @touchstart="touchMix" @touchmove="moveMix"
-					 @touchend="touchEndMix"></canvas>
-					<!--#endif-->
-					<!--#ifndef MP-ALIPAY -->
-					<canvas canvas-id="canvasMix" id="canvasMix" class="charts" disable-scroll=true @touchstart="touchMix" @touchmove="moveMix"
-					 @touchend="touchEndMix"></canvas>
-					<!--#endif-->
-				</view>
-				<weekHourTop5 v-if="!hourActive" :data="weekHourTop5Data" />
+				<mixChart v-if="hourActive" />
+				<stactBar :data="weekHourTop5Data" v-if="!hourActive"  />
 			</view>
 			
 			<view class="title">
@@ -181,7 +171,6 @@
 						<view class="t">
 							报警总数
 						</view>
-						
 						<view class="num">
 							99999
 						</view>
@@ -209,15 +198,7 @@
 					</view>
 				</view>
 				
-				<view class="week-alarm-chart" style="background-color: #E5FDC3;" v-if="weekActive==1">
-					<!--#ifdef MP-ALIPAY -->
-					<canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" style="background-color: #E5FDC3;" :width="cWidth1*pixelRatio"
-					 :height="cHeight1*pixelRatio" :style="{'width':cWidth1+'px','height':cHeight1+'px'}" @touchstart="touchIt($event,'canvasColumn')"></canvas>
-					<!--#endif-->
-					<!--#ifndef MP-ALIPAY -->
-					<canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" style="background-color: #E5FDC3;" @touchstart="touchIt($event,'canvasColumn')"></canvas>
-					<!--#endif-->
-				</view>
+				<column />
 			</view>
 			
 			<view :class="showAll1?'car-box week-alarm':'car-box week-alarm week-alarm-inline'" >
@@ -295,11 +276,14 @@
 	import http from '../../common/request';
 	import tkiTree from '@/components/tki-tree/tki-tree.vue';
 	import uCharts from '../../components/u-charts/u-charts.js';
-	import weekHourTop5 from './weekHourTop5.vue'
 	import carCount from './carCount.vue'
+	import mixChart from '@/components/mixChart.vue'
+	import stactBar from '@/components/stactBar.vue'
+	import column from '@/components/column.vue'
 	var _self;
 	var canvasObj = {};
 	export default {
+		components: {  tkiTree, carCount, mixChart, stactBar, column },
 		data() {
 			return {
 				pixelRatio: 1,
@@ -328,70 +312,6 @@
 					"off": 0
 				},
 				weekHourTop5Data: [],
-				"Mix": {
-					"categories":["6.1", "6.2", "6.3", "6.4", "6.5", "6.6", '6.7'],
-					"series": [{
-						"name": "总运行时长",
-						"data": [40, 30, 55, 110, 24, 58, 44],
-						"type": "column",
-						legendShape: 'line',
-						color: '#52C41A'
-					}, {
-						"name": "总怠速时长",
-						"data": [50, 20, 75, 60, 34, 38, 44],
-						"type": "column",
-						legendShape: 'line',
-						color: '#FF6000'
-					}, {
-						"name": "平均工作时长",
-						"data": [70, 50, 85, 130, 64, 88, 44],
-						"type": "line",
-						// "style": "curve",
-						"color": "#FFC200",
-						legendShape: 'line',
-						pointShape: 'circle',
-						addPoint: true
-					}, {
-						"name": "平均运行时长",
-						"data": [120, 140, 105, 170, 95, 160, 44],
-						"type": "line",
-						"color": "#0080FF",
-						legendShape: 'line',
-						pointShape: 'circle',
-						addPoint: true
-					}, {
-						"name": "平均怠速时长",
-						"data": [120, 140, 105, 170, 95, 160, 44],
-						"type": "line",
-						"color": "#7166E4",
-						legendShape: 'line',
-						pointShape: 'circle',
-						addPoint: true
-					}]
-				},
-				Ring: {
-					"series": [{
-						"name": "一班",
-						"data": 50,
-						color: '#52C41A'
-					}, {
-						"name": "二班",
-						"data": 30,
-						color: '#3370FF'
-					}, {
-						"name": "三班",
-						"data": 20,
-						color: '#FF6000'
-					}, {
-						"name": "四班",
-						"data": 18,
-						color: '#0EC4AC'
-					}, {
-						"name": "五班",
-						"data": 8,
-						color: '#666666'
-					}]
-				},
 				Column: {
 					"categories": ["6.1", "6.2", "6.3", "6.4", "6.5", "6.6"],
 					"series": [{
@@ -427,7 +347,7 @@
 			this.showColumn("canvasColumn", this.Column);
 			
 		},
-		components: {  tkiTree, weekHourTop5, carCount },
+		
 		methods: {
 			init() {
 				let that = this;
@@ -524,127 +444,6 @@
 				})
 				
 				
-			},
-			touchMix(e) {
-				canvasObj['canvasMix'].scrollStart(e);
-			},
-			moveMix(e) {
-				canvasObj['canvasMix'].scroll(e);
-			},
-			touchEndMix(e) {
-				canvasObj['canvasMix'].scrollEnd(e);
-				canvasObj['canvasMix'].touchLegend(e);
-				//下面是toolTip事件，如果滚动后不需要显示，可不填写
-				canvasObj['canvasMix'].showToolTip(e, {
-					format: function(item, category) {
-						return category + ' ' + item.name + ':' + item.data
-					}
-				});
-			},
-			showRing(canvasId, chartData) {
-				canvasObj[canvasId] = new uCharts({
-					$this: _self,
-					canvasId: canvasId,
-					type: 'ring',
-					fontSize: 11,
-					padding: [10, 5, 5, 10],
-					legend: {
-						show: false
-					},
-					title: {
-						name: '99999',
-						color: '#000',
-						fontSize: 30 * _self.pixelRatio,
-					},
-					extra: {
-						pie: {
-							lableWidth: 15,
-							ringWidth: 14 * _self.pixelRatio, //圆环的宽度
-							offsetAngle: -90, //圆环的角度
-						}
-					},
-					background: '#FFFFFF',
-					pixelRatio: _self.pixelRatio,
-					series: chartData.series,
-					animation: false,
-					width: _self.cWidth * _self.pixelRatio,
-					height: _self.cHeight * _self.pixelRatio,
-					disablePieStroke: true,
-					dataLabel: false,
-					
-				});
-			
-			},
-			showMix(canvasId, chartData) {
-				canvasObj[canvasId] = new uCharts({
-					$this: _self,
-					canvasId: canvasId,
-					type: 'mix',
-					fontSize: 11,
-					padding: [15, 15, 0, 15],
-					legend: {
-						show: true,
-						padding: 5,
-						lineHeight: 11,
-						margin: 6,
-					},
-					background: '#FFFFFF',
-					pixelRatio: _self.pixelRatio,
-					categories: chartData.categories,
-					series: chartData.series,
-					animation: false,
-					// enableScroll: true, //开启图表拖拽功能
-					xAxis: {
-						disableGrid: false,
-						type: 'grid',
-						gridType: 'dash',
-						itemCount: 4,
-						scrollShow: true,
-						scrollAlign: 'left',
-					},
-					yAxis: {
-						gridType: 'dash',
-						dashLength: 4,
-						splitNumber: 5,
-						min: 10,
-						max: 180,
-						format: (val) => {
-							return val.toFixed(0)
-						}
-					},
-					width: _self.cWidth1 * _self.pixelRatio,
-					height: _self.cHeight1 * _self.pixelRatio,
-					dataLabel: false,
-					dataPointShape: false,
-					extra: {
-						bar: {
-							type: 'stack',
-						},
-						column: {
-							type: "stack",
-							width: 10 * _self.pixelRatio
-						},
-						line: {
-							activeType: 'hollow'
-						},
-						lineStyle: 'straight',
-						tooltip: {
-							bgColor: '#000000',
-							bgOpacity: 0.7,
-							gridType: 'dash',
-							dashLength: 8,
-							gridColor: '#1890ff',
-							fontColor: '#FFFFFF',
-							horizentalLine: true,
-							xAxisLabel: true,
-							yAxisLabel: true,
-							labelBgColor: '#DFE8FF',
-							labelBgOpacity: 0.95,
-							labelAlign: 'left',
-							labelFontColor: '#666666'
-						}
-					},
-				});
 			},
 			showColumn(canvasId, chartData) {
 				canvasObj[canvasId] = new uCharts({
