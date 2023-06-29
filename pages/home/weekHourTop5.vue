@@ -12,10 +12,12 @@
 
 
 <script>
+	import http from '../../common/request';
 	import uCharts from '../../components/u-charts/u-charts.js';
 	var _self;
 	var canvasObj = {};
 	export default {
+		props: ['data'],
 		data() {
 			return {
 				pixelRatio: 1,
@@ -36,11 +38,7 @@
 
 			}
 		},
-		onLoad() {
-			
-			console.log(111)
-		},
-		onShow() {
+		mounted() {
 			_self = this;
 			//#ifdef MP-ALIPAY
 			uni.getSystemInfo({
@@ -57,13 +55,13 @@
 			this.cHeight = uni.upx2px(300);
 			
 			this.showColumn("weekHourTop5", this.Column);
-			console.log(111)
-			
 			
 		},
 		methods: {
 			showColumn(canvasId, chartData) {
-				console.log(222)
+				
+				let that = this;
+				console.log(222, that.data)
 				canvasObj[canvasId] = new uCharts({
 					$this: _self,
 					canvasId: canvasId,
@@ -79,7 +77,8 @@
 					background: '#FFFFFF',
 					pixelRatio: _self.pixelRatio,
 					animation: false,
-					categories: chartData.categories,
+					// categories: chartData.categories,
+					categories: that.data.map(val => val.licPlateNum),
 					series: chartData.series,
 					xAxis: {
 						disableGrid: true,
@@ -89,7 +88,7 @@
 						// 	return val.toFixed(0) + '元'
 						// }
 					},
-					dataLabel: true,
+					dataLabel: false,
 					width: _self.cWidth * _self.pixelRatio,
 					height: _self.cHeight * _self.pixelRatio,
 					extra: {

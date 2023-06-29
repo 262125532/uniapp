@@ -15,84 +15,7 @@
 				@cancel="treeCancel">
 			</tki-tree>
 			
-			<view class="cars">
-				<view class="total">
-					<view class="qiun-charts">
-						<!--#ifdef MP-ALIPAY -->
-						<canvas canvas-id="canvasRing" id="canvasRing" class="charts" :width="cWidth*pixelRatio" :height="cHeight*pixelRatio"
-						 :style="{'width':cWidth+'px','height':cHeight+'px'}"></canvas>
-						<!--#endif-->
-						<!--#ifndef MP-ALIPAY -->
-						<canvas canvas-id="canvasRing" id="canvasRing" class="charts"></canvas>
-						<!--#endif-->
-					</view>
-					总车辆
-				</view>
-				<view class="right">
-					<view class="item green">
-						<view class="t">
-							运行车辆
-						</view>
-						<view class="num1">
-							999
-						</view>
-						<view class="num2">
-							99.99%
-						</view>
-					</view>
-					
-					<view class="item blue">
-						<view class="t">
-							静止车辆
-						</view>
-						<view class="num1">
-							999
-						</view>
-						<view class="num2">
-							99.99%
-						</view>
-					</view>
-					
-					<view class="item orange">
-						<view class="t">
-							怠速车辆
-						</view>
-						<view class="num1">
-							999
-						</view>
-						<view class="num2">
-							99.99%
-						</view>
-					</view>
-					
-					<view class="item green1">
-						<view class="t">
-							行驶车辆
-						</view>
-						<view class="num1">
-							999
-						</view>
-						<view class="num2">
-							99.99%
-						</view>
-					</view>
-					
-					<view class="item gray">
-						<view class="t">
-							离线车辆
-						</view>
-						<view class="num1">
-							999
-						</view>
-						<view class="num2">
-							99.99%
-						</view>
-					</view>
-					
-				</view>
-				
-				
-			</view>
+			<carCount :carCounts="carCounts" />
 			
 			<view class="title">
 				工时统计
@@ -239,7 +162,7 @@
 					 @touchend="touchEndMix"></canvas>
 					<!--#endif-->
 				</view>
-				<weekHourTop5 v-if="!hourActive" />
+				<weekHourTop5 v-if="!hourActive" :data="weekHourTop5Data" />
 			</view>
 			
 			<view class="title">
@@ -373,6 +296,7 @@
 	import tkiTree from '@/components/tki-tree/tki-tree.vue';
 	import uCharts from '../../components/u-charts/u-charts.js';
 	import weekHourTop5 from './weekHourTop5.vue'
+	import carCount from './carCount.vue'
 	var _self;
 	var canvasObj = {};
 	export default {
@@ -396,6 +320,14 @@
 				showAll2: false,
 				showAll3: false,
 				showAll4: false,
+				carCounts: {
+					"all": 0,
+					"running": 0,
+					"idling": 0,
+					"static": 0,
+					"off": 0
+				},
+				weekHourTop5Data: [],
 				"Mix": {
 					"categories":["6.1", "6.2", "6.3", "6.4", "6.5", "6.6", '6.7'],
 					"series": [{
@@ -490,22 +422,62 @@
 			this.cHeight1 = uni.upx2px(300);
 			
 			this.init()
-			this.showRing("canvasRing", this.Ring);
+			// this.showRing("canvasRing", this.Ring);
 			this.showMix("canvasMix", this.Mix);
 			this.showColumn("canvasColumn", this.Column);
 			
-			
 		},
-		components: {  tkiTree, weekHourTop5 },
+		components: {  tkiTree, weekHourTop5, carCount },
 		methods: {
 			init() {
 				let that = this;
 				//获取组织列表
 				http.get("org").then( res => {
-					that.orgTree = res.data[0].children;
+					if(res.data[0].id == 1) {
+						res.data[0].name == "全部"
+						that.orgTree = [
+							{
+								id: 1,
+								name: "全部",
+								children: res.data[0].children
+							}
+						];
+					}else{
+						that.orgTree = res.data
+					}
+					
+					that.areaId = res.data[0].id;
 					that.setTreeChecked(that.orgTree, that.areaId )
 					
 				})
+				
+				
+				that.getDatas()
+				
+			},
+			getDatas() {
+				let that = this;
+				
+				//获取车辆数
+				http.get("countByStatus", "", "?areaId=" + that.areaId).then( res => {
+					if(res.code == 200 ){
+						that.carCounts = res.data
+					}
+				})
+				
+				// 获取本周工时top5
+				http.get("weekHourTop5").then(res => {
+					
+					console.log(res)
+					that.weekHourTop5Data = res.data.list
+				})
+				
+				//获取本周工时趋势
+				http.get("weekHourStatistic",).then(res => {
+					
+					console.log(res)
+				})
+				
 				
 			},
 			changeShowAll1() {
@@ -543,7 +515,7 @@
 				tree.forEach(val => {
 					if(val.id == checkedId) {
 						val.checked = true;
-						that.carInfo.areaName = val.name;
+						that.areaName = val.name;
 					}
 					
 					if(val.children && val.children.length) {
@@ -871,7 +843,7 @@
 			}
 			.card1{
 				height: 126rpx;
-				padding: 24rpx;
+				padding: 24rpx 0 24rpx 24rpx;
 				border-radius: 16rpx;
 				box-sizing: border-box;
 				font-size: 24rpx;
@@ -883,7 +855,7 @@
 				height: 80rpx;
 				float: left;
 				margin-right: 16rpx;
-				margin-top: 8rpx;
+				margin-top: 0rpx;
 				.img{
 					
 					width: 100%;
@@ -916,7 +888,7 @@
 		}
 		.today-alarm{
 			.alarm{
-				height: 120rpx;
+				height: 130rpx;
 				background-color: rgba(255,0,0,0.08);
 				border-radius: 8rpx;
 				padding: 20rpx 0rpx 24rpx 36rpx;

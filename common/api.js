@@ -15,7 +15,11 @@ export default {
 	getCarType: '/iot-common-device-tenant/api/nebula/device/machine/v1',
 	carBrand: '/iot-common-device-tenant/api/nebula/device/brand/v1',
 	org: '/iot-common-device-tenant/api/nebula/device/area/v1',
-	updateCar: '/iot-common-device-tenant/api/nebula/device/aiot/updateXtSensorDevice/v2'
+	updateCar: '/iot-common-device-tenant/api/nebula/device/aiot/updateXtSensorDevice/v2',
+	countByStatus: '/iot-xingtu20-service-tenant/intelligent/countByStatus',
+	weekHourTop5: '/iot-xingtu20-service-tenant/app/worktime/car/top5?day=2023-06-20&areaId=1',
+	weekHourStatistic: '/iot-xingtu20-service-tenant/app/worktime/customer/statistic/week?areaId=1',
+	
 	
 	
 }
