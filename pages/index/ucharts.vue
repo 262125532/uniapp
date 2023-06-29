@@ -102,7 +102,7 @@ export default {
           column: {
             type: "stack",
             width: 30,
-            activeBgColor: "#000000",
+            activeBgColor: "#fff",
             activeBgOpacity: 0.08,
             labelPosition: "center"
           }
@@ -114,45 +114,57 @@ export default {
       uChartsInstance[e.target.id].showToolTip(e);
     },
 	drawCharts1(id,data){
-	      const ctx = uni.createCanvasContext(id, this);
-	      uChartsInstance1[id] = new uCharts({
-	        type: "line",
-	        context: ctx,
-	        width: this.cWidth,
-	        height: this.cHeight,
-	        categories: data.categories,
-	        series: data.series,
-	        animation: true,
-			dataLabel:false,
-			// dataPointShapeType: 'hollow',
-	        color: ["#f00","#91CB74","#FAC858","#EE6666","#73C0DE","#3CA272","#FC8452","#9A60B4","#ea7ccc"],
-	        padding: [15,10,53,35],
-	        enableScroll: false,
-	        legend: {
-				show:false
-			},
-	        xAxis: {
-				disabled:true,
-			    disableGrid:true,
-	        },
-	        yAxis: {
-				disabled:true,
-	            disableGrid:true,
-				data: [
-				    {
-				      min: 0,
-				  	max: 100
-				    }
-				  ]
-	        },
-	        extra: {
-	          line: {
-	            type: "straight",
-	            width: 1,
-	            activeType: "hollow",
-	          }
-	        }
-	      });
+			const ctx = uni.createCanvasContext(id, this);
+			uChartsInstance1[id] = new uCharts({
+				type: "line",
+				context: ctx,
+				width: this.cWidth,
+				height: this.cHeight,
+				categories: data.categories,
+				series: data.series,
+				animation: true,
+				dataLabel:false,
+				dataPointShapeType: 'hollow',
+				color: ["#0ff"],
+				padding: [15,10,53,35],
+				enableScroll: false,
+				legend: {
+					show:false
+				},
+				onShadow:true,
+				xAxis: {
+					disabled:true,
+					disableGrid:true,
+				},
+				yAxis: {
+					disabled:true,
+					disableGrid:true,
+					data: [
+						{
+						  min: 0,
+						max: 100
+						}
+					  ]
+				},
+				extra: {
+					onShadow:true,
+					line: {
+						type: "straight",
+						width: 1,
+						activeType: "hollow",
+						onShadow:true,
+					},
+					area: {
+						type: "straight", // 区域图类型，可选值："straight"尖角折线模式,"curve"曲线圆滑模式,"step"时序图模式
+						opacity: 1, // 	区域图透明度
+						addLine: true, // 是否叠加相应的折线
+						width: 2, // 叠加的折线宽度
+						gradient: true, // 是否开启区域图渐变色
+						activeType: "hollow", // 激活指示点类型，可选值："none"不启用激活指示点,"hollow"空心点模式,"solid"实心点模式
+						onShadow:true,
+					},
+				}
+			});
 	    },
 	    tap1(e){
 	      uChartsInstance1[e.target.id].touchLegend(e);
