@@ -1,7 +1,7 @@
 
 <template>
   <view>
-    <canvas canvas-id="CXZOipJAGisASTyVrQIAFTvEQmntRbwh" id="CXZOipJAGisASTyVrQIAFTvEQmntRbwh" class="charts" @touchend="tap"/>
+    <canvas canvas-id="uchartBar" id="uchartBar" class="charts" @touchend="tap"/>
   </view>
 </template>
 
@@ -43,7 +43,7 @@ export default {
               },
             ]
           };
-        this.drawCharts('CXZOipJAGisASTyVrQIAFTvEQmntRbwh', res);
+        this.drawCharts('uchartBar', res);
       }, 500);
     },
     drawCharts(id,data){

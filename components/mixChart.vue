@@ -1,7 +1,7 @@
 <template>
 	<view class="box">
 	  <view>
-		<canvas canvas-id="minStactColumn" id="minStactColumn" class="charts" @touchend="tap"/>
+		<canvas canvas-id="uchartMixStactColumn" id="uchartMixStactColumn" class="charts" @touchend="tap"/>
 	  </view>
 	  <view class="pos" v-show="lineHideIs">
 		<canvas canvas-id="mixLine" id="mixLine" class="charts" @touchend="tap1"/>
@@ -80,7 +80,7 @@ export default {
               },
             ]
           };
-        this.drawCharts('minStactColumn', data1);
+        this.drawCharts('uchartMixStactColumn', data1);
 		  //模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
 		  let data2 = {
 			  categories: categories,

@@ -2,7 +2,7 @@
 基本环形图
 <template>
   <view>
-    <canvas canvas-id="jNTdgITTWQsHJEiPUFKhCeNODwKuyCce" id="jNTdgITTWQsHJEiPUFKhCeNODwKuyCce" class="charts" @touchend="tap"/>
+    <canvas canvas-id="uchartRing" id="uchartRing" class="charts" @touchend="tap"/>
   </view>
 </template>
 
@@ -42,7 +42,7 @@ export default {
               }
             ]
           };
-        this.drawCharts('jNTdgITTWQsHJEiPUFKhCeNODwKuyCce', res, total);
+        this.drawCharts('uchartRing', res, total);
     },
     drawCharts(id,data, total){
       const ctx = uni.createCanvasContext(id, this);

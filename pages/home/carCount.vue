@@ -121,15 +121,6 @@
 						color: '#666666'
 					}]
 				},
-				datas: {
-					"all": 0,
-					"running": 0,
-					"idling": 0,
-					"static": 0,
-					"off": 0
-				}
-				
-
 			}
 		},
 		mounted() {
@@ -151,23 +142,7 @@
 			this.showRing("canvasRing", this.Ring);
 			
 		},
-		watch: {
-			areaId(newVal) {
-				console.log(22, newVal)
-				// this.getData()
-			}
-		},
 		methods: {
-			getData() {
-				let that = this;
-				http.get("countByStatus", "", "?areaId=" + that.areaId).then( res => {
-					console.log(res)
-					if(res.code == 200 ){
-						that.datas = res.data
-					}
-				})
-				
-			},
 			showRing(canvasId, chartData) {
 				let that = this;
 				canvasObj[canvasId] = new uCharts({

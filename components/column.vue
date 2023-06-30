@@ -1,7 +1,7 @@
 
 <template>
   <view>
-    <canvas canvas-id="CcfvPPpbACVWvFlEGAjdPKSVEhIIvSvr" id="CcfvPPpbACVWvFlEGAjdPKSVEhIIvSvr" class="charts" @touchend="tap"/>
+    <canvas canvas-id="uchartColumn" id="uchartColumn" class="charts" @touchend="tap"/>
   </view>
 </template>
 
@@ -50,7 +50,7 @@ export default {
               // }
             ]
           };
-        this.drawCharts('CcfvPPpbACVWvFlEGAjdPKSVEhIIvSvr', res, max);
+        this.drawCharts('uchartColumn', res, max);
     },
     drawCharts(id,data, max){
       const ctx = uni.createCanvasContext(id, this);
