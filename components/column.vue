@@ -1,14 +1,4 @@
 
-基本柱状图
-堆叠柱状图
-圆角+渐变+半透明柱状图
-温度计图表
-圆角温度计图表
-正负柱状图
-柱状图滚动条
-全圆角柱状图+标记线
-Copyright © 2018-2023 uCharts All Rights Reserved. 秋云科技 版权所有吉ICP备18000454号-2
-未经许可，禁止转载、复制此文档的任何内容。
 <template>
   <view>
     <canvas canvas-id="CcfvPPpbACVWvFlEGAjdPKSVEhIIvSvr" id="CcfvPPpbACVWvFlEGAjdPKSVEhIIvSvr" class="charts" @touchend="tap"/>
@@ -19,6 +9,7 @@ Copyright © 2018-2023 uCharts All Rights Reserved. 秋云科技 版权所有吉
 import uCharts from './u-charts/u-charts.min.js';
 var uChartsInstance = {};
 export default {
+	props: ['data'],
   data() {
     return {
       cWidth: 660,
@@ -31,19 +22,27 @@ export default {
     this.cWidth = uni.upx2px(660);
     //这里的 500 对应 css .charts 的 height
     this.cHeight = uni.upx2px(500);
-    this.getServerData();
+    this.data.length && this.getServerData();
+  },
+  watch: {
+	data() {
+		this.data.length && this.getServerData();
+	}  
   },
   methods: {
     getServerData() {
-      //模拟从服务器获取数据时的延时
-      setTimeout(() => {
-        //模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
+		let max = 0;
+		this.data.forEach( v => {
+			if(max < v.number) {
+				max = v.number;
+			}
+		})
         let res = {
-            categories: ["2018","2019","2020","2021","2022","2023"],
+			categories: this.data.map( v => v.date.substr(6)),
             series: [
               {
                 name: "目标值",
-                data: [35,36,31,33,13,34]
+                data: this.data.map( v => v.number)
               },
               // {
               //   name: "完成量",
@@ -51,10 +50,9 @@ export default {
               // }
             ]
           };
-        this.drawCharts('CcfvPPpbACVWvFlEGAjdPKSVEhIIvSvr', res);
-      }, 500);
+        this.drawCharts('CcfvPPpbACVWvFlEGAjdPKSVEhIIvSvr', res, max);
     },
-    drawCharts(id,data){
+    drawCharts(id,data, max){
       const ctx = uni.createCanvasContext(id, this);
       uChartsInstance[id] = new uCharts({
         type: "column",
@@ -68,23 +66,33 @@ export default {
         color: ["#FFA4AC","#91CB74","#FAC858","#EE6666","#73C0DE","#3CA272","#FC8452","#9A60B4","#ea7ccc"],
         padding: [15,15,0,5],
         enableScroll: false,
-        legend: {},
+		dataLabel:false,
+        legend: {
+			show: false
+		},
+		dataLabel:false,
         xAxis: {
           disableGrid: true
         },
         yAxis: {
-          data: [
-            {
-              min: 0
-            }
-          ]
+			showTitle: true,
+			data: [
+				{
+					title: '数量',
+					titleOffsetX: -10,
+				  min: 0,
+				  max: max ,
+				  tofix: 1,
+				}
+			]
         },
         extra: {
           column: {
             type: "group",
 			width: this.cWidth * this.pixelRatio * 0.3 / data.categories.length,
             activeBgColor: "#000000",
-            activeBgOpacity: 0.08
+            activeBgOpacity: 0.08,
+			// labelPosition: 'center'
           }
         }
       });

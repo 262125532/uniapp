@@ -17,10 +17,17 @@ export default {
 	org: '/iot-common-device-tenant/api/nebula/device/area/v1',
 	updateCar: '/iot-common-device-tenant/api/nebula/device/aiot/updateXtSensorDevice/v2',
 	countByStatus: '/iot-xingtu20-service-tenant/intelligent/countByStatus',
-	weekHourTop5: '/iot-xingtu20-service-tenant/app/worktime/car/top5?day=2023-06-20&areaId=1',
-	weekHourStatistic: '/iot-xingtu20-service-tenant/app/worktime/customer/statistic/week?areaId=1',
+	dayHourTop5: '/iot-xingtu20-service-tenant/app/worktime/car/top5',
+	weekHourStatistic: '/iot-xingtu20-service-tenant/app/worktime/customer/statistic/week',
 	getCarList: '/iot-xingtu20-service-tenant/intelligent/tree',
 	getCarList1: '/iot-xingtu20-service-tenant/intelligent/treePage',//车辆列表--带分页和车辆图片
+	dayHourStatistic: '/iot-xingtu20-service-tenant/app/worktime/customer/statistic',
+	weekHourTop5: '/iot-xingtu20-service-tenant/app/worktime/car/top5_week',
+	dayAlarm: '/iot-xingtu20-service-tenant/intelligent/count/today/fenceAlarms',
+	weekAlarmByDay: '/iot-xingtu20-service-tenant/intelligent/count/week/fenceAlarms/byDay',
+	weekAlarmByMessage: '/iot-xingtu20-service-tenant/intelligent/count/week/fenceAlarms/byMessage',
+	weekAlarmTop5: '/iot-xingtu20-service-tenant/intelligent/count/week/fenceAlarms/top5',
+	deviceAlarmList: '/iot-xingtu20-service-tenant/intelligent/deviceAlarm/list'
 	
 	
 }

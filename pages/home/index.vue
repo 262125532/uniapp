@@ -24,8 +24,6 @@
 				<view class="card-title">
 					今日工时
 				</view>
-				
-				
 				<view class="uni-flex uni-row">
 					<view style="-webkit-flex: 1;flex: 1;">
 						<view class="card">
@@ -36,8 +34,8 @@
 								开工车辆数
 							</view>
 							<view class="num" style="color: #3370FF;">
-								99999
-								<text class="bit">台</text>
+								{{dataHourDatas.workCars}}
+								<text class="bit">辆</text>
 							</view>
 						</view>
 					</view>
@@ -50,8 +48,8 @@
 								未开工车辆数
 							</view>
 							<view class="num">
-								99999
-								<text class="bit">台</text>
+								{{dataHourDatas.notWorkCars}}
+								<text class="bit">辆</text>
 							</view>
 						</view>
 						
@@ -65,7 +63,7 @@
 								总工作时长
 							</view>
 							<view class="num" style="color: #3370FF;">
-								99999
+								{{(dataHourDatas.totalWorkTime/60/60).toFixed(1)}}
 								<text class="bit">小时</text>
 							</view>
 							
@@ -77,7 +75,7 @@
 								总运行时长
 							</view>
 							<view class="num" style="color: #52C41A;">
-								9999.9
+								{{(dataHourDatas.totalRunningTime/60/60).toFixed(1)}}
 								<text class="bit">小时</text>
 							</view>
 							
@@ -86,10 +84,10 @@
 					<view style="-webkit-flex: 1;flex: 1;">
 						<view class="card1" style="background-color: rgba(250,100,0,0.08);">
 							<view class="sub-t">
-								百公里油耗
+								总怠速时长
 							</view>
 							<view class="num" style="color: #FF6000;">
-								99999
+								{{(dataHourDatas.totalIdlingTime/60/60).toFixed(1)}}
 								<text class="bit">小时</text>
 							</view>
 							
@@ -105,7 +103,7 @@
 								平均工作时长
 							</view>
 							<view class="num" style="color: #3370FF; ">
-								99999
+								{{(dataHourDatas.avgWorkTime/60/60).toFixed(1)}}
 								<text class="bit">小时</text>
 							</view>
 							
@@ -117,7 +115,7 @@
 								平均运行时长
 							</view>
 							<view class="num" style="color: #52C41A;">
-								99999
+								{{(dataHourDatas.avgRunningTime/60/60).toFixed(1)}}
 								<text class="bit">小时</text>
 							</view>
 							
@@ -129,7 +127,7 @@
 								平均怠速时长
 							</view>
 							<view class="num" style="color: #FF6000;">
-								99999
+								{{(dataHourDatas.avgIdlingTime/60/60).toFixed(1)}}
 								<text class="bit">小时</text>
 							</view>
 							
@@ -151,7 +149,7 @@
 						TOP5
 					</view>
 				</view>
-				<mixChart v-if="hourActive" />
+				<mixChart v-if="hourActive" :data="mixChartData" />
 				<stactBar :data="weekHourTop5Data" v-if="!hourActive"  />
 			</view>
 			
@@ -172,7 +170,7 @@
 							报警总数
 						</view>
 						<view class="num">
-							99999
+							{{dayTotalAlarm}}
 						</view>
 						
 					</view>
@@ -198,74 +196,20 @@
 					</view>
 				</view>
 				
-				<column />
+				<column v-if="weekActive==1" :data="weekAlarmByDay" />
+				<ring v-if="weekActive==2" :data="weekAlarmByMessage" />
+				<bar v-if="weekActive==3" :data="weekAlarmTop5" />
 			</view>
 			
-			<view :class="showAll1?'car-box week-alarm':'car-box week-alarm week-alarm-inline'" >
-				<view class="card-title" @click="changeShowAll1()">
-					终端电量不足
+			
+			<view :class="showAll[index]?'car-box week-alarm':'car-box week-alarm week-alarm-inline'" v-for="(item, index) in alarmList" >
+				<view class="card-title" @click="changeShowAll(index)">
+					{{item.alarmMessage}}
 					<image class="icon" src="../../static/img/right.png" alt="">
 				</view>
 				
 				<view class="uni-flex uni-row list" style="-webkit-flex-wrap: wrap;flex-wrap: wrap;">
-					<view class="text item">N5456R123456678</view>
-					<view class="text item">N5456R123456678</view>
-					<view class="text item">N5456R123456678</view>
-					<view class="text item">N5456R123456678</view>
-					<view class="text item">N5456R123456678</view>
-					<view class="text item">N5456R123456678</view>
-					<view class="text item">京aaa</view>
-				</view>
-			</view>
-			
-			<view :class="showAll2?'car-box week-alarm':'car-box week-alarm week-alarm-inline'" >
-				<view class="card-title" @click="changeShowAll2()">
-					安装异常报警
-					<image class="icon" src="../../static/img/right.png" alt="">
-				</view>
-				
-				<view class="uni-flex uni-row list" style="-webkit-flex-wrap: wrap;flex-wrap: wrap;">
-					<view class="text item">N5456R123456678</view>
-					<view class="text item">N5456R123456678</view>
-					<view class="text item">N5456R123456678</view>
-					<view class="text item">N5456R123456678</view>
-					<view class="text item">N5456R123456678</view>
-					<view class="text item">N5456R123456678</view>
-					<view class="text item">京aaa</view>
-				</view>
-			</view>
-			
-			<view :class="showAll3?'car-box week-alarm':'car-box week-alarm week-alarm-inline'" >
-				<view class="card-title" @click="changeShowAll3()">
-					终端拆壳异常
-					<image class="icon" src="../../static/img/right.png" alt="">
-				</view>
-				
-				<view class="uni-flex uni-row list" style="-webkit-flex-wrap: wrap;flex-wrap: wrap;">
-					<view class="text item">N5456R123456678</view>
-					<view class="text item">N5456R123456678</view>
-					<view class="text item">N5456R123456678</view>
-					<view class="text item">N5456R123456678</view>
-					<view class="text item">N5456R123456678</view>
-					<view class="text item">N5456R123456678</view>
-					<view class="text item">京aaa</view>
-				</view>
-			</view>
-			
-			<view :class="showAll4?'car-box week-alarm':'car-box week-alarm week-alarm-inline'" >
-				<view class="card-title" @click="changeShowAll4()">
-					终端拆除报警
-					<image class="icon" src="../../static/img/right.png" alt="">
-				</view>
-				
-				<view class="uni-flex uni-row list" style="-webkit-flex-wrap: wrap;flex-wrap: wrap;">
-					<view class="text item">N5456R123456678</view>
-					<view class="text item">N5456R123456678</view>
-					<view class="text item">N5456R123456678</view>
-					<view class="text item">N5456R123456678</view>
-					<view class="text item">N5456R123456678</view>
-					<view class="text item">N5456R123456678</view>
-					<view class="text item">京aaa</view>
+					<view class="text item" v-for="device in item.licPlateNums">{{device}}</view>
 				</view>
 			</view>
 		</view>
@@ -280,10 +224,12 @@
 	import mixChart from '@/components/mixChart.vue'
 	import stactBar from '@/components/stactBar.vue'
 	import column from '@/components/column.vue'
+	import ring from '@/components/ring.vue'
+	import bar from '@/components/bar.vue'
 	var _self;
 	var canvasObj = {};
 	export default {
-		components: {  tkiTree, carCount, mixChart, stactBar, column },
+		components: {  tkiTree, carCount, mixChart, stactBar, column, ring, bar },
 		data() {
 			return {
 				pixelRatio: 1,
@@ -299,11 +245,7 @@
 				flod: false,
 				hourActive: true,
 				weekActive: 1,
-				showAll: [true, false, false, false,],
-				showAll1: false,
-				showAll2: false,
-				showAll3: false,
-				showAll4: false,
+				showAll: [false, false, false, false,],
 				carCounts: {
 					"all": 0,
 					"running": 0,
@@ -311,16 +253,14 @@
 					"static": 0,
 					"off": 0
 				},
+				dataHourDatas: {},
 				weekHourTop5Data: [],
-				Column: {
-					"categories": ["6.1", "6.2", "6.3", "6.4", "6.5", "6.6"],
-					"series": [{
-						"name": "成交量1",
-						color: '#FFA4AC',
-						"data": [15, 20, 45, 37, 43, 34]
-					}]
-				},
-
+				mixChartData: [],
+				dayTotalAlarm: 0,
+				weekAlarmByDay: [],
+				weekAlarmByMessage: [],
+				weekAlarmTop5: [],
+				alarmList: []
 			}
 		},
 		onLoad() {
@@ -342,10 +282,6 @@
 			this.cHeight1 = uni.upx2px(300);
 			
 			this.init()
-			// this.showRing("canvasRing", this.Ring);
-			this.showMix("canvasMix", this.Mix);
-			this.showColumn("canvasColumn", this.Column);
-			
 		},
 		
 		methods: {
@@ -385,32 +321,44 @@
 					}
 				})
 				
+				//今日工时统计
+				http.get("dayHourStatistic").then( res => {
+					res.code==200 && (that.dataHourDatas = res.data)
+				})
 				// 获取本周工时top5
-				http.get("weekHourTop5").then(res => {
-					
-					console.log(res)
-					that.weekHourTop5Data = res.data.list
+				http.get("weekHourTop5", "", "?areaId=" + that.areaId).then(res => {
+					res.code==200 &&  (that.weekHourTop5Data = res.data.list)
 				})
 				
 				//获取本周工时趋势
-				http.get("weekHourStatistic",).then(res => {
-					
-					console.log(res)
+				http.get("weekHourStatistic", "", "?areaId=" + that.areaId).then(res => {
+					res.code==200 && (that.mixChartData = res.data.list)
+				})
+				
+				//今日报警--报警总数
+				http.get("dayAlarm", "", "?areaId=1").then( res => {
+					res.code==200 && (that.dayTotalAlarm = res.data)
+				})
+				
+				http.get("weekAlarmByDay", "", "?areaId=" + that.areaId).then( res => {
+					res.code==200 && (that.weekAlarmByDay = res.data.list)
+				})
+				
+				http.get("weekAlarmByMessage", "", "?areaId=" + that.areaId).then( res => {
+					res.code==200 && (that.weekAlarmByMessage = res.data.list)
+				})
+				
+				http.get("weekAlarmTop5", "", "?areaId=" + that.areaId).then( res => {
+					res.code==200 && (that.weekAlarmTop5 = res.data.list)
+				})
+				http.get("deviceAlarmList", "", "?areaId=" + that.areaId).then( res=> {
+					res.code==200 && (that.alarmList = res.data.list)
 				})
 				
 				
 			},
-			changeShowAll1() {
-				this.showAll1 = !this.showAll1;
-			},
-			changeShowAll2() {
-				this.showAll2 = !this.showAll2;
-			},
-			changeShowAll3() {
-				this.showAll3 = !this.showAll3;
-			},
-			changeShowAll4() {
-				this.showAll4 = !this.showAll4;
+			changeShowAll(index) {
+				this.showAll[index] = this.$set(this.showAll, index, !this.showAll[index])
 			},
 			changeHourActive() {
 				this.hourActive = !this.hourActive
@@ -445,46 +393,6 @@
 				
 				
 			},
-			showColumn(canvasId, chartData) {
-				canvasObj[canvasId] = new uCharts({
-					$this: _self,
-					canvasId: canvasId,
-					type: 'column',
-					padding: [15, 15, 0, 15],
-					legend: {
-						show: false,
-						padding: 5,
-						lineHeight: 11,
-						margin: 0,
-					},
-					fontSize: 11,
-					background: '#FFFFFF',
-					pixelRatio: _self.pixelRatio,
-					animation: false,
-					categories: chartData.categories,
-					series: chartData.series,
-					xAxis: {
-						disableGrid: true,
-					},
-					yAxis: {
-						// format: (val) => {
-						// 	return val.toFixed(0) + '元'
-						// }
-					},
-					dataLabel: false,
-					width: _self.cWidth * _self.pixelRatio,
-					height: _self.cHeight * _self.pixelRatio,
-					extra: {
-						column: {
-							// type: 'group',
-							width: _self.cWidth * _self.pixelRatio * 0.45 / chartData.categories.length
-						}
-					}
-				});
-			},
-			
-			
-			
 		}
 	}
 </script>
