@@ -29,7 +29,7 @@ export default {
 	mounted() {
 		this.cWidth = uni.upx2px(660);
 		this.cHeight = uni.upx2px(500);
-		this.data.length && this.getServerData();
+		this.getServerData();
 	},
 	watch: {
 		data(newVal) {

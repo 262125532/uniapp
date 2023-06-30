@@ -22,11 +22,11 @@ export default {
     this.cWidth = uni.upx2px(660);
     //这里的 300 对应 css .charts 的 height
     this.cHeight = uni.upx2px(300);
-    this.data.length && this.getServerData();
+    this.getServerData();
   },
   watch: {
 	  data() {
-		  this.data.length && this.getServerData();
+		  this.getServerData();
 	  }
   },
   methods: {

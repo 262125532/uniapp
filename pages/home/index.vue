@@ -283,7 +283,11 @@
 			
 			this.init()
 		},
-		
+		watch: {
+			areaId() {
+				this.getDatas()
+			}
+		},
 		methods: {
 			init() {
 				let that = this;
@@ -313,7 +317,12 @@
 			},
 			getDatas() {
 				let that = this;
-				
+				that.weekHourTop5Data= []
+				that.mixChartData= []
+				that.weekAlarmByDay= []
+				that.weekAlarmByMessage= []
+				that.weekAlarmTop5= []
+				that.alarmList= []				
 				//获取车辆数
 				http.get("countByStatus", "", "?areaId=" + that.areaId).then( res => {
 					if(res.code == 200 ){
@@ -332,7 +341,7 @@
 				
 				//获取本周工时趋势
 				http.get("weekHourStatistic", "", "?areaId=" + that.areaId).then(res => {
-					res.code==200 && (that.mixChartData = res.data.list)
+					res.code==200 && res.data && (that.mixChartData = res.data.list)
 				})
 				
 				//今日报警--报警总数
