@@ -62,7 +62,7 @@
 							<view class="sub-t">
 								总工作时长
 							</view>
-							<view class="num" style="color: #3370FF;">
+							<view class="num" style="color: #3370FF;" v-if="dataHourDatas.workCars">
 								{{(dataHourDatas.totalWorkTime/60/60).toFixed(1)}}
 								<text class="bit">小时</text>
 							</view>
@@ -74,7 +74,7 @@
 							<view class="sub-t">
 								总运行时长
 							</view>
-							<view class="num" style="color: #52C41A;">
+							<view class="num" style="color: #52C41A;" v-if="dataHourDatas.workCars">
 								{{(dataHourDatas.totalRunningTime/60/60).toFixed(1)}}
 								<text class="bit">小时</text>
 							</view>
@@ -86,7 +86,7 @@
 							<view class="sub-t">
 								总怠速时长
 							</view>
-							<view class="num" style="color: #FF6000;">
+							<view class="num" style="color: #FF6000;" v-if="dataHourDatas.workCars">
 								{{(dataHourDatas.totalIdlingTime/60/60).toFixed(1)}}
 								<text class="bit">小时</text>
 							</view>
@@ -102,7 +102,7 @@
 							<view class="sub-t">
 								平均工作时长
 							</view>
-							<view class="num" style="color: #3370FF; ">
+							<view class="num" style="color: #3370FF; " v-if="dataHourDatas.workCars">
 								{{(dataHourDatas.avgWorkTime/60/60).toFixed(1)}}
 								<text class="bit">小时</text>
 							</view>
@@ -114,7 +114,7 @@
 							<view class="sub-t">
 								平均运行时长
 							</view>
-							<view class="num" style="color: #52C41A;">
+							<view class="num" style="color: #52C41A;" v-if="dataHourDatas.workCars">
 								{{(dataHourDatas.avgRunningTime/60/60).toFixed(1)}}
 								<text class="bit">小时</text>
 							</view>
@@ -126,7 +126,7 @@
 							<view class="sub-t">
 								平均怠速时长
 							</view>
-							<view class="num" style="color: #FF6000;">
+							<view class="num" style="color: #FF6000;" v-if="dataHourDatas.workCars">
 								{{(dataHourDatas.avgIdlingTime/60/60).toFixed(1)}}
 								<text class="bit">小时</text>
 							</view>
@@ -203,9 +203,9 @@
 			
 			
 			<view :class="showAll[index]?'car-box week-alarm':'car-box week-alarm week-alarm-inline'" v-for="(item, index) in alarmList" >
-				<view class="card-title" @click="changeShowAll(index)">
+				<view class="card-title" @click="changeShowAll(index, item.licPlateNums.length > 3)">
 					{{item.alarmMessage}}
-					<image class="icon" src="../../static/img/right.png" alt="">
+					<image class="icon" src="../../static/img/right.png" alt="" v-if="item.licPlateNums.length > 3">
 				</view>
 				
 				<view class="uni-flex uni-row list" style="-webkit-flex-wrap: wrap;flex-wrap: wrap;">
@@ -357,8 +357,8 @@
 				
 				
 			},
-			changeShowAll(index) {
-				this.showAll[index] = this.$set(this.showAll, index, !this.showAll[index])
+			changeShowAll(index, doChange) {
+				!!doChange && (this.showAll[index] = this.$set(this.showAll, index, !this.showAll[index]))
 			},
 			changeHourActive() {
 				this.hourActive = !this.hourActive

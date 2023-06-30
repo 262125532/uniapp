@@ -69,17 +69,17 @@ export default {
           name: "围栏报警",
           fontSize: 12,
           color: "#666666",
-		  offsetY: 44
+		  offsetY: 32
         },
         subtitle: {
           name: total,
-          fontSize: 40,
+          fontSize: 32,
           color: "#000",
-		  offsetY: -26
+		  offsetY: -20
         },
         extra: {
           ring: {
-            ringWidth: 16,
+            ringWidth: 12,
             activeOpacity: 0.5,
             activeRadius: 10,
             offsetAngle: 0,
