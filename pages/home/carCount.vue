@@ -1,82 +1,87 @@
 <template>
 		<view class="cars">
-			<view class="total">
-				<view class="qiun-charts">
-					<!--#ifdef MP-ALIPAY -->
-					<canvas canvas-id="canvasRing" id="canvasRing" class="charts" :width="cWidth*pixelRatio" :height="cHeight*pixelRatio"
-					 :style="{'width':cWidth+'px','height':cHeight+'px'}"></canvas>
-					<!--#endif-->
-					<!--#ifndef MP-ALIPAY -->
-					<canvas canvas-id="canvasRing" id="canvasRing" class="charts"></canvas>
-					<!--#endif-->
+			<view class="uni-flex uni-row">
+				<view class="text" style="width: 300rpx;">
+					<view class="total">
+						<view class="qiun-charts">
+							<!--#ifdef MP-ALIPAY -->
+							<canvas canvas-id="canvasRing" id="canvasRing" class="charts" :width="cWidth*pixelRatio" :height="cHeight*pixelRatio"
+							 :style="{'width':cWidth+'px','height':cHeight+'px'}"></canvas>
+							<!--#endif-->
+							<!--#ifndef MP-ALIPAY -->
+							<canvas canvas-id="canvasRing" id="canvasRing" class="charts"></canvas>
+							<!--#endif-->
+						</view>
+					</view>
+					
 				</view>
-				<view class="num">
-					{{carCounts.all}}
+				<view class="text" style="-webkit-flex: 1;flex: 1;">
+					<view class="right">
+						<view class="item green">
+							<view class="t">
+								运行车辆
+							</view>
+							<view class="num1">
+								{{carCounts.running}}
+							</view>
+							<view class="num2" v-if="!!carCounts.all">
+								{{(carCounts.running/carCounts.all*100).toFixed(2)}}%
+							</view>
+						</view>
+						
+						<view class="item blue">
+							<view class="t">
+								静止车辆
+							</view>
+							<view class="num1">
+								{{carCounts.static}}
+							</view>
+							<view class="num2" v-if="!!carCounts.all">
+								{{(carCounts.static/carCounts.all*100).toFixed(2)}}%
+							</view>
+						</view>
+						
+						<view class="item orange">
+							<view class="t">
+								怠速车辆
+							</view>
+							<view class="num1">
+								{{carCounts.idling}}
+							</view>
+							<view class="num2" v-if="!!carCounts.all">
+								{{(carCounts.idling/carCounts.all*100).toFixed(2)}}%
+							</view>
+						</view>
+						
+						<!-- <view class="item green1">
+							<view class="t">
+								行驶车辆
+							</view>
+							<view class="num1">
+								{{carCounts.all}}
+							</view>
+							<view class="num2" v-if="!!carCounts.all">
+								{{(carCounts.running/carCounts.all*100).toFixed(2)}}%
+							</view>
+						</view> -->
+						
+						<view class="item gray">
+							<view class="t">
+								离线车辆
+							</view>
+							<view class="num1">
+								{{carCounts.off}}
+							</view>
+							<view class="num2" v-if="!!carCounts.all">
+								{{(carCounts.off/carCounts.all*100).toFixed(2)}}%
+							</view>
+						</view>
+						
+					</view>
 				</view>
-				总车辆
 			</view>
-			<view class="right">
-				<view class="item green">
-					<view class="t">
-						运行车辆
-					</view>
-					<view class="num1">
-						{{carCounts.running}}
-					</view>
-					<view class="num2" v-if="!!carCounts.all">
-						{{(carCounts.running/carCounts.all*100).toFixed(2)}}%
-					</view>
-				</view>
-				
-				<view class="item blue">
-					<view class="t">
-						静止车辆
-					</view>
-					<view class="num1">
-						{{carCounts.static}}
-					</view>
-					<view class="num2" v-if="!!carCounts.all">
-						{{(carCounts.static/carCounts.all*100).toFixed(2)}}%
-					</view>
-				</view>
-				
-				<view class="item orange">
-					<view class="t">
-						怠速车辆
-					</view>
-					<view class="num1">
-						{{carCounts.idling}}
-					</view>
-					<view class="num2" v-if="!!carCounts.all">
-						{{(carCounts.idling/carCounts.all*100).toFixed(2)}}%
-					</view>
-				</view>
-				
-				<!-- <view class="item green1">
-					<view class="t">
-						行驶车辆
-					</view>
-					<view class="num1">
-						{{carCounts.all}}
-					</view>
-					<view class="num2" v-if="!!carCounts.all">
-						{{(carCounts.running/carCounts.all*100).toFixed(2)}}%
-					</view>
-				</view> -->
-				
-				<view class="item gray">
-					<view class="t">
-						离线车辆
-					</view>
-					<view class="num1">
-						{{carCounts.off}}
-					</view>
-					<view class="num2" v-if="!!carCounts.all">
-						{{(carCounts.off/carCounts.all*100).toFixed(2)}}%
-					</view>
-				</view>
-				
-			</view>
+			
+			
 			
 			
 		</view>
@@ -98,7 +103,6 @@
 				cWidth: '',
 				cHeight:'',
 				Ring: {
-					// series: [50, 30, 20,10, 5],
 					series: [{
 						"name": "运行",
 						"data": 50,
@@ -139,26 +143,59 @@
 			//#endif
 			this.cWidth = uni.upx2px(300);
 			this.cHeight = uni.upx2px(300);
-			this.showRing("canvasRing", this.Ring);
+			this.carCounts.all && this.showRing("canvasRing", this.Ring);
 			
+		},
+		watch: {
+			carCounts() {
+				this.carCounts.all && this.showRing("canvasRing", this.Ring);
+			}
 		},
 		methods: {
 			showRing(canvasId, chartData) {
 				let that = this;
+				
+				let series = [{
+					"name": "运行",
+					"data": that.carCounts.running,
+					color: '#52C41A'
+				}, {
+					"name": "静止",
+					"data": that.carCounts.static,
+					color: '#3370FF'
+				}, {
+					"name": "怠速",
+					"data": that.carCounts.idling,
+					color: '#FF6000'
+				// }, {
+				// 	"name": "行驶",
+				// 	"data": that.carCounts.running,
+				// 	color: '#0EC4AC'
+				}, {
+					"name": "离线",
+					"data": that.carCounts.off,
+					color: '#666666'
+				}]
 				canvasObj[canvasId] = new uCharts({
 					$this: _self,
 					canvasId: canvasId,
 					type: 'ring',
 					fontSize: 11,
-					padding: [10, 5, 5, 2],
+					padding: [10, 5, 20, 2],
 					legend: {
 						show: false
 					},
-					// title: {
-					// 	name: '99999',
-					// 	color: '#000',
-					// 	fontSize: 30 * _self.pixelRatio,
-					// },
+					title: {
+						name: that.carCounts.all,
+						color: '#000',
+						fontSize: 30 * _self.pixelRatio,
+						offsetY: 10,
+					},
+					subtitle: {
+						name: '总车辆',
+						offsetY: 50,
+						
+					},
 					extra: {
 						pie: {
 							lableWidth: 15,
@@ -168,7 +205,7 @@
 					},
 					background: '#FFFFFF',
 					pixelRatio: _self.pixelRatio,
-					series: chartData.series,
+					series: series,
 					animation: false,
 					width: _self.cWidth * _self.pixelRatio,
 					height: _self.cHeight * _self.pixelRatio,
@@ -191,7 +228,7 @@
 
 <style scoped lang="scss">
 	.cars{
-		height: 440rpx;
+		// height: 440rpx;
 		background-color: #fff;
 		border-radius: 16rpx;
 		margin: 24rpx;
@@ -200,7 +237,6 @@
 		.total{
 			width: 298rpx;
 			height: 100%;
-			float: left;
 			text-align: center;
 			position: relative;
 			.num{
@@ -214,7 +250,6 @@
 		}
 		.right{
 			width: 380rpx;
-			float: right;
 		}
 		.item{
 			
