@@ -25,6 +25,12 @@
 			}
 		},
 		{
+			"path": "pages/cars/detail",
+			"style": {
+				"navigationBarTitleText": "车辆详情"
+			}
+		},
+		{
 			"path": "pages/app/index",
 			"style": {
 				"navigationBarTitleText": "应用"
@@ -41,56 +47,56 @@
 			"style": {
 				"navigationBarTitleText": "我的",
 				"navigationBarBackgroundColor": "#3370FF",
-				"navigationBarTextStyle" : "white"
+				"navigationBarTextStyle": "white"
 			}
 		},
 		{
 			"path": "pages/my/alarmPush",
 			"style": {
 				"navigationBarTitleText": "报警推送管理",
-				"navigationBarTextStyle" : "black"
+				"navigationBarTextStyle": "black"
 			}
 		},
 		{
 			"path": "pages/my/unActiveCar",
 			"style": {
 				"navigationBarTitleText": "未激活车辆",
-				"navigationBarTextStyle" : "black"
+				"navigationBarTextStyle": "black"
 			}
 		},
 		{
 			"path": "pages/my/editCar",
 			"style": {
 				"navigationBarTitleText": "编辑车辆",
-				"navigationBarTextStyle" : "black"
+				"navigationBarTextStyle": "black"
 			}
 		},
 		{
 			"path": "pages/my/carType",
 			"style": {
 				"navigationBarTitleText": "车辆类型",
-				"navigationBarTextStyle" : "black"
+				"navigationBarTextStyle": "black"
 			}
 		},
 		{
 			"path": "pages/my/carBrand",
 			"style": {
 				"navigationBarTitleText": "品牌型号",
-				"navigationBarTextStyle" : "black"
+				"navigationBarTextStyle": "black"
 			}
 		},
 		{
 			"path": "pages/my/org",
 			"style": {
 				"navigationBarTitleText": "选择企业",
-				"navigationBarTextStyle" : "black"
+				"navigationBarTextStyle": "black"
 			}
 		},
 		{
 			"path": "pages/my/buzzerReset",
 			"style": {
 				"navigationBarTitleText": "蜂鸣器重置",
-				"navigationBarTextStyle" : "black"
+				"navigationBarTextStyle": "black"
 			}
 		},
 		{
@@ -104,7 +110,7 @@
 			"style": {
 				"navigationBarTitleText": "关于",
 				"navigationBarBackgroundColor": "#3370FF",
-				"navigationBarTextStyle" : "white"
+				"navigationBarTextStyle": "white"
 			}
 		},
 		{
