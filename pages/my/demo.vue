@@ -1,19 +1,10 @@
 <template>
 	<view class="content">
 		<navBar :navBar="navBar" />
-		<scroll-view 
-			style="height: 300px;" 
-			scroll-y="true" 
-			refresher-enabled="true" 
-			:refresher-triggered="triggered"
-			:refresher-threshold="100" 
-			refresher-background="lightgreen" 
-			@refresherpulling="onPulling"
-			@refresherrefresh="onRefresh" 
-			@refresherrestore="onRestore" 
-			@refresherabort="onAbort"
-					></scroll-view>
-		
+		<scroll-view style="height: 300px;" scroll-y="true" refresher-enabled="true" :refresher-triggered="triggered"
+			:refresher-threshold="100" refresher-background="lightgreen" @refresherpulling="onPulling"
+			@refresherrefresh="onRefresh" @refresherrestore="onRestore" @refresherabort="onAbort"></scroll-view>
+
 	</view>
 </template>
 
@@ -35,13 +26,15 @@
 				},
 			}
 		},
-		components: { navBar },
+		components: {
+			navBar
+		},
 		onLoad() {
 			// this._freshing = false;
 			// setTimeout(() => {
 			// 	this.triggered = true;
 			// }, 1000)
-			
+
 		},
 		methods: {
 			onPulling(e) {
@@ -62,14 +55,14 @@
 			onAbort() {
 				console.log("onAbort");
 			}
-			
+
 		}
 	}
 </script>
 
 
 <style scoped lang="scss">
-	.content{
+	.content {
 		background: #F0F2F5;
 		min-height: calc(100vh - 0rpx);
 	}

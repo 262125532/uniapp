@@ -4,8 +4,8 @@ let baseUrl= '';
 // 测试：ai-api-test.sany.com.cn
 // 测试环境 development
 if(process.env.NODE_ENV == "development"){
-	baseUrl= 'https://iot-api.ubsense.cn';
-	// baseUrl= 'https://ai-api-test.sany.com.cn';
+	// baseUrl= 'https://iot-api.ubsense.cn';
+	baseUrl= 'https://ai-api-test.sany.com.cn';
 }
 // 生产环境 production
 else{

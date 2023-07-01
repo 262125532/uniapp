@@ -2,7 +2,7 @@
 	<view class="content">
 		<navBar :navBar="navBar" />
 		<image class="logo" src="../../static/img/logo-blue.png" alt="">
-		<view class="text">智能作业监管</view>
+			<view class="text">智能作业监管</view>
 	</view>
 </template>
 
@@ -22,22 +22,25 @@
 				},
 			}
 		},
-		components: { navBar },
+		components: {
+			navBar
+		},
 		onLoad() {
-			
+
 		},
 		methods: {
-			
+
 		}
 	}
 </script>
 
 <style scoped lang="scss">
-	.content{
+	.content {
 		width: 100vw;
 		position: relative;
 	}
-	.logo{
+
+	.logo {
 		width: 260rpx;
 		height: 260rpx;
 		position: absolute;
@@ -45,17 +48,17 @@
 		left: 50vw;
 		margin-top: -130rpx;
 		margin-left: -130rpx
-		
 	}
-	.text{
+
+	.text {
 		width: 100vw;
 		position: absolute;
 		top: 30vh;
 		margin-top: 200rpx;
 		text-align: center;
 		font-size: 38rpx;
-		
-		
-		
+
+
+
 	}
 </style>

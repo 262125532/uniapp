@@ -6,7 +6,7 @@
 		</view>
 		<view class="form">
 			<form>
-				<view class="uni-form-item input-box" >
+				<view class="uni-form-item input-box">
 					<!-- <view class="title">手机号</view> -->
 					<input class="uni-input" name="telNumber" type="number" v-model="telNumber" placeholder="手机号" />
 				</view>
@@ -15,7 +15,7 @@
 						<!-- <view class="title">验证码</view> -->
 						<input class="uni-input" name="phoneCode" type="number" v-model="phoneCode" placeholder="验证码" />
 					</view>
-					
+
 					<view v-if="!timer" class="get-code-btn" @click="getCode">
 						获取验证码
 					</view>
@@ -23,18 +23,18 @@
 						{{ seconds }}s
 					</view>
 				</view>
-				<view class="uni-form-item input-box" >
+				<view class="uni-form-item input-box">
 					<!-- <view class="title">密码</view> -->
 					<input class="uni-input" name="password" v-model="password" placeholder="密码" />
 				</view>
 			</form>
-			
+
 		</view>
 		<view :class="isOK?'submit-btn submit-btn-ok':'submit-btn'" @click="formSubmit">
 			完成
 		</view>
-		
-		
+
+
 	</view>
 </template>
 
@@ -60,9 +60,11 @@
 				},
 			}
 		},
-		components: { navBar },
+		components: {
+			navBar
+		},
 		onLoad() {
-			
+
 		},
 		computed: {
 			isOK() {
@@ -72,10 +74,10 @@
 		watch: {
 			seconds(newVal) {
 				let that = this;
-				if(newVal == 0) {
+				if (newVal == 0) {
 					clearInterval(that.timer)
 					that.seconds = 60;
-					that.timer= null;
+					that.timer = null;
 				}
 			}
 		},
@@ -83,28 +85,28 @@
 			handleBack() {
 				uni.navigateBack();
 			},
-			getCode(){
+			getCode() {
 				let that = this
-				if( !that.telNumber ){
+				if (!that.telNumber) {
 					uni.showToast({
 						title: '请输入手机号',
 						icon: 'none',
 					});
 					return false
-				}else{
-					
+				} else {
+
 					http.get("phoneCode", "", that.telNumber).then(res => {
-						if(res.code == 200) {
+						if (res.code == 200) {
 							uni.showToast({
 								title: '验证码已发送',
 								icon: 'none',
 							});
-							
+
 							that.timer = setInterval(() => {
 								that.seconds = that.seconds - 1
 							}, 1000)
-							
-						}else {
+
+						} else {
 							uni.showToast({
 								title: res.msg,
 								icon: 'none',
@@ -118,48 +120,49 @@
 				// if(!that.isOK){
 				// 	return false
 				// }
-				
-				if(!that.telNumber){
+
+				if (!that.telNumber) {
 					uni.showToast({
 						title: '请输入手机号',
 						icon: 'none',
 					});
 					return false
 				}
-				if( !that.phoneCode){
+				if (!that.phoneCode) {
 					uni.showToast({
 						title: '请输入验证码',
 						icon: 'none',
 					});
 					return false
 				}
-				
-				if( !that.password){
+
+				if (!that.password) {
 					uni.showToast({
 						title: '请输入密码',
 						icon: 'none',
 					});
 					return false
 				}
-				
+
 				var encrypt = new JSEncrypt();
-				let publicKye = 'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBANL378k3RiZHWx5AfJqdH9xRNBmD9wGD2iRe41HdTNF8RUhNnHit5NpMNtGL0NPTSSpPjjI1kJfVorRvaQerUgkCAwEAAQ==';
+				let publicKye =
+					'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBANL378k3RiZHWx5AfJqdH9xRNBmD9wGD2iRe41HdTNF8RUhNnHit5NpMNtGL0NPTSSpPjjI1kJfVorRvaQerUgkCAwEAAQ==';
 				encrypt.setPublicKey(publicKye);
-			
+
 				let data = {
 					telNumber: that.telNumber,
 					phoneCode: that.phoneCode,
 					password: encrypt.encrypt(that.password)
 				}
-				
+
 				http.put('resetByCode', data).then(res => {
-					if(res.code == 200) {
+					if (res.code == 200) {
 						uni.showToast({
 							title: res.msg || '操作成功',
 							icon: 'none',
 						});
 						uni.navigateBack();
-					}else{
+					} else {
 						uni.showToast({
 							title: res.msg,
 							icon: 'none',
@@ -172,12 +175,12 @@
 				this.password = ''
 			},
 			changePassword: function() {
-			    this.showPassword = !this.showPassword;
+				this.showPassword = !this.showPassword;
 			},
-			checkboxChange(e){
-				if(e.detail.value && e.detail.value[0]){
+			checkboxChange(e) {
+				if (e.detail.value && e.detail.value[0]) {
 					this.checkbox = '1'
-				}else{
+				} else {
 					this.checkbox = '0'
 				}
 			}
@@ -192,55 +195,64 @@
 		background: #fff;
 		position: relative;
 	}
-	.form{
+
+	.form {
 		margin: 0 32rpx;
-		
-	}
-	.input-box{
-		border-top: none !important;
-		border-left: none !important;
-		border-right:none !important;
+
 	}
 
-	.tip{
+	.input-box {
+		border-top: none !important;
+		border-left: none !important;
+		border-right: none !important;
+	}
+
+	.tip {
 		padding: 30rpx 24rpx;
-		background-color: rgba(51,112,255,0.16);
+		background-color: rgba(51, 112, 255, 0.16);
 		color: #3370FF;
 		font-size: 22rpx;
-		
+
 	}
-	.uni-form-item{
+
+	.uni-form-item {
 		/* margin: 0 10rpx; */
 	}
-	.input-box{
+
+	.input-box {
 		display: block;
 		align-items: center;
 		height: 80rpx;
 		border: 1px solid #eee;
 		margin: 10rpx 0;
 	}
-	.uni-input{
+
+	.uni-input {
 		// height: 100%;
 		// background: #f00;
 		// margin: 5rpx 20rpx;
 		// padding: 25rpx 30rpx;
-		
+
 	}
+
 	.uni-input-wrapper {
 		position: relative;
 	}
-	.code{
+
+	.code {
 		height: 100rpx;
-		
-		
+
+
 	}
-	.code-input{
+
+	.code-input {
 		width: 60%;
 		float: left;
 		margin: 0;
-		
+
 	}
-	.get-code-btn{
+
+	.get-code-btn {
 		width: 30%;
 		height: 80rpx;
 		line-height: 80rpx;
@@ -249,20 +261,22 @@
 		margin: 10rpx 0;
 		font-size: 32rpx;
 	}
+
 	.uni-icon {
-	    font-family: uniicons;
-	    font-size: 48rpx;
-	    font-weight: normal;
-	    font-style: normal;
-	    width: 48rpx;
-	    height: 48rpx;
-	    line-height: 48rpx;
-	    color: #999999;
+		font-family: uniicons;
+		font-size: 48rpx;
+		font-weight: normal;
+		font-style: normal;
+		width: 48rpx;
+		height: 48rpx;
+		line-height: 48rpx;
+		color: #999999;
 		position: absolute;
 		right: 30rpx;
 		top: 20rpx;
 	}
-	.submit-btn{
+
+	.submit-btn {
 		text-align: center;
 		position: absolute;
 		right: 50rpx;
@@ -278,32 +292,37 @@
 		font-weight: bold;
 		color: #fff;
 	}
-	
-	.submit-btn-ok{
+
+	.submit-btn-ok {
 		background-color: #3370FF;
 		color: #fff;
-		
+
 	}
-	.text{
+
+	.text {
 		font-size: 24rpx;
-		text{
+
+		text {
 			color: #007AFF;
 		}
 	}
-	
+
 	/* #ifdef MP-WEIXIN */
-	.uni-btn-v{
+	.uni-btn-v {
 		margin: 0 32rpx;
-		.uni-button{
-			background: #3370FF!important;
+
+		.uni-button {
+			background: #3370FF !important;
 		}
 	}
+
 	/* #endif */
-	.uni-btn-v{
+	.uni-btn-v {
 		margin: 0 32rpx;
-		.uni-button{
-			background: #3370FF!important;
+
+		.uni-button {
+			background: #3370FF !important;
 		}
-		
+
 	}
 </style>

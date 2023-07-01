@@ -2,13 +2,14 @@
 	<view class="content">
 		<navBar :navBar="navBar" />
 		<view class="input-box">
-		    <input class="uni-input" @confirm="onSearch" placeholder="请输入终端编号" confirm-type="search" :value="searchValue" @input="clearInput" />
-		    <text class="uni-icon" v-if="!!searchValue" @click="clearSearch">&#xe434;</text>
+			<input class="uni-input" @confirm="onSearch" placeholder="请输入终端编号" confirm-type="search"
+				:value="searchValue" @input="clearInput" />
+			<text class="uni-icon" v-if="!!searchValue" @click="clearSearch">&#xe434;</text>
 		</view>
 		<view class="tip">
 			点击重置蜂鸣器按钮，可关闭本次终端报警蜂
 		</view>
-		
+
 		<view class="list">
 			<view class="item" v-for="item in list">
 				<view class="title">
@@ -20,19 +21,19 @@
 				<view class="num">
 					{{item.deviceSerialCode}}
 				</view>
-				
+
 				<view class="reset-btn" @click="handleReset(item)">
 					重置蜂鸣器
 				</view>
-				
+
 			</view>
-			
+
 		</view>
-		
+
 		<empty v-if="!loading && list.length == 0" />
-		
-		
-		
+
+
+
 	</view>
 </template>
 
@@ -58,31 +59,36 @@
 				loading: true
 			}
 		},
-		components: { navBar, empty },
+		components: {
+			navBar,
+			empty
+		},
 		onLoad() {
 			let that = this;
 			this.getData()
 		},
 		methods: {
 			onSearch() {
-					this.list = [];
-					this.getData()
+				this.list = [];
+				this.getData()
 			},
 			clearSearch() {
 				this.searchValue = ""
-				
+
 			},
 			clearInput(e) {
 				this.searchValue = e.detail.value
 			},
 			handleReset(val) {
-				http.post("resetBuzzer", {terminalId: val.deviceSerialCode}).then(res => {
-					if(res.code == 200) {
+				http.post("resetBuzzer", {
+					terminalId: val.deviceSerialCode
+				}).then(res => {
+					if (res.code == 200) {
 						uni.showToast({
 							title: res.data,
 							icon: 'none',
 						});
-					}else{
+					} else {
 						uni.showToast({
 							title: res.msg,
 							icon: 'none',
@@ -93,10 +99,10 @@
 			getData() {
 				let that = this;
 				let params = {
-					"areaId":1,
+					"areaId": 1,
 					"deviceSerialCode": that.searchValue,
 					"terminalType": 'smartJobType',
-					"sysName":"xt",
+					"sysName": "xt",
 				}
 				that.loading = true;
 				uni.showLoading({
@@ -106,70 +112,71 @@
 					uni.hideLoading();
 					that.loading = false;
 					that.list = []
-					res.data.forEach( val => {
-						if(val.var1 == "smartJobType") {
+					res.data.forEach(val => {
+						if (val.var1 == "smartJobType") {
 							that.list.push(val)
 						}
-						
+
 					})
 				})
-				
+
 			}
-			
+
 		}
 	}
 </script>
 
 
 <style scoped lang="scss">
-	.content{
+	.content {
 		// height: calc(100vh - 0rpx);
 		background-color: #F0F2F5;
 	}
-	
+
 	.input-box {
 		position: relative;
-	    padding: 24rpx;
-	    background-color: #FFFFFF;
+		padding: 24rpx;
+		background-color: #FFFFFF;
 	}
-	
+
 	.uni-input {
-	    height: 64rpx;
-	    font-size: 15px;
-	    padding: 0 28rpx;
-	    flex: 1;
-	    background-color: #F4F7FA;
+		height: 64rpx;
+		font-size: 15px;
+		padding: 0 28rpx;
+		flex: 1;
+		background-color: #F4F7FA;
 		border-radius: 44rpx;
 	}
-	
+
 	.uni-icon {
 		position: absolute;
-	    font-family: uniicons;
-	    font-size: 18px;
-	    font-weight: normal;
-	    font-style: normal;
-	    width: 24px;
-	    height: 24px;
-	    line-height: 24px;
-	    color: #999999;
+		font-family: uniicons;
+		font-size: 18px;
+		font-weight: normal;
+		font-style: normal;
+		width: 24px;
+		height: 24px;
+		line-height: 24px;
+		color: #999999;
 		right: 40rpx;
 		top: 32rpx;
 	}
-	
-	.tip{
+
+	.tip {
 		padding: 30rpx 24rpx;
-		background-color: rgba(51,112,255,0.16);
+		background-color: rgba(51, 112, 255, 0.16);
 		color: #3370FF;
 		font-size: 22rpx;
 		margin-bottom: 24rpx;
 	}
-	
-	.list{
+
+	.list {
 		margin: 0 24rpx 24rpx 24rpx;
 		border-radius: 16rpx;
 		// background-color: #fff;
 		overflow: hidden;
-		.item{
+
+		.item {
 			height: 144rpx;
 			line-height: 110rpx;
 			padding: 0 24rpx;
@@ -177,11 +184,12 @@
 			position: relative;
 			font-weight: 400;
 			background-color: #fff;
-			
-			.title{
+
+			.title {
 				position: relative;
 				font-size: 28rpx;
-				.status{
+
+				.status {
 					height: 40rpx;
 					line-height: 40rpx;
 					font-size: 24rpx;
@@ -192,21 +200,25 @@
 					border-radius: 8rpx;
 					font-weight: normal;
 				}
-				.gray{
+
+				.gray {
 					background-color: rgba(0, 0, 0, 0.16);
 					color: #666;
 				}
-				.green{
+
+				.green {
 					background-color: rgba(82, 196, 26, 0.16);
 					color: #52C41A;
 				}
 			}
-			.num{
+
+			.num {
 				font-size: 32rpx;
 				position: absolute;
 				top: 48rpx;
 			}
-			.reset-btn{
+
+			.reset-btn {
 				width: 160rpx;
 				height: 56rpx;
 				line-height: 56rpx;
@@ -218,19 +230,20 @@
 				right: 24rpx;
 				color: #fff;
 				font-size: 24rpx;
-				
+
 			}
-			
+
 		}
-		.item:first-child{
+
+		.item:first-child {
 			border-radius: 16rpx 16rpx 0 0;
 		}
-		.item:last-child{
+
+		.item:last-child {
 			border: none;
 			border-radius: 0 0 16rpx 16rpx;
 		}
-		
-		
+
+
 	}
-	
 </style>

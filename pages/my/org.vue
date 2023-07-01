@@ -1,12 +1,12 @@
 <template>
 	<view class="content">
 		<navBar :navBar="navBar" />
-		
+
 		<view class="tree" v-for>
-			
+
 		</view>
-		
-		
+
+
 	</view>
 </template>
 
@@ -28,32 +28,32 @@
 				orgTree: []
 			}
 		},
-		components: { navBar },
+		components: {
+			navBar
+		},
 		onLoad(option) {
 			let that = this;
 			that.bandType = option.bandType || '315D'
-			
-			http.get("org").then( res => {
+
+			http.get("org").then(res => {
 				that.orgTree = res.data[0].children;
-				
+
 			})
 		},
 		methods: {
 			handleSelect(val) {
-				
+
 			}
-			
+
 		}
 	}
 </script>
 
 
 <style scoped lang="scss">
-	.content{
+	.content {
 		background: #fff;
 		min-height: calc(100vh - 0rpx);
 		position: relative;
 	}
-	
-	
 </style>

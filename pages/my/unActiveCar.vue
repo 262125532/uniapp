@@ -4,18 +4,10 @@
 		<view class="tip">
 			以下车辆还未激活，如已绑定终端，请等待终
 		</view>
-		
-		<scroll-view 
-			scroll-y="true" 
-			class="list"
-			:refresher-triggered="triggered"
-			:refresher-enabled="true" 
-			:refresher-threshold="100" 
-			refresher-background="lightgreen" 
-			@scrolltolower="onPulling"
-			@refresherrefresh="refresherrefresh"
-			@refresherrestore="refresherrestore"
-			>
+
+		<scroll-view scroll-y="true" class="list" :refresher-triggered="triggered" :refresher-enabled="true"
+			:refresher-threshold="100" refresher-background="lightgreen" @scrolltolower="onPulling"
+			@refresherrefresh="refresherrefresh" @refresherrestore="refresherrestore">
 			<view class="item" v-for="item in list" @click="goto(item)">
 				{{item.plateNo}}
 				<view class="dot-box">
@@ -28,7 +20,7 @@
 				</view>
 			</view>
 		</scroll-view>
-		
+
 	</view>
 </template>
 
@@ -52,7 +44,9 @@
 				},
 			}
 		},
-		components: { navBar },
+		components: {
+			navBar
+		},
 		onLoad() {
 			this.getCarList();
 			this._freshing = false;
@@ -68,15 +62,18 @@
 				})
 			},
 			onPulling() {
-				this.pageNum = this.pageNum +1;
+				this.pageNum = this.pageNum + 1;
 				this.getCarList()
 			},
 			getCarList() {
 				let that = this;
-				http.post("unActiveCarList", {onlineStatus: 2,deviceTypeName: "aiboxTerminal"}, `?pageNum=${that.pageNum}&pageSize=20`).then( res => {
+				http.post("unActiveCarList", {
+					onlineStatus: 2,
+					deviceTypeName: "aiboxTerminal"
+				}, `?pageNum=${that.pageNum}&pageSize=20`).then(res => {
 					that._freshing = false;
 					that.triggered = false;
-					if(res.code == 200) {
+					if (res.code == 200) {
 						that.list.push(...res.data.content)
 					}
 				})
@@ -93,54 +90,58 @@
 			refresherrestore() {
 				this.triggered = 'restore'; // 需要重置
 			},
-			
+
 		}
 	}
 </script>
 
 
 <style scoped lang="scss">
-	.content{
+	.content {
 		background: #F0F2F5;
 		// min-height: calc(100vh - 0rpx);
 	}
-	.tip{
+
+	.tip {
 		padding: 30rpx 24rpx;
-		background-color: rgba(51,112,255,0.16);
+		background-color: rgba(51, 112, 255, 0.16);
 		color: #3370FF;
 		font-size: 22rpx;
 		margin-bottom: 24rpx;
 	}
-	.list{
+
+	.list {
 		height: calc(100vh - 200rpx);
 		padding: 0 24rpx 24rpx 24rpx;
 		border-radius: 16rpx;
 		overflow: hidden;
 		box-sizing: border-box;
-		.item{
+
+		.item {
 			height: 112rpx;
 			line-height: 112rpx;
 			padding: 0 30rpx 0 24rpx;
 			border-bottom: 1px solid #F0F2F5;
 			background-color: #fff;
-			
-			.dot-box{
+
+			.dot-box {
 				display: inline-block;
 				position: relative;
 				padding: 0 20rpx;
-				.dot{
+
+				.dot {
 					position: absolute;
 					top: -86rpx;
 					font-size: 48rpx;
 				}
 			}
-			
-			.link{
+
+			.link {
 				float: right;
-				color: rgba(0,0,0,0.6);
+				color: rgba(0, 0, 0, 0.6);
 				font-size: 28rpx;
-				
-				.icon{
+
+				.icon {
 					width: 24rpx;
 					height: 24rpx;
 					margin-left: 20rpx;
@@ -148,11 +149,13 @@
 				}
 			}
 		}
-		.item:first-child{
+
+		.item:first-child {
 			border-top-left-radius: 16rpx;
 			border-top-right-radius: 16rpx;
 		}
-		.item:last-child{
+
+		.item:last-child {
 			border-bottom-right-radius: 16rpx;
 			border-bottom-left-radius: 16rpx
 		}

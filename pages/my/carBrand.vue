@@ -2,11 +2,8 @@
 	<view class="content">
 		<navBar :navBar="navBar" />
 		<view class="list">
-			<view 
-				:class="index == curIndex? 'child active':'child'" 
-				v-for="(item, index) in list"
-				@click="parentClick(item,index)"
-				>
+			<view :class="index == curIndex? 'child active':'child'" v-for="(item, index) in list"
+				@click="parentClick(item,index)">
 				{{item.name}}
 				<view class="icon" v-if="index == curIndex"></view>
 			</view>
@@ -16,7 +13,7 @@
 				{{item.name}}
 			</view>
 		</view>
-		
+
 	</view>
 </template>
 
@@ -41,17 +38,21 @@
 				bandType: ''
 			}
 		},
-		components: { navBar },
+		components: {
+			navBar
+		},
 		onLoad(option) {
 			let that = this;
 			that.bandType = option.bandType || '315D'
-			
-			http.get("carBrand", {vehicleCode: option.var1 | '100001'}).then( res => {
+
+			http.get("carBrand", {
+				vehicleCode: option.var1 | '100001'
+			}).then(res => {
 				that.list = res.data;
 				that.subList = res.data[0].vehicleTypes
-				res.data.forEach( (val, index) => {
-					let find = val.models.find( v => v.name  == that.bandType);
-					if(find) {
+				res.data.forEach((val, index) => {
+					let find = val.models.find(v => v.name == that.bandType);
+					if (find) {
 						that.curIndex = index;
 						that.subList = val.models;
 					}
@@ -68,38 +69,42 @@
 				uni.navigateBack({
 					delta: 1
 				})
-				
-				
-				
+
+
+
 			}
-			
+
 		}
 	}
 </script>
 
 
 <style scoped lang="scss">
-	.content{
+	.content {
 		background: #fff;
 		min-height: calc(100vh - 0rpx);
 		position: relative;
 	}
-	.list{
+
+	.list {
 		width: 260rpx;
 		height: calc(100vh - 90rpx);
 		background-color: #F0F2F5;
-		.child{
+
+		.child {
 			height: 100rpx;
 			line-height: 100rpx;
-			
+
 			padding-left: 40rpx;
 			position: relative;
 		}
-		.active{
+
+		.active {
 			background-color: #fff;
 			color: #3370FF;
 		}
-		.icon{
+
+		.icon {
 			height: 30rpx;
 			width: 6rpx;
 			background-color: #3370FF;
@@ -107,21 +112,21 @@
 			left: 0rpx;
 			top: 34rpx;
 		}
-		
+
 	}
-	.sub-list{
+
+	.sub-list {
 		position: absolute;
 		left: 260rpx;
 		top: 0rpx;
-		
-		.sub-child{
+
+		.sub-child {
 			height: 100rpx;
 			line-height: 100rpx;
 			background-color: #fff;
 			padding-left: 40rpx;
 			position: relative;
-			
+
 		}
 	}
-	
 </style>

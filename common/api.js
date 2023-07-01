@@ -19,8 +19,8 @@ export default {
 	countByStatus: '/iot-xingtu20-service-tenant/intelligent/countByStatus',
 	dayHourTop5: '/iot-xingtu20-service-tenant/app/worktime/car/top5',
 	weekHourStatistic: '/iot-xingtu20-service-tenant/app/worktime/customer/statistic/week',
-	getCarList: '/iot-xingtu20-service-tenant/intelligent/tree',
-	getCarList1: '/iot-xingtu20-service-tenant/intelligent/treePage',//车辆列表--带分页和车辆图片
+	getCarList1: '/iot-xingtu20-service-tenant/intelligent/tree',
+	getCarList: '/iot-xingtu20-service-tenant/intelligent/treePage',//车辆列表--带分页和车辆图片
 	dayHourStatistic: '/iot-xingtu20-service-tenant/app/worktime/customer/statistic',
 	weekHourTop5: '/iot-xingtu20-service-tenant/app/worktime/car/top5_week',
 	dayAlarm: '/iot-xingtu20-service-tenant/intelligent/count/today/fenceAlarms',

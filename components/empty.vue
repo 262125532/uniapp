@@ -5,8 +5,8 @@
 </template>
 
 <style scoped lang="scss">
-	.content{
+	.content {
 		text-align: center;
-		color: rgba(0,0,0,0.6);
+		color: rgba(0, 0, 0, 0.6);
 	}
 </style>

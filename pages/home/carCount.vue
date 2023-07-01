@@ -1,59 +1,59 @@
 <template>
-		<view class="cars">
-			<view class="uni-flex uni-row">
-				<view class="text" style="width: 300rpx;">
-					<view class="total">
-						<view class="qiun-charts">
-							<!--#ifdef MP-ALIPAY -->
-							<canvas canvas-id="canvasRing" id="canvasRing" class="charts" :width="cWidth*pixelRatio" :height="cHeight*pixelRatio"
-							 :style="{'width':cWidth+'px','height':cHeight+'px'}"></canvas>
-							<!--#endif-->
-							<!--#ifndef MP-ALIPAY -->
-							<canvas canvas-id="canvasRing" id="canvasRing" class="charts"></canvas>
-							<!--#endif-->
+	<view class="cars">
+		<view class="uni-flex uni-row">
+			<view class="text" style="width: 300rpx;">
+				<view class="total">
+					<view class="qiun-charts">
+						<!--#ifdef MP-ALIPAY -->
+						<canvas canvas-id="canvasRing" id="canvasRing" class="charts" :width="cWidth*pixelRatio"
+							:height="cHeight*pixelRatio" :style="{'width':cWidth+'px','height':cHeight+'px'}"></canvas>
+						<!--#endif-->
+						<!--#ifndef MP-ALIPAY -->
+						<canvas canvas-id="canvasRing" id="canvasRing" class="charts"></canvas>
+						<!--#endif-->
+					</view>
+				</view>
+
+			</view>
+			<view class="text" style="-webkit-flex: 1;flex: 1;">
+				<view class="right">
+					<view class="item green">
+						<view class="t">
+							运行车辆
+						</view>
+						<view class="num1">
+							{{carCounts.running}}
+						</view>
+						<view class="num2" v-if="!!carCounts.all">
+							{{(carCounts.running/carCounts.all*100).toFixed(2)}}%
 						</view>
 					</view>
-					
-				</view>
-				<view class="text" style="-webkit-flex: 1;flex: 1;">
-					<view class="right">
-						<view class="item green">
-							<view class="t">
-								运行车辆
-							</view>
-							<view class="num1">
-								{{carCounts.running}}
-							</view>
-							<view class="num2" v-if="!!carCounts.all">
-								{{(carCounts.running/carCounts.all*100).toFixed(2)}}%
-							</view>
+
+					<view class="item blue">
+						<view class="t">
+							静止车辆
 						</view>
-						
-						<view class="item blue">
-							<view class="t">
-								静止车辆
-							</view>
-							<view class="num1">
-								{{carCounts.static}}
-							</view>
-							<view class="num2" v-if="!!carCounts.all">
-								{{(carCounts.static/carCounts.all*100).toFixed(2)}}%
-							</view>
+						<view class="num1">
+							{{carCounts.static}}
 						</view>
-						
-						<view class="item orange">
-							<view class="t">
-								怠速车辆
-							</view>
-							<view class="num1">
-								{{carCounts.idling}}
-							</view>
-							<view class="num2" v-if="!!carCounts.all">
-								{{(carCounts.idling/carCounts.all*100).toFixed(2)}}%
-							</view>
+						<view class="num2" v-if="!!carCounts.all">
+							{{(carCounts.static/carCounts.all*100).toFixed(2)}}%
 						</view>
-						
-						<!-- <view class="item green1">
+					</view>
+
+					<view class="item orange">
+						<view class="t">
+							怠速车辆
+						</view>
+						<view class="num1">
+							{{carCounts.idling}}
+						</view>
+						<view class="num2" v-if="!!carCounts.all">
+							{{(carCounts.idling/carCounts.all*100).toFixed(2)}}%
+						</view>
+					</view>
+
+					<!-- <view class="item green1">
 							<view class="t">
 								行驶车辆
 							</view>
@@ -64,29 +64,29 @@
 								{{(carCounts.running/carCounts.all*100).toFixed(2)}}%
 							</view>
 						</view> -->
-						
-						<view class="item gray">
-							<view class="t">
-								离线车辆
-							</view>
-							<view class="num1">
-								{{carCounts.off}}
-							</view>
-							<view class="num2" v-if="!!carCounts.all">
-								{{(carCounts.off/carCounts.all*100).toFixed(2)}}%
-							</view>
+
+					<view class="item gray">
+						<view class="t">
+							离线车辆
 						</view>
-						
+						<view class="num1">
+							{{carCounts.off}}
+						</view>
+						<view class="num2" v-if="!!carCounts.all">
+							{{(carCounts.off/carCounts.all*100).toFixed(2)}}%
+						</view>
 					</view>
+
 				</view>
 			</view>
-			
-			
-			
-			
 		</view>
-		
-		
+
+
+
+
+	</view>
+
+
 </template>
 
 
@@ -101,7 +101,7 @@
 			return {
 				pixelRatio: 1,
 				cWidth: '',
-				cHeight:'',
+				cHeight: '',
 				Ring: {
 					series: [{
 						"name": "运行",
@@ -128,7 +128,7 @@
 			}
 		},
 		mounted() {
-			
+
 			_self = this;
 			//#ifdef MP-ALIPAY
 			uni.getSystemInfo({
@@ -144,7 +144,7 @@
 			this.cWidth = uni.upx2px(300);
 			this.cHeight = uni.upx2px(300);
 			this.carCounts.all && this.showRing("canvasRing", this.Ring);
-			
+
 		},
 		watch: {
 			carCounts() {
@@ -154,7 +154,7 @@
 		methods: {
 			showRing(canvasId, chartData) {
 				let that = this;
-				
+
 				let series = [{
 					"name": "运行",
 					"data": that.carCounts.running,
@@ -167,10 +167,10 @@
 					"name": "怠速",
 					"data": that.carCounts.idling,
 					color: '#FF6000'
-				// }, {
-				// 	"name": "行驶",
-				// 	"data": that.carCounts.running,
-				// 	color: '#0EC4AC'
+					// }, {
+					// 	"name": "行驶",
+					// 	"data": that.carCounts.running,
+					// 	color: '#0EC4AC'
 				}, {
 					"name": "离线",
 					"data": that.carCounts.off,
@@ -194,7 +194,7 @@
 					subtitle: {
 						name: '总车辆',
 						offsetY: 50,
-						
+
 					},
 					extra: {
 						pie: {
@@ -211,9 +211,9 @@
 					height: _self.cHeight * _self.pixelRatio,
 					disablePieStroke: true,
 					dataLabel: false,
-					
+
 				});
-			
+
 			},
 			changeData() {
 				canvasObj['canvasRing'].updateData({
@@ -221,111 +221,128 @@
 					categories: _self.serverData.ColumnB.categories
 				});
 			},
-			
+
 		}
 	}
 </script>
 
 <style scoped lang="scss">
-	.cars{
+	.cars {
 		// height: 440rpx;
 		background-color: #fff;
 		border-radius: 16rpx;
 		margin: 24rpx;
 		padding: 32rpx 24rpx 24rpx 0;
 		box-sizing: border-box;
-		.total{
+
+		.total {
 			width: 298rpx;
 			height: 100%;
 			text-align: center;
 			position: relative;
-			.num{
+
+			.num {
 				width: 100%;
 				text-align: center;
 				position: absolute;
 				top: 130rpx;
 				font-size: 48rpx;
-				
+
 			}
 		}
-		.right{
+
+		.right {
 			width: 380rpx;
 		}
-		.item{
-			
+
+		.item {
+
 			height: 64rpx;
 			line-height: 64rpx;
 			position: relative;
 			padding-left: 24rpx;
-			background-color: rgba(80,200,24,0.08);
+			background-color: rgba(80, 200, 24, 0.08);
 			margin-bottom: 16rpx;
 			border-radius: 8rpx;
-			
-			.t{
+
+			.t {
 				font-size: 28rpx;
 				float: left;
 				margin-right: 16rpx;
-				
+
 			}
-			.num1{
+
+			.num1 {
 				font-size: 32rpx;
 				float: left;
 			}
-			.num2{
+
+			.num2 {
 				font-size: 24rpx;
 				position: absolute;
 				right: 24rpx;
 			}
 		}
-		
-		.green{
-			background-color: rgba(80,200,24,0.08);
-			.num1{
+
+		.green {
+			background-color: rgba(80, 200, 24, 0.08);
+
+			.num1 {
 				color: #52C41A;
 			}
-			.num2{
+
+			.num2 {
 				color: #52C41A;
 			}
 		}
-		.blue{
-			background-color: rgba(51,112,255,0.08);
-			.num1{
+
+		.blue {
+			background-color: rgba(51, 112, 255, 0.08);
+
+			.num1 {
 				color: #3370FF;
 			}
-			.num2{
+
+			.num2 {
 				color: #3370FF;
 			}
 		}
-		.orange{
-			background-color: rgba(255,96,0,0.08);
-			.num1{
+
+		.orange {
+			background-color: rgba(255, 96, 0, 0.08);
+
+			.num1 {
 				color: #FF6000;
 			}
-			.num2{
+
+			.num2 {
 				color: #FF6000;
 			}
 		}
-		.green1{
-			background-color: rgba(14,196,172,0.08);
-			.num1{
+
+		.green1 {
+			background-color: rgba(14, 196, 172, 0.08);
+
+			.num1 {
 				color: #0EC4AC;
 			}
-			.num2{
+
+			.num2 {
 				color: #0EC4AC;
 			}
 		}
-		.gray{
+
+		.gray {
 			background-color: #F4F7FA;
-			.num1{
+
+			.num1 {
 				color: #666;
 			}
-			.num2{
+
+			.num2 {
 				color: #666;
 			}
 		}
-		
-	}		
-		
-	
-	
+
+	}
 </style>
