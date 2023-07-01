@@ -26,4 +26,9 @@
 	::v-deep .uni-modal .uni-modal__bd{
 		color: #333 !important;
 	}
+	.ellipsis {
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
 </style>

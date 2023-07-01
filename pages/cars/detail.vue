@@ -68,7 +68,7 @@
 					<image class="icon" src='../../static/img/轨迹回放-icon.png'></image>
 					<view>轨迹回放</view>
 				</view>
-				<view class="kind" style="-webkit-flex: 1;flex: 1;">
+				<view class="kind" style="-webkit-flex: 1;flex: 1;" @click="goto('/pages/cars/fence')">
 					<image class="icon" src='../../static/img/电子围栏-icon.png'></image>
 					<view>电子围栏</view>
 				</view>
@@ -81,12 +81,7 @@
 					<view>车辆画像</view>
 				</view>
 			</view>
-
-
 		</view>
-
-
-
 	</view>
 </template>
 
@@ -115,6 +110,11 @@
 
 		},
 		methods: {
+			goto(url) {
+				uni.navigateTo({
+					url: url
+				})
+			},
 
 		}
 	}

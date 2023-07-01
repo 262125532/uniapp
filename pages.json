@@ -31,6 +31,13 @@
 			}
 		},
 		{
+			"path": "pages/cars/fence",
+			"style": {
+				"navigationBarTitleText": "电子围栏",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
 			"path": "pages/app/index",
 			"style": {
 				"navigationBarTitleText": "应用"
