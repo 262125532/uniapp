@@ -6,7 +6,9 @@
 			<view class="uni-flex uni-row item car-img">
 				<view class="text" style="width: 200rpx;">车辆图片</view>
 				<view class="text value" style="-webkit-flex: 1;flex: 1;">
-					<image class="img" src="https://ubsense-iot-1254375538.cos.ap-beijing.myqcloud.com/vehicleIcon/originalImage240x240/100003.png"></image>
+					<image class="img"
+						src="https://ubsense-iot-1254375538.cos.ap-beijing.myqcloud.com/vehicleIcon/originalImage240x240/100003.png">
+					</image>
 				</view>
 			</view>
 			<view class="uni-flex uni-row item">
@@ -39,9 +41,9 @@
 					盛景
 				</view>
 			</view>
-			
+
 		</view>
-		
+
 		<view class="box">
 			<view class="uni-flex uni-row item">
 				<view class="text" style="width: 200rpx;">终端编号</view>
@@ -50,7 +52,7 @@
 				</view>
 			</view>
 		</view>
-		
+
 		<view class="box">
 			<view class="uni-flex uni-row detail">
 				<view class="text" style="width: 200rpx;">详情分析</view>
@@ -79,8 +81,8 @@
 					<view>车辆画像</view>
 				</view>
 			</view>
-			
-			
+
+
 		</view>
 
 
@@ -123,56 +125,60 @@
 	.content {
 		background: #F0F2F5;
 		min-height: calc(100vh - 0rpx);
-		.box{
+
+		.box {
 			margin: 24rpx 24rpx;
 			padding-left: 24rpx;
 			background-color: #fff;
 			border-radius: 16rpx;
-			.item{
+
+			.item {
 				height: 110rpx;
 				line-height: 110rpx;
 				border-bottom: 1px solid #E4E5E8;
 				padding-right: 24rpx;
-				
-				.value{
+
+				.value {
 					color: #666;
 					text-align: right;
-					
-					
+
+
 				}
 			}
-			.car-img{
+
+			.car-img {
 				height: 160rpx;
 				line-height: 160rpx;
-				
-				.img{
+
+				.img {
 					width: 120rpx;
 					height: 120rpx;
 					margin-top: 20rpx;
-					
+
 				}
-				
+
 			}
-			
-			.item:last-child{
+
+			.item:last-child {
 				border: none;
-				
+
 			}
-			
-			.detail{
+
+			.detail {
 				height: 110rpx;
 				line-height: 110rpx;
 				padding-right: 24rpx;
-				
+
 			}
-			.detail-list{
+
+			.detail-list {
 				font-size: 24rpx;
-				
-				.kind{
+
+				.kind {
 					padding: 20rpx 0 40rpx 0;
 					text-align: center;
-					
-					.icon{
+
+					.icon {
 						width: 48rpx;
 						height: 48rpx;
 					}
@@ -180,5 +186,4 @@
 			}
 		}
 	}
-	
 </style>
