@@ -41,7 +41,7 @@ export default {
 			categories: this.data.map( v => v.date.substr(6)),
             series: [
               {
-                name: "目标值",
+                name: "报警数量",
                 data: this.data.map( v => v.number)
               },
               // {

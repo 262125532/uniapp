@@ -38,7 +38,15 @@ export default {
         let res = {
             series: [
               {
-				data: this.data.map( v=> { return { name: v.alarmMessage, value: v.number}}),
+				data: this.data.map( 
+					v=> { 
+						return { 
+							name: v.alarmMessage, 
+							value: v.number, 
+							// labelText: `${v.number}(${v.number/total*100}%)`
+						}
+					}
+				),
               }
             ]
           };
