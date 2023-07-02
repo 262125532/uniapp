@@ -44,6 +44,12 @@
 			}
 		},
 		{
+			"path": "pages/app/fence/index",
+			"style": {
+				"navigationBarTitleText": "电子围栏"
+			}
+		},
+		{
 			"path": "pages/app/workingHour/index",
 			"style": {
 				"navigationBarTitleText": "工时管理"

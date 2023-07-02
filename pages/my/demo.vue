@@ -1,6 +1,19 @@
 <template>
 	<view class="content">
 		<navBar :navBar="navBar" />
+		
+		<view class="uni-flex uni-row">
+			<view class="text" style="width: 200rpx;">固定宽度</view>
+			<view class="text" style="-webkit-flex: 1;flex: 1;">自动占满</view>
+			<view class="text" style="width: 200rpx;">固定宽度</view>
+		</view>
+		<view class="uni-flex uni-row" style="-webkit-flex-wrap: wrap;flex-wrap: wrap;">
+			<view class="text" style="width: 280rpx;">一行显示不全,wrap折行</view>
+			<view class="text" style="width: 280rpx;">一行显示不全,wrap折行</view>
+			<view class="text" style="width: 280rpx;">一行显示不全,wrap折行</view>
+		</view>
+		
+		
 		<scroll-view style="height: 300px;" scroll-y="true" refresher-enabled="true" :refresher-triggered="triggered"
 			:refresher-threshold="100" refresher-background="lightgreen" @refresherpulling="onPulling"
 			@refresherrefresh="onRefresh" @refresherrestore="onRestore" @refresherabort="onAbort"></scroll-view>
