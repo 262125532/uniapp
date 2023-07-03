@@ -34,7 +34,7 @@
 			:refresher-threshold="100" refresher-background="lightgreen" @scrolltolower="onPulling"
 			@refresherrefresh="refresherrefresh" @refresherrestore="refresherrestore">
 
-			<view class="item" v-for="(car, index) in carList" :key="index">
+			<view class="item" v-for="(car, index) in carList" :key="index" @click="handleClick(car)">
 				<view class="status-box">
 					<view class="car-status">
 						状态：
@@ -157,10 +157,15 @@
 			this.getData()
 		},
 		methods: {
+			handleClick(car) {
+				uni.setStorageSync('carInfo', car);
+				uni.navigateTo({
+					url: "/pages/cars/detail"
+				})
+			},
 			getData() {
 				let that = this;
 				http.post("getCarList", "", `?pageNum=${that.pageNum}&pageSize=20`).then(res => {
-					console.log(res)
 					if (res.code == 200) {
 						that._freshing = false;
 						that.triggered = false;

@@ -6,49 +6,51 @@
 			<view class="uni-flex uni-row item car-img">
 				<view class="text" style="width: 200rpx;">车辆图片</view>
 				<view class="text value" style="-webkit-flex: 1;flex: 1;">
-					<image class="img"
-						src="https://ubsense-iot-1254375538.cos.ap-beijing.myqcloud.com/vehicleIcon/originalImage240x240/100003.png">
+					<image class="img" :src="carInfo.picUrl">
 					</image>
+					<!-- <image class="img"
+						src="https://ubsense-iot-1254375538.cos.ap-beijing.myqcloud.com/vehicleIcon/originalImage240x240/100003.png">
+					</image> -->
 				</view>
 			</view>
 			<view class="uni-flex uni-row item">
 				<view class="text" style="width: 200rpx;">车辆类型</view>
 				<view class="text value" style="-webkit-flex: 1;flex: 1;">
-					搅拌车
+					{{carInfo.carTypeDesc}}
 				</view>
 			</view>
 			<view class="uni-flex uni-row item">
 				<view class="text" style="width: 200rpx;">车牌号</view>
 				<view class="text value " style="-webkit-flex: 1;flex: 1;">
-					搅拌车
+					{{carInfo.licPlateNum}}
 				</view>
 			</view>
 			<view class="uni-flex uni-row item">
 				<view class="text" style="width: 200rpx;">品牌型号</view>
 				<view class="text value" style="-webkit-flex: 1;flex: 1;">
-					Sany
+					{{carInfo.brandTypeDesc}}
 				</view>
 			</view>
 			<view class="uni-flex uni-row item">
 				<view class="text" style="width: 200rpx;">自编号</view>
 				<view class="text value" style="-webkit-flex: 1;flex: 1;">
-					1234
+					{{carInfo.selfNumber}}
 				</view>
 			</view>
 			<view class="uni-flex uni-row item">
 				<view class="text" style="width: 200rpx;">所属企业</view>
 				<view class="text value" style="-webkit-flex: 1;flex: 1;">
-					盛景
+					{{carInfo.customerName}}
 				</view>
 			</view>
 
 		</view>
 
 		<view class="box">
-			<view class="uni-flex uni-row item">
+			<view class="uni-flex uni-row item" v-for="terminal in carInfo.terminalList">
 				<view class="text" style="width: 200rpx;">终端编号</view>
 				<view class="text value" style="-webkit-flex: 1;flex: 1;">
-					Abcdddd
+					{{terminal.number}}
 				</view>
 			</view>
 		</view>
@@ -100,14 +102,15 @@
 					title: "车辆详情", //本页标题，必传
 					titlecolor: '#333', //本页标题颜色，不传默认#333
 				},
+				carInfo: {},
+				fenceList: []
 			}
 		},
 		components: {
 			navBar
 		},
 		onLoad() {
-
-
+			this.carInfo = uni.getStorageSync('carInfo');
 		},
 		methods: {
 			goto(url) {
@@ -115,8 +118,8 @@
 					url: url
 				})
 			},
-
 		}
+
 	}
 </script>
 
