@@ -37,6 +37,12 @@
 			}
 		},
 		{
+			"path": "pages/cars/workingHourMore",
+			"style": {
+				"navigationBarTitleText": "工时详情更多"
+			}
+		},
+		{
 			"path": "pages/cars/fence",
 			"style": {
 				"navigationBarTitleText": "电子围栏",
