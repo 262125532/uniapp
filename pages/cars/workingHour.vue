@@ -1,6 +1,8 @@
 <template>
 	<view class="content">
-		<navBar :navBar="navBar" />
+		<!-- <navBar :navBar="navBar" rightText="设置" @clickRight="back" /> -->
+		<uni-nav-bar :fixed="true" shadow  status-bar left-icon="left" left-text=""
+			title="工时详情" @clickLeft="back" rightText="更多" @clickRight="goto('/pages/cars/workingHourMore')"/>
 
 		<view class="title">
 			当时工时（2022-11-20）
@@ -268,6 +270,11 @@
 
 		},
 		methods: {
+			goto(url) {
+				uni.navigateTo({
+					url: url
+				})
+			},
 
 
 		}

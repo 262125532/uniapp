@@ -101,6 +101,7 @@
 						<text class="val" style="color: #FF6000;">7小时1分</text>
 					</view>
 				</view>
+				<gunter />
 
 			</view>
 			<view class="day-row">
@@ -119,9 +120,8 @@
 						<text class="val" style="color: #FF6000;">7小时1分</text>
 					</view>
 				</view>
-
+				<gunter />
 			</view>
-
 
 		</view>
 
@@ -145,10 +145,12 @@
 	import http from '../../common/request';
 	import navBar from "../../components/navBar";
 	import mixChart from '@/components/mixChart.vue'
+	import gunter from "../../components/gunter.vue"
 	export default {
 		components: {
 			navBar,
-			mixChart
+			mixChart,
+			gunter
 		},
 		data() {
 			return {

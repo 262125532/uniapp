@@ -62,7 +62,7 @@
 				</view>
 			</view>
 			<view class="uni-flex uni-row detail-list">
-				<view class="kind" style="-webkit-flex: 1;flex: 1;">
+				<view class="kind" style="-webkit-flex: 1;flex: 1;" @click="goto('/pages/cars/workingHour')">
 					<image class="icon" src='../../static/img/工时管理-icon.png'></image>
 					<view>工时详情</view>
 				</view>

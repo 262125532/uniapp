@@ -81,24 +81,24 @@
 					</view>
 				</view>
 
-				<view class="datas">
+				<view class="datas ellipsis">
 					<image class="img" src="../../static/img/今日里程.png" alt="">
 						<text class="title">今日里程</text>
 						<text style="color: #52C41A;">{{car.mileage}}公里</text>
 						<view class="line"></view>
 				</view>
-				<view class="datas" style="padding-left: 10rpx;">
+				<view class="datas ellipsis" style="padding-left: 10rpx;">
 					<image class="img" src="../../static/img/当前车速.png" alt="">
 						<text class="title">当前车速</text>
-						<text style="color: #3370FF;">{{car.speed}}公里/时</text>
+						<text style="color: #3370FF;" >{{car.speed}}公里/时</text>
 				</view>
-				<view class="datas">
+				<view class="datas ellipsis">
 					<image class="img" src="../../static/img/今日工时.png" alt="">
 						<text class="title">今日工时</text>
 						<text style="color: #52C41A;">{{car.taskTime}}</text>
 						<view class="line"></view>
 				</view>
-				<view class="datas" style="padding-left: 10rpx;">
+				<view class="datas ellipsis" style="padding-left: 10rpx;">
 					<image class="img" src="../../static/img/持续运行.png" alt="">
 						<text class="title">持续运行</text>
 						<text style="color: #3370FF;">{{car.statusDesc}}</text>
@@ -137,7 +137,7 @@
 				navBar: {
 					bgcolor: '#F8F8F8', //导航背景颜色，不传默认#F8F8F8
 					back: false, //回退箭头，不传默认true
-					backcolor: '#333', //回退箭头颜色，不传默认#333
+					backcolor: '#FFF', //回退箭头颜色，不传默认#333
 					previousText: '', //回退提示，不传默认直接回退
 					title: "车辆", //本页标题，必传
 					titlecolor: '#333', //本页标题颜色，不传默认#333
@@ -457,7 +457,7 @@
 
 				.location {
 					font-size: 28rpx;
-					margin-top: 152rpx;
+					margin-top: 154rpx;
 
 					.title {
 						// margin-right: 24rpx;
