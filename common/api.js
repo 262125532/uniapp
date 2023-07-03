@@ -27,7 +27,9 @@ export default {
 	weekAlarmByDay: '/iot-xingtu20-service-tenant/intelligent/count/week/fenceAlarms/byDay',
 	weekAlarmByMessage: '/iot-xingtu20-service-tenant/intelligent/count/week/fenceAlarms/byMessage',
 	weekAlarmTop5: '/iot-xingtu20-service-tenant/intelligent/count/week/fenceAlarms/top5',
-	deviceAlarmList: '/iot-xingtu20-service-tenant/intelligent/deviceAlarm/list'
+	deviceAlarmList: '/iot-xingtu20-service-tenant/intelligent/deviceAlarm/list',
+	fenceList: '/iot-common-device-tenant/api/nebula/startway/fence/v1/listFence',
+	carListInFence: '/iot-common-device-tenant/api/nebula/startway/fence/v1/listVehicle'
 	
 	
 }
