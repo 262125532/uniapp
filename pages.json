@@ -157,6 +157,12 @@
 			}
 		},
 		{
+			"path": "pages/index/nav-bar",
+			"style": {
+				"navigationBarTitleText": "自定义导航"
+			}
+		},
+		{
 			"path": "pages/myCenter/index",
 			"style": {
 				"navigationBarTitleText": "我的"

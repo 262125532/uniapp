@@ -13,6 +13,9 @@
 		<navigator url="/pages/index/ucharts">
 			<button type="default">跳转图表页面</button>
 		</navigator>
+		<navigator url="/pages/index/nav-bar">
+			<button type="default">跳转自定义导航</button>
+		</navigator>
 		<button type="default" @click="init()">调用接口</button>
 		
 		<button type="default" @click="handleChange">tree toggle</button>
