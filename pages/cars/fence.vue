@@ -79,7 +79,10 @@
 				})
 			},
 			onPulling(e) {
-				console.log("onpulling", e);
+				if(this.loading == 'more') {
+					this.pageNum = this.pageNum + 1;
+					this.getData();
+				}
 			},
 			onRefresh() {
 				if (this._freshing) return;
