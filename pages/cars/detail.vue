@@ -78,7 +78,7 @@
 					<image class="icon" src='../../static/img/报警推送管理-icon.png'></image>
 					<view>车辆报警</view>
 				</view>
-				<view class="kind" style="-webkit-flex: 1;flex: 1;">
+				<view class="kind" style="-webkit-flex: 1;flex: 1;" @click="goto('/pages/cars/painting')">
 					<image class="icon" src='../../static/img/车辆画像-icon.png'></image>
 					<view>车辆画像</view>
 				</view>

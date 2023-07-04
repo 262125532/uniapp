@@ -242,11 +242,8 @@
 
 
 <style scoped lang="scss">
-	.content {
-		background: #F0F2F5;
-		min-height: calc(100vh - 0rpx);
-		padding: 0 24rpx;
-		box-sizing: border-box;
+	.car-working-hour {
+		margin: 0 24rpx;
 	}
 
 	.title {

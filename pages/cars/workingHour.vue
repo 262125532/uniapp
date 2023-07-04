@@ -104,7 +104,6 @@
 	.content {
 		background: #F0F2F5;
 		min-height: calc(100vh - 0rpx);
-		padding: 0 24rpx;
 		box-sizing: border-box;
 	}
 
@@ -112,6 +111,7 @@
 		height: 96rpx;
 		line-height: 96rpx;
 		font-size: 28rpx;
+		padding-left: 24rpx
 	}
 
 	.hour-box {
@@ -119,6 +119,7 @@
 		border-radius: 16rpx;
 		padding: 24rpx 10rpx;
 		box-sizing: border-box;
+		margin: 0 24rpx;
 
 		.item {
 			border-radius: 16rpx;
