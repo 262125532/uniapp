@@ -4,7 +4,7 @@
 			<image class="bg" src='../../static/img/login-bg.png'></image>
 			<image class="logo" src='../../static/img/logo-white.png'></image>
 			<p class="title">你好 <br>欢迎来到智能作业监管APP！</p>
-			<image class="product" src='../../static/img/天玑铁甲卫士.png'></image>
+			<!-- <image class="product" src='../../static/img/天玑铁甲卫士.png'></image> -->
 		</view>
 
 		<view class="form">

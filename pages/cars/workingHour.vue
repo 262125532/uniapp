@@ -5,7 +5,7 @@
 			rightText="更多" @clickRight="goto('/pages/cars/workingHourMore')" />
 
 		<view class="title">
-			当日工时（2022-11-20）
+			当日工时（{{today}}）
 		</view>
 		<view class="uni-flex uni-row hour-box">
 			<view class="item" style="background-color: rgba(51,112,255,0.08);">
@@ -34,7 +34,7 @@
 			</view>
 		</view>
 		<view class="title">
-			当周工时（2022-11-14 ~ 2022-11-20）
+			当周工时（{{weekDate.start}} ~ {{weekDate.end}}）
 		</view>
 		<view class="hour-box">
 			<view class="uni-flex uni-row">
@@ -59,7 +59,7 @@
 						平均怠速时长
 					</view>
 					<view class="value" style="color: #FA6400;">
-						{{(weekInfo.avgIdlingTime/60/60).toFixed(1)}}<text class="bit">小时</text>
+						{{(weekInfo.avgIdlingTime/60/60 || 0).toFixed(1)}}<text class="bit">小时</text>
 					</view>
 				</view>
 			</view>
@@ -89,7 +89,7 @@
 		</view>
 
 		<view class="title">
-			当月工时（2022-11-01 ~ 2022-11-30）
+			当月工时（{{monthDate.start}} ~ {{monthDate.end}}）
 		</view>
 
 		<view class="hour-box">
@@ -160,6 +160,7 @@
 
 
 <script>
+	import date from "../../common/date.js"
 	import http from '../../common/request';
 	import navBar from "../../components/navBar";
 	import mixChart from '@/components/mixChart.vue'
@@ -185,11 +186,16 @@
 				monthInfo: {},
 				weekChart: [],
 				monthChart: [],
+				today: date.getCurrentDate(new Date().getTime()),
+				weekDate : date.getWeekDate(),
+				monthDate: date.getMonthDate()
+				
 			}
 		},
 		onLoad() {
 			this.carInfo = uni.getStorageSync('carInfo');
 			this.getData();
+			console.log(date.getMonthDate())
 		},
 		methods: {
 			goto(url) {
@@ -199,25 +205,25 @@
 			},
 			getData() {
 				let that = this;
-				http.get('carWorkingHour', '', `?carId=${this.carInfo.carId}&startDay=2023-07-04&endDay=2023-07-04`).then(
+				http.get('carWorkingHour', '', `?carId=${this.carInfo.carId}&startDay=${this.today}&endDay=${this.today}`).then(
 					res => {
 						this.dayInfo = res.data
 
 					})
 				
-				http.get('carWorkingHour', '', `?carId=${this.carInfo.carId}&startDay=2023-07-04&endDay=2023-07-10`).then(
+				http.get('carWorkingHour', '', `?carId=${this.carInfo.carId}&startDay=${this.weekDate.start}&endDay=${this.weekDate.end}`).then(
 					res => {
 						this.weekInfo = res.data
 				
 					})
 					
-				http.get('carWorkingHour', '', `?carId=${this.carInfo.carId}&startDay=2023-07-01&endDay=2023-07-31`).then(
+				http.get('carWorkingHour', '', `?carId=${this.carInfo.carId}&startDay=${this.monthDate.start}&endDay=${this.monthDate.end}`).then(
 					res => {
 						this.monthInfo = res.data
 				
 					})
 
-				http.get('carWorkingHourChart', '', `?carId=${this.carInfo.carId}&startDay=2023-07-02&endDay=2023-07-10`)
+				http.get('carWorkingHourChart', '', `?carId=${this.carInfo.carId}&startDay=${this.weekDate.start}&endDay=${this.weekDate.end}`)
 					.then(res => {
 						if (res.code == 200) {
 							let _categories = [];
@@ -253,7 +259,7 @@
 
 						}
 					})
-				http.get('carWorkingHourChart', '', `?carId=${this.carInfo.carId}&startDay=2023-07-01&endDay=2023-07-31`)
+				http.get('carWorkingHourChart', '', `?carId=${this.carInfo.carId}&startDay=${this.monthDate.start}&endDay=${this.monthDate.end}`)
 					.then(res => {
 						if (res.code == 200) {
 							let _categories = [];

@@ -3,7 +3,8 @@
 		<navBar :navBar="navBar" />
 
 		<view class="date-select">
-			2022年11月19日
+			<!-- 2022年7月 -->
+			<monthPicker />
 		</view>
 		<view class="title">
 			统计指标
@@ -91,53 +92,43 @@
 				</view>
 				<view class="uni-flex uni-row day-detail">
 					<view class="value">
-						<image class="img" src="../../static/img/持续运行.png"></image>
+						<image class="img" src="../../static/img/今日工时.png"></image>
 						<text>运行时长:</text>
 						<text class="val" style="color: #52C41A;">
-							{{(item.runningTime/60/60 || 0).toFixed(1)}}
+							{{(item.runningTime/60/60 || 0).toFixed(1)}}小时
 						</text>
 					</view>
 					<view class="value">
-						<image class="img" src="../../static/img/持续运行.png"></image>
-						<text>运行时长:</text>
+						<image class="img" src="../../static/img/今日工时.png"></image>
+						<text>怠速时长:</text>
 						<text class="val" style="color: #FF6000;">
-							{{(item.idlingTime/60/60 || 0).toFixed(1)}}
+							{{(item.idlingTime/60/60 || 0).toFixed(1)}}小时
 						</text>
 					</view>
 				</view>
 				<gunter :data="item.workList" />
 
 			</view>
-			
+
 
 		</view>
-
-
-		<!-- <view class="uni-flex uni-row">
-			<view class="text" style="width: 200rpx;">固定宽度</view>
-			<view class="text" style="-webkit-flex: 1;flex: 1;">自动占满</view>
-			<view class="text" style="width: 200rpx;">固定宽度</view>
-		</view>
-		<view class="uni-flex uni-row" style="-webkit-flex-wrap: wrap;flex-wrap: wrap;">
-			<view class="text" style="width: 280rpx;">一行显示不全,wrap折行</view>
-			<view class="text" style="width: 280rpx;">一行显示不全,wrap折行</view>
-			<view class="text" style="width: 280rpx;">一行显示不全,wrap折行</view>
-		</view> -->
-
 	</view>
 </template>
 
 
 <script>
+	import date from '../../common/date'
 	import http from '../../common/request';
 	import navBar from "../../components/navBar";
 	import mixChart from '@/components/mixChart.vue'
 	import gunter from "../../components/gunter.vue"
+	import monthPicker from "../../components/monthPicker.vue"
 	export default {
 		components: {
 			navBar,
 			mixChart,
-			gunter
+			gunter,
+			monthPicker
 		},
 		data() {
 			return {
@@ -152,25 +143,48 @@
 				},
 				carInfo: {},
 				monthInfo: {},
-				daysInfo: []
-				
+				daysInfo: [],
+				monthDate: date.getMonthDate()
+
 			}
 		},
 		onLoad() {
 			this.carInfo = uni.getStorageSync('carInfo');
 			this.getData()
+			console.log(333,this.carInfo )
 		},
 		methods: {
 			getData() {
-				http.get('carWorkingHour', '', `?carId=${this.carInfo.carId}&startDay=2023-07-01&endDay=2023-07-31`).then(
+				// http.post('carDetail', '', `${this.carInfo.carId}`).then(res => {
+				// 	console.log(444, res)
+				// })
+				http.get('carWorkingHour', '', `?carId=${this.carInfo.carId}&startDay=${this.monthDate.start}&endDay=${this.monthDate.end}`).then(
 					res => {
 						this.monthInfo = res.data
-				
 					})
 				http.post('carWorkingMore', '',
-					`?carId=${this.carInfo.carId}&startDay=2023-07-01&endDay=2023-07-31&pageNum=1`).then(res => {
-					console.log(res.data.list)
-					this.daysInfo = res.data.list;
+					`?carId=${this.carInfo.carId}&startDay=${this.monthDate.start}&endDay=${this.monthDate.end}&pageNum=1`).then(res => {
+					this.daysInfo = res.data.list.map(it => {
+						let _workList = it.workList.map(val => {
+							const day = 24 * 60 * 60;
+							let dayStart = new Date(new Date(it.date).toLocaleDateString())
+								.getTime();
+							let itemStart = new Date(val.startTime).getTime();
+							let left = ((itemStart - dayStart) / day / 10).toFixed(2) + '%';
+							let width = (val.duration / day * 100).toFixed(2) + '%';
+							return {
+								width: width,
+								left: left,
+								color: val.status == 1 ? '#52C41A' : 'rgba(255, 96, 0, 0.69)'
+							}
+						})
+						return {
+							...it,
+							workList: _workList
+							// runningTime: date.shiftTimeStamp(val.runningTime),
+							// idlingTime: date.shiftTimeStamp(val.idlingTime),
+						}
+					});
 				})
 			}
 
@@ -193,6 +207,8 @@
 		padding: 0 24rpx;
 		background-color: #fff;
 		text-align: right;
+		padding-top: 20rpx;
+		box-sizing: border-box;
 	}
 
 	.title {
