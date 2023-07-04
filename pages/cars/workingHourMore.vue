@@ -4,7 +4,13 @@
 
 		<view class="date-select">
 			<!-- 2022年7月 -->
-			<monthPicker />
+			<picker mode="date" :value="time" start="2010-10-01" end="2023-07-01" fields="month"
+				@change="bindDateChange">
+				<view class="uni-input">
+					{{time}}
+					<image class="icon" src="../../static/img/right.png" alt=""></image>
+				</view>
+			</picker>
 		</view>
 		<view class="title">
 			统计指标
@@ -122,15 +128,16 @@
 	import navBar from "../../components/navBar";
 	import mixChart from '@/components/mixChart.vue'
 	import gunter from "../../components/gunter.vue"
-	import monthPicker from "../../components/monthPicker.vue"
 	export default {
 		components: {
 			navBar,
 			mixChart,
 			gunter,
-			monthPicker
 		},
 		data() {
+			const currentDate = this.getDate({
+				format: true
+			})
 			return {
 				triggered: true,
 				navBar: {
@@ -144,26 +151,42 @@
 				carInfo: {},
 				monthInfo: {},
 				daysInfo: [],
-				monthDate: date.getMonthDate()
+				monthDate: date.getMonthDate(),
+				time: currentDate
 
 			}
 		},
 		onLoad() {
 			this.carInfo = uni.getStorageSync('carInfo');
 			this.getData()
-			console.log(333,this.carInfo )
 		},
 		methods: {
+			getDate(type) {
+				const date = new Date();
+				let year = date.getFullYear();
+				let month = date.getMonth() + 1;
+				let day = date.getDate();
+				month = month > 9 ? month : '0' + month;
+				day = day > 9 ? day : '0' + day;
+				return `${year}-${month}`;
+				// return `${year}-${month}-${day}`;
+			},
+			bindDateChange: function(e) {
+				this.time = e.detail.value;
+				console.log(333, e.detail.value)
+				this.monthDate = date.getMonthDate(e.detail.value)
+				this.getData()
+			},
 			getData() {
-				// http.post('carDetail', '', `${this.carInfo.carId}`).then(res => {
-				// 	console.log(444, res)
-				// })
-				http.get('carWorkingHour', '', `?carId=${this.carInfo.carId}&startDay=${this.monthDate.start}&endDay=${this.monthDate.end}`).then(
+				http.get('carWorkingHour', '',
+					`?carId=${this.carInfo.carId}&startDay=${this.monthDate.start}&endDay=${this.monthDate.end}`).then(
 					res => {
 						this.monthInfo = res.data
 					})
+				
 				http.post('carWorkingMore', '',
-					`?carId=${this.carInfo.carId}&startDay=${this.monthDate.start}&endDay=${this.monthDate.end}&pageNum=1`).then(res => {
+					`?carId=${this.carInfo.carId}&startDay=${this.monthDate.start}&endDay=${this.monthDate.end}&pageNum=1&pageSize=100`
+				).then(res => {
 					this.daysInfo = res.data.list.map(it => {
 						let _workList = it.workList.map(val => {
 							const day = 24 * 60 * 60;
@@ -209,6 +232,13 @@
 		text-align: right;
 		padding-top: 20rpx;
 		box-sizing: border-box;
+		
+		.icon {
+			width: 24rpx;
+			height: 24rpx;
+			transform: rotate(90deg);
+			margin-left: 10rpx;
+		}
 	}
 
 	.title {

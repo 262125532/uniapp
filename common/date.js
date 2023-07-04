@@ -61,8 +61,8 @@ function getWeekDate() {
 	// }
 }
 
-function getMonthDate() {
-	const currentDate = new Date(); // Get current date
+function getMonthDate(date) {
+	const currentDate = date ? new Date(date) : new Date(); // Get current date
 	const currentYear = currentDate.getFullYear(); // Get current year
 	const currentMonth = currentDate.getMonth(); // Get current month
 
@@ -70,11 +70,11 @@ function getMonthDate() {
 	const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0); // Last day of the month
 
 	const totalDays = lastDayOfMonth.getDate(); // Get number of days in the current month
-	
+
 	return {
 		start: getCurrentDate(new Date(currentYear, currentMonth, 1).getTime()),
 		end: getCurrentDate(new Date(currentYear, currentMonth, totalDays).getTime())
-		
+
 	}
 }
 
@@ -86,5 +86,5 @@ export default {
 	getCurrentDate,
 	getWeekDate,
 	getMonthDate
-	
+
 }
