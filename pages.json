@@ -43,6 +43,12 @@
 			}
 		},
 		{
+			"path": "pages/cars/painting",
+			"style": {
+				"navigationBarTitleText": "车辆画像"
+			}
+		},
+		{
 			"path": "pages/cars/fence",
 			"style": {
 				"navigationBarTitleText": "电子围栏",
