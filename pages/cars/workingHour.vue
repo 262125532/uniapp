@@ -1,11 +1,11 @@
 <template>
 	<view class="content">
 		<!-- <navBar :navBar="navBar" rightText="设置" @clickRight="back" /> -->
-		<uni-nav-bar :fixed="true" shadow  status-bar left-icon="left" left-text=""
-			title="工时详情" @clickLeft="back" rightText="更多" @clickRight="goto('/pages/cars/workingHourMore')"/>
+		<uni-nav-bar :fixed="true" shadow status-bar left-icon="left" left-text="" title="工时详情" @clickLeft="back"
+			rightText="更多" @clickRight="goto('/pages/cars/workingHourMore')" />
 
 		<view class="title">
-			当时工时（2022-11-20）
+			当日工时（2022-11-20）
 		</view>
 		<view class="uni-flex uni-row hour-box">
 			<view class="item" style="background-color: rgba(51,112,255,0.08);">
@@ -13,7 +13,7 @@
 					工作时长
 				</view>
 				<view class="value" style="color: #3370FF;">
-					999<text class="bit">小时</text>
+					{{(dayInfo.workTime/60/60 || 0).toFixed(1)}}<text class="bit">小时</text>
 				</view>
 			</view>
 			<view class="item" style="background-color: rgba(82,196,26,0.08);">
@@ -21,7 +21,7 @@
 					运行时长
 				</view>
 				<view class="value" style="color: #52C41A;">
-					999<text class="bit">小时</text>
+					{{(dayInfo.runningTime/60/60|| 0).toFixed(1)}}<text class="bit">小时</text>
 				</view>
 			</view>
 			<view class="item" style="background-color: rgba(250,100,0,0.08)">
@@ -29,7 +29,7 @@
 					怠速时长
 				</view>
 				<view class="value" style="color: #FA6400;">
-					999<text class="bit">小时</text>
+					{{(dayInfo.idlingTime/60/60|| 0).toFixed(1)}}<text class="bit">小时</text>
 				</view>
 			</view>
 		</view>
@@ -43,7 +43,7 @@
 						平均工作时长
 					</view>
 					<view class="value" style="color: #3370FF;">
-						999<text class="bit">小时</text>
+						{{(weekInfo.avgWorkTime/60/60|| 0).toFixed(1)}}<text class="bit">小时</text>
 					</view>
 				</view>
 				<view class="item">
@@ -51,7 +51,7 @@
 						平均运行时长
 					</view>
 					<view class="value" style="color: #52C41A;">
-						999<text class="bit">小时</text>
+						{{(weekInfo.avgRunningTime/60/60|| 0).toFixed(1)}}<text class="bit">小时</text>
 					</view>
 				</view>
 				<view class="item">
@@ -59,7 +59,7 @@
 						平均怠速时长
 					</view>
 					<view class="value" style="color: #FA6400;">
-						999<text class="bit">小时</text>
+						{{(weekInfo.avgIdlingTime/60/60).toFixed(1)}}<text class="bit">小时</text>
 					</view>
 				</view>
 			</view>
@@ -70,7 +70,7 @@
 						平均利用率
 					</view>
 					<view class="value" style="color: #000;">
-						99<text class="bit">%</text>
+						{{(weekInfo.avgUtil || 0).toFixed(1)}}<text class="bit">%</text>
 					</view>
 				</view>
 				<view class="item">
@@ -78,14 +78,14 @@
 						出勤天数
 					</view>
 					<view class="value" style="color: #000;">
-						30<text class="bit">天</text>
+						{{weekInfo.workDays}}<text class="bit">天</text>
 					</view>
 				</view>
 				<view class="item">
 				</view>
 			</view>
 
-			<mixChart :data="mixChartData" />
+			<mixChart :data="weekChart" id="carWeek" />
 		</view>
 
 		<view class="title">
@@ -99,7 +99,7 @@
 						平均工作时长
 					</view>
 					<view class="value" style="color: #3370FF;">
-						999<text class="bit">小时</text>
+						{{(monthInfo.avgWorkTime/60/60 || 0).toFixed(1)}}<text class="bit">小时</text>
 					</view>
 				</view>
 				<view class="item">
@@ -107,7 +107,7 @@
 						平均运行时长
 					</view>
 					<view class="value" style="color: #52C41A;">
-						999<text class="bit">小时</text>
+						{{(monthInfo.avgRunningTime/60/60 || 0).toFixed(1)}}<text class="bit">小时</text>
 					</view>
 				</view>
 				<view class="item">
@@ -115,7 +115,7 @@
 						平均怠速时长
 					</view>
 					<view class="value" style="color: #FA6400;">
-						999<text class="bit">小时</text>
+						{{(monthInfo.avgIdlingTime/60/60 || 0).toFixed(1)}}<text class="bit">小时</text>
 					</view>
 				</view>
 			</view>
@@ -126,7 +126,7 @@
 						平均利用率
 					</view>
 					<view class="value" style="color: #000;">
-						99<text class="bit">%</text>
+						{{(monthInfo.avgUtil || 0).toFixed(1)}}<text class="bit">%</text>
 					</view>
 				</view>
 				<view class="item">
@@ -134,13 +134,13 @@
 						出勤天数
 					</view>
 					<view class="value" style="color: #000;">
-						30<text class="bit">天</text>
+						{{monthInfo.workDays}}<text class="bit">天</text>
 					</view>
 				</view>
 				<view class="item">
 				</view>
 			</view>
-			<mixChart :data="mixChartData" />
+			<mixChart :data="monthChart" id="carMonth" />
 		</view>
 
 
@@ -179,95 +179,17 @@
 					title: "工时详情", //本页标题，必传
 					titlecolor: '#333', //本页标题颜色，不传默认#333
 				},
-				mixChartData: [{
-					"totalIdlingTime": 296394,
-					"date": "2023-07-03",
-					"avgRunningTime": 3195,
-					"totalWorkTime": 1571275,
-					"notWorkCars": 9962,
-					"totalDrivingTime": 1105513,
-					"avgWorkTime": 29645,
-					"totalRunningTime": 169368,
-					"workCars": 38,
-					"avgDrivingTime": 20858,
-					"avgIdlingTime": 5592
-				}, {
-					"totalIdlingTime": 0,
-					"date": "2023-07-04",
-					"avgRunningTime": 0,
-					"totalWorkTime": 0,
-					"notWorkCars": 10000,
-					"totalDrivingTime": 0,
-					"avgWorkTime": 0,
-					"totalRunningTime": 0,
-					"workCars": 0,
-					"avgDrivingTime": 0,
-					"avgIdlingTime": 0
-				}, {
-					"totalIdlingTime": 0,
-					"date": "2023-07-05",
-					"avgRunningTime": 0,
-					"totalWorkTime": 0,
-					"notWorkCars": 10000,
-					"totalDrivingTime": 0,
-					"avgWorkTime": 0,
-					"totalRunningTime": 0,
-					"workCars": 0,
-					"avgDrivingTime": 0,
-					"avgIdlingTime": 0
-				}, {
-					"totalIdlingTime": 0,
-					"date": "2023-07-06",
-					"avgRunningTime": 0,
-					"totalWorkTime": 0,
-					"notWorkCars": 10000,
-					"totalDrivingTime": 0,
-					"avgWorkTime": 0,
-					"totalRunningTime": 0,
-					"workCars": 0,
-					"avgDrivingTime": 0,
-					"avgIdlingTime": 0
-				}, {
-					"totalIdlingTime": 0,
-					"date": "2023-07-07",
-					"avgRunningTime": 0,
-					"totalWorkTime": 0,
-					"notWorkCars": 10000,
-					"totalDrivingTime": 0,
-					"avgWorkTime": 0,
-					"totalRunningTime": 0,
-					"workCars": 0,
-					"avgDrivingTime": 0,
-					"avgIdlingTime": 0
-				}, {
-					"totalIdlingTime": 0,
-					"date": "2023-07-08",
-					"avgRunningTime": 0,
-					"totalWorkTime": 0,
-					"notWorkCars": 10000,
-					"totalDrivingTime": 0,
-					"avgWorkTime": 0,
-					"totalRunningTime": 0,
-					"workCars": 0,
-					"avgDrivingTime": 0,
-					"avgIdlingTime": 0
-				}, {
-					"totalIdlingTime": 0,
-					"date": "2023-07-09",
-					"avgRunningTime": 0,
-					"totalWorkTime": 0,
-					"notWorkCars": 10000,
-					"totalDrivingTime": 0,
-					"avgWorkTime": 0,
-					"totalRunningTime": 0,
-					"workCars": 0,
-					"avgDrivingTime": 0,
-					"avgIdlingTime": 0
-				}]
+				carInfo: {},
+				dayInfo: {},
+				weekInfo: {},
+				monthInfo: {},
+				weekChart: [],
+				monthChart: [],
 			}
 		},
 		onLoad() {
-
+			this.carInfo = uni.getStorageSync('carInfo');
+			this.getData();
 		},
 		methods: {
 			goto(url) {
@@ -275,6 +197,100 @@
 					url: url
 				})
 			},
+			getData() {
+				let that = this;
+				http.get('carWorkingHour', '', `?carId=${this.carInfo.carId}&startDay=2023-07-04&endDay=2023-07-04`).then(
+					res => {
+						this.dayInfo = res.data
+
+					})
+				
+				http.get('carWorkingHour', '', `?carId=${this.carInfo.carId}&startDay=2023-07-04&endDay=2023-07-10`).then(
+					res => {
+						this.weekInfo = res.data
+				
+					})
+					
+				http.get('carWorkingHour', '', `?carId=${this.carInfo.carId}&startDay=2023-07-01&endDay=2023-07-31`).then(
+					res => {
+						this.monthInfo = res.data
+				
+					})
+
+				http.get('carWorkingHourChart', '', `?carId=${this.carInfo.carId}&startDay=2023-07-02&endDay=2023-07-10`)
+					.then(res => {
+						if (res.code == 200) {
+							let _categories = [];
+							let _totalRunningTimes = [];
+							let _totalIdlingTimes = [];
+							let _lineSeries = [];
+
+							res.data.list.forEach(val => {
+								_categories.push(val.date.slice(5));
+								_totalRunningTimes.push((val.runningTime / 60 / 60).toFixed(1) - 0)
+								_totalIdlingTimes.push((val.idlingTime / 60 / 60).toFixed(1) - 0)
+								_lineSeries.push((val.workTime / 60 / 60).toFixed(1) - 0 || null)
+							})
+
+							that.weekChart = {
+								categories: _categories,
+								columnSeries: [{
+										name: "运行时长",
+										textColor: "#FFFFFF",
+										data: _totalRunningTimes
+									},
+									{
+										name: "怠速时长",
+										textColor: "#FFFFFF",
+										data: _totalIdlingTimes
+									},
+								],
+								lineSeries: [{
+									name: "工作时长",
+									data: _lineSeries
+								}]
+							}
+
+						}
+					})
+				http.get('carWorkingHourChart', '', `?carId=${this.carInfo.carId}&startDay=2023-07-01&endDay=2023-07-31`)
+					.then(res => {
+						if (res.code == 200) {
+							let _categories = [];
+							let _totalRunningTimes = [];
+							let _totalIdlingTimes = [];
+							let _lineSeries = [];
+
+							res.data.list.forEach(val => {
+								_categories.push(val.date.slice(5));
+								_totalRunningTimes.push((val.runningTime / 60 / 60).toFixed(1) - 0)
+								_totalIdlingTimes.push((val.idlingTime / 60 / 60).toFixed(1) - 0)
+								_lineSeries.push((val.workTime / 60 / 60).toFixed(1) - 0 || null)
+							})
+
+							that.monthChart = {
+								categories: _categories,
+								columnSeries: [{
+										name: "运行时长",
+										textColor: "#FFFFFF",
+										data: _totalRunningTimes
+									},
+									{
+										name: "怠速时长",
+										textColor: "#FFFFFF",
+										data: _totalIdlingTimes
+									},
+								],
+								lineSeries: [{
+									name: "工作时长",
+									data: _lineSeries
+								}]
+							}
+
+						}
+
+					})
+			}
 
 
 		}

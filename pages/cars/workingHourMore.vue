@@ -15,7 +15,7 @@
 						平均工作时长
 					</view>
 					<view class="value" style="color: #3370FF;">
-						999<text class="bit">小时</text>
+						{{(monthInfo.avgWorkTime/60/60 || 0).toFixed(1)}}<text class="bit">小时</text>
 					</view>
 				</view>
 				<view class="item" style="background-color: rgba(82,196,26,0.08);">
@@ -23,7 +23,7 @@
 						平均运行时长
 					</view>
 					<view class="value" style="color: #52C41A;">
-						999<text class="bit">小时</text>
+						{{(monthInfo.avgRunningTime/60/60 || 0).toFixed(1)}}<text class="bit">小时</text>
 					</view>
 				</view>
 				<view class="item" style="background-color: rgba(250,100,0,0.08)">
@@ -31,7 +31,7 @@
 						平均怠速时长
 					</view>
 					<view class="value" style="color: #FA6400;">
-						999<text class="bit">小时</text>
+						{{(monthInfo.avgIdlingTime/60/60 || 0).toFixed(1)}}<text class="bit">小时</text>
 					</view>
 				</view>
 			</view>
@@ -48,7 +48,7 @@
 									平均利用率
 								</view>
 								<view class="value" style="color: #000;">
-									999<text class="bit">%</text>
+									{{(monthInfo.avgUtil || 0).toFixed(1)}}<text class="bit">%</text>
 								</view>
 							</view>
 						</view>
@@ -66,7 +66,7 @@
 									出勤天数
 								</view>
 								<view class="value" style="color: #000;">
-									999<text class="bit">天</text>
+									{{monthInfo.workDays}}<text class="bit">天</text>
 								</view>
 							</view>
 						</view>
@@ -85,43 +85,30 @@
 		</view>
 
 		<view class="card-box">
-			<view class="day-row">
+			<view class="day-row" v-for="item in daysInfo">
 				<view class="date">
-					12-01
+					{{item.day}}
 				</view>
 				<view class="uni-flex uni-row day-detail">
 					<view class="value">
 						<image class="img" src="../../static/img/持续运行.png"></image>
 						<text>运行时长:</text>
-						<text class="val" style="color: #52C41A;">7小时1分</text>
+						<text class="val" style="color: #52C41A;">
+							{{(item.runningTime/60/60 || 0).toFixed(1)}}
+						</text>
 					</view>
 					<view class="value">
 						<image class="img" src="../../static/img/持续运行.png"></image>
 						<text>运行时长:</text>
-						<text class="val" style="color: #FF6000;">7小时1分</text>
+						<text class="val" style="color: #FF6000;">
+							{{(item.idlingTime/60/60 || 0).toFixed(1)}}
+						</text>
 					</view>
 				</view>
-				<gunter />
+				<gunter :data="item.workList" />
 
 			</view>
-			<view class="day-row">
-				<view class="date">
-					12-01
-				</view>
-				<view class="uni-flex uni-row day-detail">
-					<view class="value">
-						<image class="img" src="../../static/img/持续运行.png"></image>
-						<text>运行时长:</text>
-						<text class="val" style="color: #52C41A;">7小时1分</text>
-					</view>
-					<view class="value">
-						<image class="img" src="../../static/img/持续运行.png"></image>
-						<text>运行时长:</text>
-						<text class="val" style="color: #FF6000;">7小时1分</text>
-					</view>
-				</view>
-				<gunter />
-			</view>
+			
 
 		</view>
 
@@ -163,97 +150,29 @@
 					title: "工时详情", //本页标题，必传
 					titlecolor: '#333', //本页标题颜色，不传默认#333
 				},
-				mixChartData: [{
-					"totalIdlingTime": 296394,
-					"date": "2023-07-03",
-					"avgRunningTime": 3195,
-					"totalWorkTime": 1571275,
-					"notWorkCars": 9962,
-					"totalDrivingTime": 1105513,
-					"avgWorkTime": 29645,
-					"totalRunningTime": 169368,
-					"workCars": 38,
-					"avgDrivingTime": 20858,
-					"avgIdlingTime": 5592
-				}, {
-					"totalIdlingTime": 0,
-					"date": "2023-07-04",
-					"avgRunningTime": 0,
-					"totalWorkTime": 0,
-					"notWorkCars": 10000,
-					"totalDrivingTime": 0,
-					"avgWorkTime": 0,
-					"totalRunningTime": 0,
-					"workCars": 0,
-					"avgDrivingTime": 0,
-					"avgIdlingTime": 0
-				}, {
-					"totalIdlingTime": 0,
-					"date": "2023-07-05",
-					"avgRunningTime": 0,
-					"totalWorkTime": 0,
-					"notWorkCars": 10000,
-					"totalDrivingTime": 0,
-					"avgWorkTime": 0,
-					"totalRunningTime": 0,
-					"workCars": 0,
-					"avgDrivingTime": 0,
-					"avgIdlingTime": 0
-				}, {
-					"totalIdlingTime": 0,
-					"date": "2023-07-06",
-					"avgRunningTime": 0,
-					"totalWorkTime": 0,
-					"notWorkCars": 10000,
-					"totalDrivingTime": 0,
-					"avgWorkTime": 0,
-					"totalRunningTime": 0,
-					"workCars": 0,
-					"avgDrivingTime": 0,
-					"avgIdlingTime": 0
-				}, {
-					"totalIdlingTime": 0,
-					"date": "2023-07-07",
-					"avgRunningTime": 0,
-					"totalWorkTime": 0,
-					"notWorkCars": 10000,
-					"totalDrivingTime": 0,
-					"avgWorkTime": 0,
-					"totalRunningTime": 0,
-					"workCars": 0,
-					"avgDrivingTime": 0,
-					"avgIdlingTime": 0
-				}, {
-					"totalIdlingTime": 0,
-					"date": "2023-07-08",
-					"avgRunningTime": 0,
-					"totalWorkTime": 0,
-					"notWorkCars": 10000,
-					"totalDrivingTime": 0,
-					"avgWorkTime": 0,
-					"totalRunningTime": 0,
-					"workCars": 0,
-					"avgDrivingTime": 0,
-					"avgIdlingTime": 0
-				}, {
-					"totalIdlingTime": 0,
-					"date": "2023-07-09",
-					"avgRunningTime": 0,
-					"totalWorkTime": 0,
-					"notWorkCars": 10000,
-					"totalDrivingTime": 0,
-					"avgWorkTime": 0,
-					"totalRunningTime": 0,
-					"workCars": 0,
-					"avgDrivingTime": 0,
-					"avgIdlingTime": 0
-				}]
+				carInfo: {},
+				monthInfo: {},
+				daysInfo: []
+				
 			}
 		},
 		onLoad() {
-
+			this.carInfo = uni.getStorageSync('carInfo');
+			this.getData()
 		},
 		methods: {
+			getData() {
+				http.get('carWorkingHour', '', `?carId=${this.carInfo.carId}&startDay=2023-07-01&endDay=2023-07-31`).then(
+					res => {
+						this.monthInfo = res.data
+				
+					})
+				http.post('carWorkingMore', '',
+					`?carId=${this.carInfo.carId}&startDay=2023-07-01&endDay=2023-07-31&pageNum=1`).then(res => {
+					console.log(res.data.list)
+					this.daysInfo = res.data.list;
+				})
+			}
 
 
 		}

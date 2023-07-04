@@ -142,7 +142,7 @@
 					TOP5
 				</view>
 			</view>
-			<mixChart v-if="hourActive" :data="mixChartData" />
+			<mixChart v-if="hourActive" :data="mixChartData" id="homeMixChart" />
 			<stactBar :data="weekHourTop5Data" v-if="!hourActive" />
 		</view>
 
@@ -257,7 +257,11 @@
 				},
 				dataHourDatas: {},
 				weekHourTop5Data: [],
-				mixChartData: [],
+				mixChartData: {
+					categories: [],
+					columnSeries: [],
+					lineSeries: []
+				},
 				dayTotalAlarm: 0,
 				weekAlarmByDay: [],
 				weekAlarmByMessage: [],
@@ -341,7 +345,41 @@
 
 				//获取本周工时趋势
 				http.get("weekHourStatistic", "", "?areaId=" + that.areaId).then(res => {
-					res.code == 200 && res.data && (that.mixChartData = res.data.list)
+
+					if (res.code == 200) {
+
+						let _categories = [];
+						let _totalRunningTimes = [];
+						let _totalIdlingTimes = [];
+						let _lineSeries = [];
+
+						res.data.list.forEach(val => {
+							_categories.push(val.date.slice(5));
+							_totalRunningTimes.push((val.totalRunningTime / 60 / 60).toFixed(1) - 0)
+							_totalIdlingTimes.push((val.totalIdlingTime / 60 / 60).toFixed(1) - 0)
+							_lineSeries.push((val.avgWorkTime / 60 / 60).toFixed(1) - 0 || null)
+						})
+
+						that.mixChartData = {
+							categories: _categories,
+							columnSeries: [{
+									name: "总运行时长",
+									textColor: "#FFFFFF",
+									data: _totalRunningTimes
+								},
+								{
+									name: "总怠速时长",
+									textColor: "#FFFFFF",
+									data: _totalIdlingTimes
+								},
+							],
+							lineSeries: [{
+								name: "平均工作时长",
+								data: _lineSeries
+							}]
+						}
+
+					}
 				})
 
 				//今日报警--报警总数

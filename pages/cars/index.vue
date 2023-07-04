@@ -143,7 +143,6 @@
 					titlecolor: '#333', //本页标题颜色，不传默认#333
 				},
 				status: ["", "运行", "怠速", "静止", "形式", "", "离线"],
-				allList: [],
 				carList: [],
 				pageNum: 1,
 				loading: "more"
@@ -170,8 +169,7 @@
 						that._freshing = false;
 						that.triggered = false;
 						that.allNumber = res.data.allNumber;
-						that.allList = res.data.children;
-						let _list = that.carList.concat(that.formatterDate(res.data.children))
+						let _list = that.carList.concat(that.formatterDate(res.data.children.slice(0, 10)))
 						that.$set(that, "carList", _list)
 					}
 

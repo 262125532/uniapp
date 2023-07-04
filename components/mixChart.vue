@@ -1,10 +1,10 @@
 <template>
 	<view class="box">
 		<view>
-			<canvas canvas-id="uchartMixStactColumn" id="uchartMixStactColumn" class="charts" @touchend="tap" />
+			<canvas :canvas-id="id+'Column'" :id="id+'Column'" class="charts" @touchend="tap" />
 		</view>
 		<view class="pos" v-show="lineHideIs">
-			<canvas canvas-id="mixLine" id="mixLine" class="charts" @touchend="tap1" />
+			<canvas :canvas-id="id+'Line'" :id="id+'Line'" class="charts" @touchend="tap1" />
 		</view>
 		<view class="button" @click="lineHide">
 			<text class="text">平均工作时长</text>
@@ -17,7 +17,7 @@
 	var uChartsInstance = {};
 	var uChartsInstance1 = {};
 	export default {
-		props: ['data'],
+		props: ['data', 'id'],
 		data() {
 			return {
 				cWidth: 660,
@@ -29,66 +29,30 @@
 		mounted() {
 			this.cWidth = uni.upx2px(660);
 			this.cHeight = uni.upx2px(500);
-			this.getServerData();
+			this.data.categories && this.data.categories.length && this.getServerData();
 		},
 		watch: {
 			data(newVal) {
-				this.getServerData();
+				this.data.categories && this.data.categories.length && this.getServerData();
 			}
 		},
 		methods: {
 			getServerData() {
-
-				let categories = [];
-				let totalRunningTimes = [];
-				let totalIdlingTimes = [];
-				let avgWorkTimes = []
-
-				let totalMax = 0;
-				let avgMax = 0
-
-				this.data.forEach(v => {
-					let totalRunningTime = v.totalRunningTime ? (v.totalRunningTime / 60 / 60).toFixed(1) - 0 : 0;
-					let totalIdlingTime = v.totalIdlingTime ? (v.totalIdlingTime / 60 / 60).toFixed(1) - 0 : 0;
-					let avgWorkTime = v.avgWorkTime ? (v.avgWorkTime / 60 / 60).toFixed(1) - 0 : null;
-
-					categories.push(v.date.substr(6));
-					totalRunningTimes.push(totalRunningTime);
-					totalIdlingTimes.push(totalIdlingTime);
-					avgWorkTimes.push(avgWorkTime);
-
-					if (totalMax < totalRunningTime + totalIdlingTime) {
-						totalMax = totalRunningTime + totalIdlingTime;
-					}
-
-					if (avgMax < avgWorkTime) {
-						avgMax = avgWorkTime;
-					}
-				})
+				console.log(22, this.data.categories)
 				let data1 = {
-					categories: categories,
-					series: [{
-							name: "总运行时长",
-							textColor: "#FFFFFF",
-							data: totalRunningTimes
-						},
-						{
-							name: "总怠速时长",
-							textColor: "#FFFFFF",
-							data: totalIdlingTimes
-						},
-					]
+					categories: this.data.categories,
+					series: this.data.columnSeries
 				};
-				this.drawCharts('uchartMixStactColumn', data1);
-				//模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
+
 				let data2 = {
-					categories: categories,
-					series: [{
-						name: "平均工作时长",
-						data: avgWorkTimes
-					}]
+					categories: this.data.categories,
+					series: this.data.lineSeries
 				};
-				this.drawCharts1('mixLine', data2);
+				setTimeout(() => {
+					this.drawCharts(this.id +'Column', data1);
+					this.drawCharts1(this.id +'Line', data2);
+				}, 1000)
+
 			},
 			drawCharts(id, data) {
 				const ctx = uni.createCanvasContext(id, this);
@@ -109,7 +73,9 @@
 					enableScroll: false,
 					legend: {},
 					xAxis: {
-						disableGrid: true
+						disableGrid: true,
+						rotateLabel: true,
+						labelCount: 10
 					},
 					dataLabel: false,
 					yAxis: {
