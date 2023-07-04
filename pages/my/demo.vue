@@ -12,6 +12,13 @@
 			<view class="text" style="width: 280rpx;">一行显示不全,wrap折行</view>
 			<view class="text" style="width: 280rpx;">一行显示不全,wrap折行</view>
 		</view>
+		<picker mode="date" :value="date"
+			start="2010-10-01" 
+			end="2020-01-01" 
+			fields="month" 
+			@change="bindDateChange">
+			<view class="uni-input">{{date}}</view>
+		</picker>
 		
 		
 		<scroll-view style="height: 300px;" scroll-y="true" refresher-enabled="true" :refresher-triggered="triggered"
@@ -27,6 +34,9 @@
 	import navBar from "../../components/navBar";
 	export default {
 		data() {
+			const currentDate = this.getDate({
+				format: true
+			})
 			return {
 				triggered: true,
 				navBar: {
@@ -37,6 +47,7 @@
 					title: "demo1", //本页标题，必传
 					titlecolor: '#333', //本页标题颜色，不传默认#333
 				},
+				date: currentDate,
 			}
 		},
 		components: {
@@ -67,6 +78,19 @@
 			},
 			onAbort() {
 				console.log("onAbort");
+			},
+			bindDateChange: function(e) {
+				this.date = e.detail.value
+			},
+			getDate(type) {
+				const date = new Date();
+				let year = date.getFullYear();
+				let month = date.getMonth() + 1;
+				let day = date.getDate();
+				month = month > 9 ? month : '0' + month;
+				day = day > 9 ? day : '0' + day;
+				return `${year}-${month}`;
+				// return `${year}-${month}-${day}`;
 			}
 
 		}
