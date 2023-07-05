@@ -34,5 +34,6 @@ export default {
 	carWorkingHourChart: '/iot-xingtu20-service-tenant/app/worktime/car/search',
 	carWorkingMore: '/iot-xingtu20-service-tenant/app/car/graph',
 	carDetail: '/iot-xingtu20-service-tenant/car/operation/',
+	alarms: '/iot-xingtu20-service-tenant/intelligent/cumAlarms'
 	
 }

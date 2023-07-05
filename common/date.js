@@ -78,6 +78,18 @@ function getMonthDate(date) {
 	}
 }
 
+function getMonth(date) {
+	const currentDate = date ? new Date(date) : new Date();
+	return currentDate.getMonth() +1
+
+}
+
+function getDate(date) {
+	const currentDate = date ? new Date(date) : new Date();
+	return currentDate.getDate()
+
+}
+
 
 
 
@@ -85,6 +97,9 @@ export default {
 	shiftTimeStamp,
 	getCurrentDate,
 	getWeekDate,
-	getMonthDate
+	getMonthDate,
+	getMonth,
+	getDate
+
 
 }

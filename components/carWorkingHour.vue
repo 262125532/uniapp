@@ -45,7 +45,7 @@
 						出勤天数
 					</view>
 					<view class="value" style="color: #000;">
-						{{weekInfo.workDays}}<text class="bit">天</text>
+						{{weekInfo.workDays || 0}}<text class="bit">天</text>
 					</view>
 				</view>
 				<view class="item">
@@ -137,7 +137,6 @@
 		mounted() {
 			this.carInfo = uni.getStorageSync('carInfo');
 			this.getData();
-			console.log(date.getMonthDate())
 		},
 		methods: {
 			goto(url) {

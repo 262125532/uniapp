@@ -14,58 +14,75 @@
 				</view>
 			</view>
 		</view>
-		<view class="title">
-			工时统计
+
+		<view v-if="activeTab">
+			<view class="title">
+				工时统计
+			</view>
+			<view class="uni-flex uni-row values">
+				<view class="flex1 item" style="background-color: rgba(51,112,255,0.08);">
+					<view class="value" style="color: #3370FF;">
+						{{(datas.workTime/60/60 || 0).toFixed(1)}}
+					</view>
+					<view class="t">
+						累计工作
+					</view>
+					<view class="bit">
+						（小时）
+					</view>
+				</view>
+				<view class="flex1 item" style="background-color: rgba(82,196,26,0.08);">
+					<view class="value" style="color: #52C41A;">
+						{{(datas.runningTime/60/60 || 0).toFixed(1)}}
+					</view>
+					<view class="t">
+						累计运行
+					</view>
+					<view class="bit">
+						（小时）
+					</view>
+				</view>
+				<view class="flex1 item" style="background-color: rgba(250,100,0,0.08);">
+					<view class="value" style="color: #FA6400;">
+						{{(datas.idlingTime/60/60 || 0).toFixed(1)}}
+					</view>
+					<view class="t">
+						累计怠速
+					</view>
+					<view class="bit">
+						（小时）
+					</view>
+				</view>
+				<view class="flex1 item" style="background-color: rgba(113,102,228,0.08);">
+					<view class="value" style="color: #7166E4;">
+						{{datas.workDays || 0}}
+					</view>
+					<view class="t">
+						累计出勤
+					</view>
+					<view class="bit">
+						（天）
+					</view>
+				</view>
+			</view>
+			<carWorkingHout />
 		</view>
 
-		<view class="uni-flex uni-row values">
-			<view class="flex1 item" style="background-color: rgba(51,112,255,0.08);">
-				<view class="value" style="color: #3370FF;">
-					{{(datas.workTime/60/60 || 0).toFixed(1)}}
+		<view v-if="!activeTab">
+			<view class="alarm-box">
+				<view class="title">
+					围栏报警分布
 				</view>
-				<view class="t">
-					累计工作
-				</view>
-				<view class="bit">
-					（小时）
-				</view>
+				<ring :data="fenceAlarm" />
 			</view>
-			<view class="flex1 item" style="background-color: rgba(82,196,26,0.08);">
-				<view class="value" style="color: #52C41A;">
-					{{(datas.runningTime/60/60 || 0).toFixed(1)}}
+			<view class="alarm-box">
+				<view class="title">
+					终端报警分布
 				</view>
-				<view class="t">
-					累计运行
-				</view>
-				<view class="bit">
-					（小时）
-				</view>
-			</view>
-			<view class="flex1 item" style="background-color: rgba(250,100,0,0.08);">
-				<view class="value" style="color: #FA6400;">
-					{{(datas.idlingTime/60/60 || 0).toFixed(1)}}
-				</view>
-				<view class="t">
-					累计怠速
-				</view>
-				<view class="bit">
-					（小时）
-				</view>
-			</view>
-			<view class="flex1 item" style="background-color: rgba(113,102,228,0.08);">
-				<view class="value" style="color: #7166E4;">
-					{{datas.workDays}}
-				</view>
-				<view class="t">
-					累计出勤
-				</view>
-				<view class="bit">
-					（天）
-				</view>
+				<column :data="terminalAlarm" />
 			</view>
 		</view>
 
-		<carWorkingHout />
 
 
 
@@ -80,6 +97,8 @@
 	import http from '../../common/request';
 	import navBar from "../../components/navBar";
 	import carWorkingHout from '@/components/carWorkingHour.vue'
+	import ring from '@/components/ring.vue'
+	import column from '@/components/column.vue'
 	export default {
 		data() {
 			return {
@@ -92,18 +111,26 @@
 					title: "车辆画像", //本页标题，必传
 					titlecolor: '#333', //本页标题颜色，不传默认#333
 				},
-				activeTab: true,
+				activeTab: false,
 				carInfo: {},
-				datas: {}
+				datas: {},
+				fenceAlarm: [{
+					"alarmMessage": "禁止超速报警",
+					"number": 5
+				}],
+				terminalAlarm: {}
 			}
 		},
 		components: {
 			navBar,
-			carWorkingHout
+			carWorkingHout,
+			ring,
+			column
 		},
 		onLoad() {
 			this.carInfo = uni.getStorageSync('carInfo');
 			this.getData()
+			console.log(111, this.carInfo)
 		},
 		methods: {
 			changeActive() {
@@ -117,7 +144,32 @@
 					endDay: '',
 				}
 				http.get('carWorkingHour', params).then(res => {
-					this.datas = res.data
+					that.datas = res.data
+
+				})
+
+				let params1 = {
+					carId: that.carInfo.carId,
+					kind: 2
+				}
+
+				http.get('alarms', params1).then(res => {
+
+					let _categories = [];
+					let _number = []
+					res.data.list.forEach(val => {
+						_categories.push(val.alarmMessage)
+						_number.push(val.number)
+
+					})
+
+					that.terminalAlarm = {
+						categories: _categories,
+						series: [{
+							name: '报警数量',
+							data: _number
+						}]
+					}
 
 				})
 			}
@@ -195,6 +247,22 @@
 			.bit {
 				font-size: 24rpx;
 
+			}
+		}
+
+		.alarm-box {
+			border-radius: 16rpx;
+			margin: 24rpx;
+			background-color: #fff;
+			padding: 0 24rpx 24rpx 24rpx;
+
+			.title {
+				font-size: 32rpx;
+				padding-left: 0;
+			}
+
+			.chart {
+				height: 350rpx;
 			}
 		}
 

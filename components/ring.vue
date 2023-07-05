@@ -30,7 +30,6 @@
 		},
 		methods: {
 			getServerData() {
-				;
 				let total = 0
 				this.data.forEach(v => {
 					total = total + v.number;

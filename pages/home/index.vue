@@ -211,6 +211,7 @@
 
 
 <script>
+	import date from '../../common/date.js'
 	import http from '../../common/request';
 	import tkiTree from '@/components/tki-tree/tki-tree.vue';
 	import uCharts from '../../components/u-charts/u-charts.js';
@@ -263,7 +264,7 @@
 					lineSeries: []
 				},
 				dayTotalAlarm: 0,
-				weekAlarmByDay: [],
+				weekAlarmByDay: {},
 				weekAlarmByMessage: [],
 				weekAlarmTop5: [],
 				alarmList: []
@@ -323,7 +324,7 @@
 				let that = this;
 				that.weekHourTop5Data = []
 				that.mixChartData = []
-				that.weekAlarmByDay = []
+				that.weekAlarmByDay = {}
 				that.weekAlarmByMessage = []
 				that.weekAlarmTop5 = []
 				that.alarmList = []
@@ -388,7 +389,27 @@
 				})
 
 				http.get("weekAlarmByDay", "", "?areaId=" + that.areaId).then(res => {
-					res.code == 200 && (that.weekAlarmByDay = res.data.list)
+					res.code == 200 && (that.weekAlarmByDay = res.data.list);
+					
+					let _categories = [];
+					let _number = []
+					res.data.list.forEach( val => {
+						_categories.push(date.getMonth(val.date) +'-'+date.getDate(val.date))
+						_number.push(val.number)
+						
+					})
+					
+					console.log(_categories)
+					
+					that.weekAlarmByDay = {
+						categories: _categories,
+						series: [
+							{
+								name: '报警数量',
+								data: _number
+							}
+						]
+					}
 				})
 
 				http.get("weekAlarmByMessage", "", "?areaId=" + that.areaId).then(res => {

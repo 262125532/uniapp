@@ -30,35 +30,36 @@
 		},
 		methods: {
 			getServerData() {
-				let max = 0;
-				this.data.forEach(v => {
-					if (max < v.number) {
-						max = v.number;
-					}
-				})
-				let res = {
-					categories: this.data.map(v => v.date.substr(6)),
-					series: [{
-							name: "报警数量",
-							data: this.data.map(v => v.number)
-						},
-						// {
-						//   name: "完成量",
-						//   data: [18,27,21,24,6,28]
-						// }
-					]
-				};
-				this.drawCharts('uchartColumn', res, max);
+				// let max = 0;
+				// this.data.forEach(v => {
+				// 	if (max < v.number) {
+				// 		max = v.number;
+				// 	}
+				// })
+				// let res = {
+				// 	categories: this.data.map(v => v.date.substr(6)),
+				// 	series: [{
+				// 			name: "报警数量",
+				// 			data: this.data.map(v => v.number)
+				// 		},
+				// 		// {
+				// 		//   name: "完成量",
+				// 		//   data: [18,27,21,24,6,28]
+				// 		// }
+				// 	]
+				// };
+				this.drawCharts('uchartColumn');
 			},
-			drawCharts(id, data, max) {
-				const ctx = uni.createCanvasContext(id, this);
+			drawCharts(id) {
+				let that = this
+				const ctx = uni.createCanvasContext(id, that);
 				uChartsInstance[id] = new uCharts({
 					type: "column",
 					context: ctx,
-					width: this.cWidth,
-					height: this.cHeight,
-					categories: data.categories,
-					series: data.series,
+					width: that.cWidth,
+					height: that.cHeight,
+					categories: that.data.categories,
+					series: that.data.series,
 					animation: true,
 					background: "#FFFFFF",
 					color: ["#FFA4AC", "#91CB74", "#FAC858", "#EE6666", "#73C0DE", "#3CA272", "#FC8452", "#9A60B4",
@@ -72,7 +73,9 @@
 					},
 					dataLabel: false,
 					xAxis: {
-						disableGrid: true
+						disableGrid: true,
+						rotateLabel: true,
+						labelCount: 10
 					},
 					yAxis: {
 						showTitle: true,
@@ -80,14 +83,14 @@
 							title: '数量',
 							titleOffsetX: -10,
 							min: 0,
-							max: max,
+							// max: max,
 							tofix: 1,
 						}]
 					},
 					extra: {
 						column: {
 							type: "group",
-							width: this.cWidth * this.pixelRatio * 0.3 / data.categories.length,
+							width: that.cWidth * that.pixelRatio * 0.3 / that.data.categories.length,
 							activeBgColor: "#000000",
 							activeBgOpacity: 0.08,
 							// labelPosition: 'center'
