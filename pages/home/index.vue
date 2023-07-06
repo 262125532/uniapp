@@ -264,7 +264,9 @@
 					lineSeries: []
 				},
 				dayTotalAlarm: 0,
-				weekAlarmByDay: {},
+				weekAlarmByDay: {
+					categories: [],
+				},
 				weekAlarmByMessage: [],
 				weekAlarmTop5: [],
 				alarmList: []
@@ -323,8 +325,8 @@
 			getDatas() {
 				let that = this;
 				that.weekHourTop5Data = []
-				that.mixChartData = []
-				that.weekAlarmByDay = {}
+				that.mixChartData = {categories: []}
+				that.weekAlarmByDay = {categories: []}
 				that.weekAlarmByMessage = []
 				that.weekAlarmTop5 = []
 				that.alarmList = []
@@ -355,7 +357,7 @@
 						let _lineSeries = [];
 
 						res.data.list.forEach(val => {
-							_categories.push(val.date.slice(5));
+							_categories.push(date.getMonth(val.date) +'-'+date.getDate(val.date))
 							_totalRunningTimes.push((val.totalRunningTime / 60 / 60).toFixed(1) - 0)
 							_totalIdlingTimes.push((val.totalIdlingTime / 60 / 60).toFixed(1) - 0)
 							_lineSeries.push((val.avgWorkTime / 60 / 60).toFixed(1) - 0 || null)
@@ -389,7 +391,7 @@
 				})
 
 				http.get("weekAlarmByDay", "", "?areaId=" + that.areaId).then(res => {
-					res.code == 200 && (that.weekAlarmByDay = res.data.list);
+					// res.code == 200 && (that.weekAlarmByDay = res.data.list);
 					
 					let _categories = [];
 					let _number = []
@@ -398,8 +400,6 @@
 						_number.push(val.number)
 						
 					})
-					
-					console.log(_categories)
 					
 					that.weekAlarmByDay = {
 						categories: _categories,

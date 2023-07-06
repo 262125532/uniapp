@@ -49,6 +49,12 @@
 			}
 		},
 		{
+			"path": "pages/cars/alarm",
+			"style": {
+				"navigationBarTitleText": "车辆报警"
+			}
+		},
+		{
 			"path": "pages/cars/fence",
 			"style": {
 				"navigationBarTitleText": "电子围栏",

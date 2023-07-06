@@ -111,7 +111,7 @@
 					title: "车辆画像", //本页标题，必传
 					titlecolor: '#333', //本页标题颜色，不传默认#333
 				},
-				activeTab: false,
+				activeTab: true,
 				carInfo: {},
 				datas: {},
 				fenceAlarm: [{
@@ -153,7 +153,7 @@
 					kind: 2
 				}
 
-				http.get('alarms', params1).then(res => {
+				http.get('paintingAlarms', params1).then(res => {
 
 					let _categories = [];
 					let _number = []

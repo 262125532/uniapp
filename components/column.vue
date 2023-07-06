@@ -90,7 +90,7 @@
 					extra: {
 						column: {
 							type: "group",
-							width: that.cWidth * that.pixelRatio * 0.3 / that.data.categories.length,
+							width:  that.data.categories?(that.cWidth * that.pixelRatio * 0.3 / that.data.categories.length) : 30,
 							activeBgColor: "#000000",
 							activeBgOpacity: 0.08,
 							// labelPosition: 'center'

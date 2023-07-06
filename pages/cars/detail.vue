@@ -74,7 +74,7 @@
 					<image class="icon" src='../../static/img/电子围栏-icon.png'></image>
 					<view>电子围栏</view>
 				</view>
-				<view class="kind" style="-webkit-flex: 1;flex: 1;">
+				<view class="kind" style="-webkit-flex: 1;flex: 1;" @click="goto('/pages/cars/alarm')">
 					<image class="icon" src='../../static/img/报警推送管理-icon.png'></image>
 					<view>车辆报警</view>
 				</view>
